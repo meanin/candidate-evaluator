@@ -3,13 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.106
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CandidateEvaluator.Server", "CandidateEvaluator.Server\CandidateEvaluator.Server.csproj", "{413F47F4-5E49-4104-B498-750E01CA5A6A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CandidateEvaluator.Server", "CandidateEvaluator.Server\CandidateEvaluator.Server.csproj", "{413F47F4-5E49-4104-B498-750E01CA5A6A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CandidateEvaluator.Client", "CandidateEvaluator.Client\CandidateEvaluator.Client.csproj", "{0A64C187-8961-4F78-B6E9-C9C6A447589D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CandidateEvaluator.Client", "CandidateEvaluator.Client\CandidateEvaluator.Client.csproj", "{0A64C187-8961-4F78-B6E9-C9C6A447589D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CandidateEvaluator.Data", "CandidateEvaluator.Data\CandidateEvaluator.Data.csproj", "{2E388EC8-B5B4-433B-B020-80B2402740D8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CandidateEvaluator.Data", "CandidateEvaluator.Data\CandidateEvaluator.Data.csproj", "{2E388EC8-B5B4-433B-B020-80B2402740D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CandidatesEvaluator.Contract", "CandidatesEvaluator.Contract\CandidatesEvaluator.Contract.csproj", "{784B03D7-287B-4162-9E79-B84FE13BD167}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CandidatesEvaluator.Contract", "CandidatesEvaluator.Contract\CandidatesEvaluator.Contract.csproj", "{784B03D7-287B-4162-9E79-B84FE13BD167}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 Presentation layer", "1 Presentation layer", "{4740763D-368F-4F6C-B67A-0EAEE92C5625}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 Business layer", "2 Business layer", "{47EEFAC3-8F75-4ACD-985D-DBB36F1471CA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3 Domain layer", "3 Domain layer", "{EE32C7AD-7A64-41D5-8577-01B3C67B4E75}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4 Data layer", "4 Data layer", "{F828E884-1948-4A30-B88D-BF015591A794}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,6 +44,12 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{413F47F4-5E49-4104-B498-750E01CA5A6A} = {4740763D-368F-4F6C-B67A-0EAEE92C5625}
+		{0A64C187-8961-4F78-B6E9-C9C6A447589D} = {4740763D-368F-4F6C-B67A-0EAEE92C5625}
+		{2E388EC8-B5B4-433B-B020-80B2402740D8} = {F828E884-1948-4A30-B88D-BF015591A794}
+		{784B03D7-287B-4162-9E79-B84FE13BD167} = {EE32C7AD-7A64-41D5-8577-01B3C67B4E75}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4BC08CC5-624B-4F5C-8FD7-E327672D180C}
