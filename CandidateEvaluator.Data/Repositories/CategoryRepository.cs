@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Threading.Tasks;
+using CandidateEvaluator.Data.Entities;
+using CandidateEvaluator.Data.Wrappers;
+using CandidatesEvaluator.Contract.Configuration;
 using CandidatesEvaluator.Contract.Models;
 using CandidatesEvaluator.Contract.Repositories;
 
@@ -6,24 +10,50 @@ namespace CandidateEvaluator.Data.Repositories
 {
     public class CategoryRepository : ICategoryRepository
     {
-        public Guid Create(Category model)
+        private readonly AzureTableStorageWrapper<CategoryEntity> _table;
+        private const string PartitionKey = "Category";
+
+        public CategoryRepository(AzureTableStorageOptions options)
         {
-            throw new NotImplementedException();
+            _table = new AzureTableStorageWrapper<CategoryEntity>(options.ConnectionString, options.CategoryTableName);
         }
 
-        public Category Get(Guid id)
+        public Task<Guid> Add(Category model)
         {
-            throw new NotImplementedException();
+            var id = Guid.NewGuid();
+            var entity = new CategoryEntity
+            {
+                PartitionKey = PartitionKey,
+                RowKey = id.ToString(),
+                Name = model.Name
+            };
+            _table.Add(entity);
+            return Task.FromResult(id);
         }
 
-        public void Update(Category model)
+        public async Task<Category> Get(Guid id)
         {
-            throw new NotImplementedException();
+            var entity = await _table.Get(PartitionKey, id.ToString());
+            return new Category
+            {
+                Id = Guid.Parse((ReadOnlySpan<char>) entity.RowKey),
+                Name = entity.Name
+            };
         }
 
-        public void Delete(Guid id)
+        public Task Update(Category model)
         {
-            throw new NotImplementedException();
+            return _table.Update(new CategoryEntity
+            {
+                PartitionKey = PartitionKey,
+                RowKey = model.Id.ToString(),
+                Name = model.Name
+            });
+        }
+
+        public Task Delete(Guid id)
+        {
+            return _table.Delete(PartitionKey, id.ToString());
         }
     }
 }

@@ -13,6 +13,14 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CandidateEvaluator.Client\CandidateEvaluator.Client.csproj" />
+    <ProjectReference Include="..\CandidateEvaluator.Data\CandidateEvaluator.Data.csproj" />
+    <ProjectReference Include="..\CandidatesEvaluator.Contract\CandidatesEvaluator.Contract.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

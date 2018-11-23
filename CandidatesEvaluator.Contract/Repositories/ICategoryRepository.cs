@@ -1,13 +1,14 @@
 ﻿using System;
+using System.Threading.Tasks;
 using CandidatesEvaluator.Contract.Models;
 
 namespace CandidatesEvaluator.Contract.Repositories
 {
     public interface ICategoryRepository
     {
-        Guid Create(Category model);
-        Category Get(Guid id);
-        void Update(Category model);
-        void Delete(Guid id);
+        Task<Guid> Add(Category model);
+        Task<Category> Get(Guid id);
+        Task Update(Category model);
+        Task Delete(Guid id);
     }
 }
