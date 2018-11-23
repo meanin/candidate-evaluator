@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CandidateEvaluator.Client\CandidateEvaluator.Client.csproj" />
-    <ProjectReference Include="..\CandidateEvaluator.Shared\CandidateEvaluator.Shared.csproj" />
   </ItemGroup>
 
 </Project>

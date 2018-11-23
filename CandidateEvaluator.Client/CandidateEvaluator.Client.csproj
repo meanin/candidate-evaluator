@@ -11,8 +11,4 @@
     <PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="0.7.0" PrivateAssets="all" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\CandidateEvaluator.Shared\CandidateEvaluator.Shared.csproj" />
-  </ItemGroup>
-
 </Project>
