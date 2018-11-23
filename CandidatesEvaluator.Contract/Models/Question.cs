@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CandidateEvaluator.Shared.Dtos
+namespace CandidatesEvaluator.Contract.Models
 {
     public class Question
     {
