@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
-using CandidatesEvaluator.Contract.Models;
-using CandidatesEvaluator.Contract.Repositories;
+using CandidateEvaluator.Contract.Models;
+using CandidateEvaluator.Contract.Repositories;
 
 namespace CandidateEvaluator.Data.Repositories
 {

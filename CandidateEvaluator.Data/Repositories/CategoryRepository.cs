@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using CandidateEvaluator.Data.Entities;
 using CandidateEvaluator.Data.Wrappers;
-using CandidatesEvaluator.Contract.Configuration;
-using CandidatesEvaluator.Contract.Models;
-using CandidatesEvaluator.Contract.Repositories;
+using CandidateEvaluator.Contract.Configuration;
+using CandidateEvaluator.Contract.Models;
+using CandidateEvaluator.Contract.Repositories;
 
 namespace CandidateEvaluator.Data.Repositories
 {
@@ -18,7 +20,7 @@ namespace CandidateEvaluator.Data.Repositories
             _table = new AzureTableStorageWrapper<CategoryEntity>(options.ConnectionString, options.CategoryTableName);
         }
 
-        public Task<Guid> Add(Category model)
+        public async Task<Category> Add(Category model)
         {
             var id = Guid.NewGuid();
             var entity = new CategoryEntity
@@ -27,8 +29,19 @@ namespace CandidateEvaluator.Data.Repositories
                 RowKey = id.ToString(),
                 Name = model.Name
             };
-            _table.Add(entity);
-            return Task.FromResult(id);
+            await _table.Add(entity);
+            model.Id = id;
+            return model;
+        }
+
+        public async Task<List<Category>> GetAll()
+        {
+            var entities = await _table.GetAll(PartitionKey);
+            return entities.Select(e => new Category
+            {
+                Id = Guid.Parse(e.RowKey),
+                Name = e.Name
+            }).ToList();
         }
 
         public async Task<Category> Get(Guid id)

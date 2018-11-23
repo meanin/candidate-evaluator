@@ -6,8 +6,8 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
 using System.Net.Mime;
 using CandidateEvaluator.Data.Repositories;
-using CandidatesEvaluator.Contract.Configuration;
-using CandidatesEvaluator.Contract.Repositories;
+using CandidateEvaluator.Contract.Configuration;
+using CandidateEvaluator.Contract.Repositories;
 using Microsoft.Extensions.Configuration;
 
 namespace CandidateEvaluator.Server

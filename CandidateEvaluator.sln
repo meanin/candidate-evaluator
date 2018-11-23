@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CandidateEvaluator.Client",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CandidateEvaluator.Data", "CandidateEvaluator.Data\CandidateEvaluator.Data.csproj", "{2E388EC8-B5B4-433B-B020-80B2402740D8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CandidatesEvaluator.Contract", "CandidatesEvaluator.Contract\CandidatesEvaluator.Contract.csproj", "{784B03D7-287B-4162-9E79-B84FE13BD167}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CandidateEvaluator.Contract", "CandidatesEvaluator.Contract\CandidateEvaluator.Contract.csproj", "{784B03D7-287B-4162-9E79-B84FE13BD167}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 Presentation layer", "1 Presentation layer", "{4740763D-368F-4F6C-B67A-0EAEE92C5625}"
 EndProject

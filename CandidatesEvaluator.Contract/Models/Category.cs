@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CandidatesEvaluator.Contract.Models
+namespace CandidateEvaluator.Contract.Models
 {
     public class Category
     {

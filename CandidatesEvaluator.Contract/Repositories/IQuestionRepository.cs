@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using CandidatesEvaluator.Contract.Models;
+using CandidateEvaluator.Contract.Models;
 
-namespace CandidatesEvaluator.Contract.Repositories
+namespace CandidateEvaluator.Contract.Repositories
 {
     public interface IQuestionRepository
     {
