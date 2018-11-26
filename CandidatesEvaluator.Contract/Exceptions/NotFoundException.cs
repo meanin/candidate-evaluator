@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CandidatesEvaluator.Contract.Exceptions
+namespace CandidateEvaluator.Contract.Exceptions
 {
     public class NotFoundException : ApplicationException
     {

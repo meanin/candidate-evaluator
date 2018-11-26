@@ -1,0 +1,43 @@
+﻿@page "/category/{id:guid}"
+@inject HttpClient Http
+@inject Microsoft.AspNetCore.Blazor.Services.IUriHelper UriHelper
+
+@if (_categoryModel == null)
+{
+    <p><em>Loading... @Id</em></p>
+}
+else
+{
+    <h1>Category: @_categoryModel.Id</h1>
+    <input placeholder="Loading..." bind="@_categoryModel.Name" />
+
+    <button class="btn btn-info" onclick="@Save">Save</button>
+    <button class="btn btn-info" onclick="@Delete">Delete</button>
+    <a href="/category" class="btn btn-info">Return</a>
+}
+
+
+@functions
+{
+    [Parameter]
+    private Guid Id { get; set; }
+
+    private Contract.Models.Category _categoryModel;
+
+    protected override async Task OnInitAsync()
+    {
+        _categoryModel = await Http.GetJsonAsync<Contract.Models.Category>($"api/Category/{Id}");
+    }
+
+    private async Task Save()
+    {
+        await Http.PostJsonAsync<Contract.Models.Category>($"api/Category/{Id}", _categoryModel);
+        UriHelper.NavigateTo($"/category/{_categoryModel.Id}");
+    }
+
+    private async Task Delete()
+    {
+        await Http.DeleteAsync($"api/Category/{Id}");
+        UriHelper.NavigateTo("/category");
+    }
+}

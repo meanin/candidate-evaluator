@@ -1,4 +1,4 @@
-﻿namespace CandidatesEvaluator.Contract.Configuration
+﻿namespace CandidateEvaluator.Contract.Configuration
 {
     public class AzureTableStorageOptions
     {

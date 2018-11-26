@@ -1,0 +1,38 @@
+﻿@page "/category"
+@inject HttpClient Http
+
+@if (_categoryModels == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var model in _categoryModels)
+            {
+                <tr>
+                    <td>@model.Id</td>
+                    <td><a href="/category/@model.Id">@model.Name</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <a href="category/00000000-0000-0000-0000-000000000000" class="btn">Create new category</a>
+}
+
+@functions
+{
+private List<Contract.Models.Category> _categoryModels;
+
+protected override async Task OnInitAsync()
+{
+    _categoryModels = await Http.GetJsonAsync<List<Contract.Models.Category>>("api/category");
+}
+}

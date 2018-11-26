@@ -1,0 +1,26 @@
+﻿@page "/category/00000000-0000-0000-0000-000000000000"
+@inject HttpClient Http
+@inject Microsoft.AspNetCore.Blazor.Services.IUriHelper UriHelper
+
+<h1>Create new category</h1>
+
+<input placeholder="Fill me name..." bind="@_categoryModel.Name" />
+
+<button class="btn btn-info" onclick="@Save">Save</button>
+<a href="/category" class="btn btn-info">Return</a>
+
+
+@functions
+{
+private Contract.Models.Category _categoryModel = new Contract.Models.Category
+{
+    Id = Guid.Empty,
+    Name = string.Empty
+};
+
+private async Task Save()
+{
+    var created = await Http.PostJsonAsync<Contract.Models.Category>("api/Category", _categoryModel);
+    UriHelper.NavigateTo($"/category/{created.Id}");
+}
+}
