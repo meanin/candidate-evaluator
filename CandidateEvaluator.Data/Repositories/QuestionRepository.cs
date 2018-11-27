@@ -42,9 +42,9 @@ namespace CandidateEvaluator.Data.Repositories
             return _table.Delete(categoryId.ToString(), questionId.ToString());
         }
 
-        public async Task<Question> Get(Guid categoryId, Guid id)
+        public async Task<Question> Get(Guid categoryId, Guid questionId)
         {
-            var entity = await _table.Get(categoryId.ToString(), id.ToString());
+            var entity = await _table.Get(categoryId.ToString(), questionId.ToString());
 
             return new Question
             {
