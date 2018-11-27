@@ -7,7 +7,7 @@ namespace CandidateEvaluator.Contract.Repositories
 {
     public interface IQuestionRepository
     {
-        Task<Guid> Create(Question model);
+        Task<Question> Create(Question model);
         Task<Question> Get(Guid categoryId, Guid id);
         Task<List<Question>> GetAll();
         Task<List<Question>> GetAllFromPartition(Guid partitionKey);

@@ -18,9 +18,22 @@ namespace CandidateEvaluator.Data.Repositories
             _table = new AzureTableStorageWrapper<QuestionEntity>(options.ConnectionString, options.QuestionTableName);
         }
 
-        public async Task<Guid> Create(Question model)
+        public async Task<Question> Create(Question model)
         {
-            throw new NotImplementedException();
+            var id = Guid.NewGuid();
+            var entity = new QuestionEntity
+            {
+                PartitionKey = model.CategoryId.ToString(),
+                RowKey = id.ToString(),
+                Name = model.Name,
+                Text = model.Text
+            };
+
+            await _table.Add(entity);
+
+            model.Id = id;
+
+            return model;
         }
 
         public Task<Question> Get(Guid categoryId, Guid id)
