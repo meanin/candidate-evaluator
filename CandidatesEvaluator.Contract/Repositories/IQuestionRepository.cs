@@ -12,6 +12,6 @@ namespace CandidateEvaluator.Contract.Repositories
         Task<List<Question>> GetAll();
         Task<List<Question>> GetAllFromPartition(Guid partitionKey);
         Task Update(Question model);
-        Task Delete(Guid id);
+        Task Delete(Guid categoryId, Guid questionId);
     }
 }

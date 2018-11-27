@@ -5,6 +5,7 @@ using CandidateEvaluator.Data.Entities;
 using CandidateEvaluator.Data.Wrappers;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CandidateEvaluator.Data.Repositories
@@ -36,6 +37,11 @@ namespace CandidateEvaluator.Data.Repositories
             return model;
         }
 
+        public Task Delete(Guid categoryId, Guid questionId)
+        {
+            return _table.Delete(categoryId.ToString(), questionId.ToString());
+        }
+
         public async Task<Question> Get(Guid categoryId, Guid id)
         {
             var entity = await _table.Get(categoryId.ToString(), id.ToString());
@@ -49,6 +55,34 @@ namespace CandidateEvaluator.Data.Repositories
             };
         }
 
+        public async Task<List<Question>> GetAll()
+        {
+            var entities = await _table.GetAll();
+
+            return entities.Select(e => new Question
+            {
+                CategoryId = Guid.Parse(e.PartitionKey),
+                Id = Guid.Parse(e.RowKey),
+                Name = e.Name,
+                Text = e.Text
+            }
+            ).ToList();
+        }
+
+        public async Task<List<Question>> GetAllFromPartition(Guid partitionKey)
+        {
+            var entities = await _table.GetAll(partitionKey.ToString());
+
+            return entities.Select(e => new Question
+            {
+                CategoryId = Guid.Parse(e.PartitionKey),
+                Id = Guid.Parse(e.RowKey),
+                Name = e.Name,
+                Text = e.Text
+            }
+            ).ToList();
+        }
+
         public Task Update(Question model)
         {
             return _table.Update(new QuestionEntity
@@ -58,21 +92,6 @@ namespace CandidateEvaluator.Data.Repositories
                 Name = model.Name,
                 Text = model.Text
             });
-        }
-
-        public Task Delete(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<List<Question>> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<List<Question>> GetAllFromPartition(Guid partitionKey)
-        {
-            throw new NotImplementedException();
         }
     }
 }
