@@ -36,9 +36,17 @@ namespace CandidateEvaluator.Data.Repositories
             return model;
         }
 
-        public Task<Question> Get(Guid categoryId, Guid id)
+        public async Task<Question> Get(Guid categoryId, Guid id)
         {
-            throw new NotImplementedException();
+            var entity = await _table.Get(categoryId.ToString(), id.ToString());
+
+            return new Question
+            {
+                CategoryId = Guid.Parse(entity.PartitionKey),
+                Id = Guid.Parse(entity.RowKey),
+                Name = entity.Name,
+                Text = entity.Text
+            };
         }
 
         public Task Update(Question model)
