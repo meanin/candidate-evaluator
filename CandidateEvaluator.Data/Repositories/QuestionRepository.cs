@@ -1,7 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
-using CandidateEvaluator.Contract.Models;
+﻿using CandidateEvaluator.Contract.Models;
 using CandidateEvaluator.Contract.Repositories;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CandidateEvaluator.Data.Repositories
 {
@@ -23,6 +24,16 @@ namespace CandidateEvaluator.Data.Repositories
         }
 
         public Task Delete(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<Question>> GetAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<Question>> GetAllFromPartition(Guid partitionKey)
         {
             throw new NotImplementedException();
         }

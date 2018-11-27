@@ -1,6 +1,7 @@
-﻿using System;
+﻿using CandidateEvaluator.Contract.Models;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using CandidateEvaluator.Contract.Models;
 
 namespace CandidateEvaluator.Contract.Repositories
 {
@@ -8,6 +9,8 @@ namespace CandidateEvaluator.Contract.Repositories
     {
         Task<Guid> Create(Question model);
         Task<Question> Get(Guid categoryId, Guid id);
+        Task<List<Question>> GetAll();
+        Task<List<Question>> GetAllFromPartition(Guid partitionKey);
         Task Update(Question model);
         Task Delete(Guid id);
     }
