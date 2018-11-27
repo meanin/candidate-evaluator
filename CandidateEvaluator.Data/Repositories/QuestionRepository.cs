@@ -51,7 +51,13 @@ namespace CandidateEvaluator.Data.Repositories
 
         public Task Update(Question model)
         {
-            throw new NotImplementedException();
+            return _table.Update(new QuestionEntity
+            {
+                PartitionKey = model.CategoryId.ToString(),
+                RowKey = model.Id.ToString(),
+                Name = model.Name,
+                Text = model.Text
+            });
         }
 
         public Task Delete(Guid id)
