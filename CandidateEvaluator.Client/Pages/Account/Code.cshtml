@@ -1,0 +1,24 @@
+﻿@page "/code"
+@using CandidateEvaluator.Client.Services
+@inject HttpAuthorizationClient Http
+@inject Microsoft.AspNetCore.Blazor.Services.IUriHelper UriHelper
+
+@functions
+{
+    protected override async Task OnInitAsync()
+    {
+        try
+        {
+            var query = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(new Uri(UriHelper.GetAbsoluteUri()).Query);
+            Http.Code = query.TryGetValue("code", out var c) ? c.First() : "";
+            await Http.GetBearerToken();
+
+            UriHelper.NavigateTo("/dashboard");
+        }
+        catch
+        {
+            // TODO: NotAuthorizedPage
+            UriHelper.NavigateTo("/");
+        }
+    }
+}
