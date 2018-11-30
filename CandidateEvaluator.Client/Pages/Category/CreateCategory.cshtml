@@ -1,5 +1,6 @@
 ﻿@page "/category/00000000-0000-0000-0000-000000000000"
-@inject HttpClient Http
+@using CandidateEvaluator.Client.Services
+@inject HttpAuthorizationClient Http
 @inject Microsoft.AspNetCore.Blazor.Services.IUriHelper UriHelper
 
 <h1>Create new category</h1>
@@ -20,7 +21,7 @@ private Contract.Models.Category _categoryModel = new Contract.Models.Category
 
 private async Task Save()
 {
-    var created = await Http.PostJsonAsync<Contract.Models.Category>("api/Category", _categoryModel);
+    var created = await Http.AuthorizedPostJsonAsync<Contract.Models.Category>("api/Category", _categoryModel);
     UriHelper.NavigateTo($"/category/{created.Id}");
 }
 }

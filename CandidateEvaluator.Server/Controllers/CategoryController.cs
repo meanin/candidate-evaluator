@@ -2,10 +2,12 @@
 using System.Threading.Tasks;
 using CandidateEvaluator.Contract.Models;
 using CandidateEvaluator.Contract.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CandidateEvaluator.Server.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     public class CategoryController : Controller
     {

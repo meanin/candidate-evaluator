@@ -1,5 +1,8 @@
 ﻿@page "/category"
-@inject HttpClient Http
+@using CandidateEvaluator.Client.Services
+@using Microsoft.AspNetCore.Blazor.Services
+@inject HttpAuthorizationClient Http
+@inject IUriHelper UriHelper
 
 @if (_categoryModels == null)
 {
@@ -29,10 +32,17 @@ else
 
 @functions
 {
-private List<Contract.Models.Category> _categoryModels;
+    private List<Contract.Models.Category> _categoryModels;
 
-protected override async Task OnInitAsync()
-{
-    _categoryModels = await Http.GetJsonAsync<List<Contract.Models.Category>>("api/category");
-}
+    protected override async Task OnInitAsync()
+    {
+        try
+        {
+            _categoryModels = await Http.AuthorizedGetJsonAsync<List<Contract.Models.Category>>("api/category");
+        }
+        catch (Exception e)
+        {
+            UriHelper.NavigateTo("/");
+        }
+    }
 }
