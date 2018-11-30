@@ -12,9 +12,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\3 Domain layer\CandidatesEvaluator.Contract\CandidateEvaluator.Contract.csproj" />
+    <ProjectReference Include="..\..\4 Data layer\CandidateEvaluator.Data\CandidateEvaluator.Data.csproj" />
     <ProjectReference Include="..\CandidateEvaluator.Client\CandidateEvaluator.Client.csproj" />
-    <ProjectReference Include="..\CandidateEvaluator.Data\CandidateEvaluator.Data.csproj" />
-    <ProjectReference Include="..\CandidatesEvaluator.Contract\CandidateEvaluator.Contract.csproj" />
   </ItemGroup>
 
   <ItemGroup>
