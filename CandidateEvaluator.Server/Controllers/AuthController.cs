@@ -34,6 +34,7 @@ namespace CandidateEvaluator.Server.Controllers
                 {
                     new KeyValuePair<string, string>("grant_type", "authorization_code"),
                     new KeyValuePair<string, string>("client_id", _options.ClientId),
+                    new KeyValuePair<string, string>("resource", _options.ClientId),
                     new KeyValuePair<string, string>("code", code),
                     new KeyValuePair<string, string>("redirect_uri", redirectUri)
                 };

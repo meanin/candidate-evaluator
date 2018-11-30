@@ -65,6 +65,7 @@ namespace CandidateEvaluator.Server
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
