@@ -1,6 +1,6 @@
 ﻿@page "/code"
 @using CandidateEvaluator.Client.Services
-@inject HttpAuthorizationClient Http
+@inject UserIdentityService Http
 @inject Microsoft.AspNetCore.Blazor.Services.IUriHelper UriHelper
 
 @functions
@@ -11,7 +11,7 @@
         {
             var query = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(new Uri(UriHelper.GetAbsoluteUri()).Query);
             Http.Code = query.TryGetValue("code", out var c) ? c.First() : "";
-            await Http.GetBearerToken();
+            await Http.Login();
 
             UriHelper.NavigateTo("/dashboard");
         }

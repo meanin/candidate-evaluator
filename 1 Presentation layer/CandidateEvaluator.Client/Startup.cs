@@ -8,7 +8,7 @@ namespace CandidateEvaluator.Client
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<HttpAuthorizationClient>();
+            services.AddSingleton<UserIdentityService>();
         }
 
         public void Configure(IBlazorApplicationBuilder app)

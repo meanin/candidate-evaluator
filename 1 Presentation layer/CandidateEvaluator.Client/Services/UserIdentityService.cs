@@ -12,16 +12,16 @@ using Newtonsoft.Json;
 
 namespace CandidateEvaluator.Client.Services
 {
-    public class HttpAuthorizationClient
+    public class UserIdentityService
     {
         protected readonly HttpClient Http;
         protected readonly IUriHelper UriHelper;
+        private string _bearerToken = string.Empty;
+        private string _refreshToken = string.Empty;
 
         public string Code { get; set; }
-        public string BearerToken { get; private set; } = string.Empty;
-        public string RefreshToken { get; private set; }
 
-        public HttpAuthorizationClient(
+        public UserIdentityService(
             HttpClient http,
             IUriHelper uriHelper)
         {
@@ -29,7 +29,7 @@ namespace CandidateEvaluator.Client.Services
             UriHelper = uriHelper;
         }
 
-        public async Task GetBearerToken()
+        public async Task Login()
         {
             var nameValueCollection = new[]
             {
@@ -39,23 +39,30 @@ namespace CandidateEvaluator.Client.Services
 
             var response = await Http.PostAsync("/api/auth", new FormUrlEncodedContent(nameValueCollection));
             var authTokens = JsonConvert.DeserializeObject<AuthTokens>(await response.Content.ReadAsStringAsync());
-            BearerToken = authTokens.BearerToken;
-            RefreshToken = authTokens.RefreshToken;
+            _bearerToken = authTokens.BearerToken;
+            _refreshToken = authTokens.RefreshToken;
         }
 
-        public async Task GetRefreshToken()
+        public void Logout()
+        {
+            Code = string.Empty;
+            _bearerToken = string.Empty;
+            _refreshToken = string.Empty;
+        }
+
+        private async Task GetRefreshToken()
         {
             var nameValueCollection = new[]
             {
                 new KeyValuePair<string, string>("code", Code),
                 new KeyValuePair<string, string>("redirect_uri", $"{UriHelper.GetBaseUri()}code"),
-                new KeyValuePair<string, string>("refresh_token", RefreshToken)
+                new KeyValuePair<string, string>("refresh_token", _refreshToken)
             };
 
             var response = await Http.PostAsync("/api/auth", new FormUrlEncodedContent(nameValueCollection));
             var authTokens = JsonConvert.DeserializeObject<AuthTokens>(await response.Content.ReadAsStringAsync());
-            BearerToken = authTokens.BearerToken;
-            RefreshToken = authTokens.RefreshToken;
+            _bearerToken = authTokens.BearerToken;
+            _refreshToken = authTokens.RefreshToken;
         }
 
         public Task<HttpResponseMessage> AuthorizedDeleteAsync(string requestUri)
@@ -97,7 +104,7 @@ namespace CandidateEvaluator.Client.Services
         {
             return new HttpRequestMessage(httpMethod, requestUri)
             {
-                Headers = { { "Authorization", $"Bearer {BearerToken}" } },
+                Headers = { { "Authorization", $"Bearer {_bearerToken}" } },
                 Content = content != null 
                     ? new StringContent(Json.Serialize(content), Encoding.UTF8, "application/json") 
                     : null
@@ -106,7 +113,7 @@ namespace CandidateEvaluator.Client.Services
 
         private async Task<HttpResponseMessage> RetryOnUnauthorized(Task<HttpResponseMessage> task, int tries = 3)
         {
-            if(string.IsNullOrEmpty(BearerToken))
+            if(string.IsNullOrEmpty(_bearerToken))
                 throw new Exception("Logout");
 
             var result = await task;
@@ -114,23 +121,16 @@ namespace CandidateEvaluator.Client.Services
             {
                 await GetRefreshToken();
                 Http.DefaultRequestHeaders.Remove("Authorization");
-                Http.DefaultRequestHeaders.Add("Authorization", $"Bearer {BearerToken}");
+                Http.DefaultRequestHeaders.Add("Authorization", $"Bearer {_bearerToken}");
                 await RetryOnUnauthorized(task, tries - 1);
             }
             else if(result.StatusCode == HttpStatusCode.Unauthorized)
             {
-                Clean();
+                Logout();
                 throw new Exception("Logout");
             }
 
             return result;
-        }
-
-        public void Clean()
-        {
-            Code = string.Empty;
-            BearerToken = string.Empty;
-            RefreshToken = string.Empty;
         }
     }
 }
