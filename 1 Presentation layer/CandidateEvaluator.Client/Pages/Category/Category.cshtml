@@ -1,6 +1,6 @@
 ﻿@page "/category/{id:guid}"
 @using CandidateEvaluator.Client.Services
-@inject HttpAuthorizationClient Http
+@inject UserIdentityService Http
 @inject Microsoft.AspNetCore.Blazor.Services.IUriHelper UriHelper
 
 @if (_categoryModel == null)

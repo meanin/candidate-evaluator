@@ -1,12 +1,17 @@
 ﻿@inherits BlazorLayoutComponent
+@inject Services.UserIdentityService Http
 
 <div class="sidebar">
-    <NavMenu />
+    <NavMenu LoggedIn="@(Http.User != null)"/>
 </div>
 
 <div class="main">
     <div class="top-row px-4">
-        <a href="http://blazor.net" target="_blank" class="ml-md-auto">About</a>
+    @if (Http.User != null)
+    {
+        <p>Hi @Http.User.Name</p>
+    }
+        <a href="https://github.com/meanin/candidate-evaluator/blob/master/README.md" target="_blank" class="ml-md-auto">About</a>
     </div>
 
     <div class="content px-4">

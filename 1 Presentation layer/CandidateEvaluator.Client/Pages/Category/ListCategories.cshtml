@@ -1,7 +1,7 @@
 ﻿@page "/category"
 @using CandidateEvaluator.Client.Services
 @using Microsoft.AspNetCore.Blazor.Services
-@inject HttpAuthorizationClient Http
+@inject UserIdentityService Http
 @inject IUriHelper UriHelper
 
 @if (_categoryModels == null)

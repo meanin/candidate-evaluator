@@ -12,7 +12,7 @@ namespace CandidateEvaluator.Data.Repositories
 {
     public class QuestionRepository : IQuestionRepository
     {
-        private AzureTableStorageWrapper<QuestionEntity> _table;
+        private readonly AzureTableStorageWrapper<QuestionEntity> _table;
 
         public QuestionRepository(AzureTableStorageOptions options)
         {
@@ -24,74 +24,69 @@ namespace CandidateEvaluator.Data.Repositories
             var id = Guid.NewGuid();
             var entity = new QuestionEntity
             {
-                PartitionKey = model.CategoryId.ToString(),
+                PartitionKey = CreatePartitionKey(model.OwnerId, model.CategoryId),
                 RowKey = id.ToString(),
                 Name = model.Name,
                 Text = model.Text
             };
-
             await _table.Add(entity);
-
             model.Id = id;
 
             return model;
         }
 
-        public Task Delete(Guid categoryId, Guid questionId)
+        public Task Delete(Guid ownerId, Guid categoryId, Guid questionId)
         {
             return _table.Delete(categoryId.ToString(), questionId.ToString());
         }
 
-        public async Task<Question> Get(Guid categoryId, Guid questionId)
+        public async Task<Question> Get(Guid ownerId, Guid categoryId, Guid questionId)
         {
             var entity = await _table.Get(categoryId.ToString(), questionId.ToString());
-
-            return new Question
-            {
-                CategoryId = Guid.Parse(entity.PartitionKey),
-                Id = Guid.Parse(entity.RowKey),
-                Name = entity.Name,
-                Text = entity.Text
-            };
+            return ToQuestion(entity);
         }
 
-        public async Task<List<Question>> GetAll()
+        public async Task<List<Question>> GetAll(Guid ownerId)
         {
             var entities = await _table.GetAll();
 
-            return entities.Select(e => new Question
-            {
-                CategoryId = Guid.Parse(e.PartitionKey),
-                Id = Guid.Parse(e.RowKey),
-                Name = e.Name,
-                Text = e.Text
-            }
-            ).ToList();
+            return entities.Select(ToQuestion).ToList();
         }
 
-        public async Task<List<Question>> GetAllFromPartition(Guid partitionKey)
+        public async Task<List<Question>> GetAllFromPartition(Guid ownerId, Guid partitionKey)
         {
             var entities = await _table.GetAll(partitionKey.ToString());
 
-            return entities.Select(e => new Question
-            {
-                CategoryId = Guid.Parse(e.PartitionKey),
-                Id = Guid.Parse(e.RowKey),
-                Name = e.Name,
-                Text = e.Text
-            }
-            ).ToList();
+            return entities.Select(ToQuestion).ToList();
         }
 
         public Task Update(Question model)
         {
             return _table.Update(new QuestionEntity
             {
-                PartitionKey = model.CategoryId.ToString(),
+                PartitionKey = CreatePartitionKey(model.OwnerId, model.CategoryId),
                 RowKey = model.Id.ToString(),
                 Name = model.Name,
                 Text = model.Text
             });
+        }
+
+        private static string CreatePartitionKey(Guid ownerId, Guid categoryId)
+        {
+            return $"{ownerId}_{categoryId}";
+        }
+
+        private static Question ToQuestion(QuestionEntity entity)
+        {
+            var partitionKey = entity.PartitionKey.Split("_");
+            return new Question
+            {
+                Id = Guid.Parse(entity.RowKey),
+                Name = entity.Name,
+                Text = entity.Text,
+                OwnerId = Guid.Parse(partitionKey[0]),
+                CategoryId = Guid.Parse(partitionKey[1])
+            };
         }
     }
 }
