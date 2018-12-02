@@ -8,10 +8,10 @@ namespace CandidateEvaluator.Contract.Repositories
     public interface IQuestionRepository
     {
         Task<Question> Create(Question model);
-        Task<Question> Get(Guid categoryId, Guid id);
-        Task<List<Question>> GetAll();
-        Task<List<Question>> GetAllFromPartition(Guid partitionKey);
+        Task<Question> Get(Guid ownerId, Guid categoryId, Guid id);
+        Task<List<Question>> GetAll(Guid ownerId);
+        Task<List<Question>> GetAllFromPartition(Guid ownerId, Guid categoryId);
         Task Update(Question model);
-        Task Delete(Guid categoryId, Guid questionId);
+        Task Delete(Guid ownerId, Guid categoryId, Guid questionId);
     }
 }

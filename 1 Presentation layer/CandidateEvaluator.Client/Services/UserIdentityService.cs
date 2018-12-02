@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -18,8 +19,9 @@ namespace CandidateEvaluator.Client.Services
         protected readonly IUriHelper UriHelper;
         private string _bearerToken = string.Empty;
         private string _refreshToken = string.Empty;
+        private string _code = string.Empty;
 
-        public string Code { get; set; }
+        public User User { get; set; }
 
         public UserIdentityService(
             HttpClient http,
@@ -31,9 +33,12 @@ namespace CandidateEvaluator.Client.Services
 
         public async Task Login()
         {
+            _code = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(
+                new Uri(UriHelper.GetAbsoluteUri()).Query)
+                .TryGetValue("code", out var c) ? c.First() : "";
             var nameValueCollection = new[]
             {
-                new KeyValuePair<string, string>("code", Code),
+                new KeyValuePair<string, string>("code", _code),
                 new KeyValuePair<string, string>("redirect_uri", $"{UriHelper.GetBaseUri()}code")
             };
 
@@ -41,11 +46,14 @@ namespace CandidateEvaluator.Client.Services
             var authTokens = JsonConvert.DeserializeObject<AuthTokens>(await response.Content.ReadAsStringAsync());
             _bearerToken = authTokens.BearerToken;
             _refreshToken = authTokens.RefreshToken;
+            
+            var base64EncodedBytes = Convert.FromBase64String(_bearerToken.Split('.')[1]);
+            User = JsonConvert.DeserializeObject<User>(Encoding.UTF8.GetString(base64EncodedBytes));
         }
 
         public void Logout()
         {
-            Code = string.Empty;
+            _code = string.Empty;
             _bearerToken = string.Empty;
             _refreshToken = string.Empty;
         }
@@ -54,7 +62,7 @@ namespace CandidateEvaluator.Client.Services
         {
             var nameValueCollection = new[]
             {
-                new KeyValuePair<string, string>("code", Code),
+                new KeyValuePair<string, string>("code", _code),
                 new KeyValuePair<string, string>("redirect_uri", $"{UriHelper.GetBaseUri()}code"),
                 new KeyValuePair<string, string>("refresh_token", _refreshToken)
             };

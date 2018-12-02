@@ -17,15 +17,21 @@
                 <span class="oi oi-plus" aria-hidden="true"></span> Login
             </NavLink>
         </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="category">
-                <span class="oi oi-plus" aria-hidden="true"></span> Category
-            </NavLink>
-        </li>
+        @if (LoggedIn)
+        {
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="category">
+                    <span class="oi oi-plus" aria-hidden="true"></span> Category
+                </NavLink>
+            </li>
+        }
     </ul>
 </div>
 
 @functions {
+    [Parameter]
+    bool LoggedIn { get; set; }
+
     bool _collapseNavMenu = true;
 
     void ToggleNavMenu()

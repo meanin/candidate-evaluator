@@ -13,7 +13,6 @@ namespace CandidateEvaluator.Data.Repositories
     public class CategoryRepository : ICategoryRepository
     {
         private readonly AzureTableStorageWrapper<CategoryEntity> _table;
-        private const string PartitionKey = "Category";
 
         public CategoryRepository(AzureTableStorageOptions options)
         {
@@ -25,7 +24,7 @@ namespace CandidateEvaluator.Data.Repositories
             var id = Guid.NewGuid();
             var entity = new CategoryEntity
             {
-                PartitionKey = PartitionKey,
+                PartitionKey = model.OwnerId.ToString(),
                 RowKey = id.ToString(),
                 Name = model.Name
             };
@@ -34,23 +33,25 @@ namespace CandidateEvaluator.Data.Repositories
             return model;
         }
 
-        public async Task<List<Category>> GetAll()
+        public async Task<List<Category>> GetAll(Guid ownerId)
         {
-            var entities = await _table.GetAll(PartitionKey);
+            var entities = await _table.GetAll(ownerId.ToString());
             return entities.Select(e => new Category
             {
                 Id = Guid.Parse(e.RowKey),
-                Name = e.Name
+                Name = e.Name,
+                OwnerId = ownerId
             }).ToList();
         }
 
-        public async Task<Category> Get(Guid id)
+        public async Task<Category> Get(Guid ownerId, Guid id)
         {
-            var entity = await _table.Get(PartitionKey, id.ToString());
+            var entity = await _table.Get(ownerId.ToString(), id.ToString());
             return new Category
             {
                 Id = Guid.Parse((ReadOnlySpan<char>) entity.RowKey),
-                Name = entity.Name
+                Name = entity.Name,
+                OwnerId = ownerId
             };
         }
 
@@ -58,15 +59,15 @@ namespace CandidateEvaluator.Data.Repositories
         {
             return _table.Update(new CategoryEntity
             {
-                PartitionKey = PartitionKey,
+                PartitionKey = model.OwnerId.ToString(),
                 RowKey = model.Id.ToString(),
                 Name = model.Name
             });
         }
 
-        public Task Delete(Guid id)
+        public Task Delete(Guid ownerId, Guid id)
         {
-            return _table.Delete(PartitionKey, id.ToString());
+            return _table.Delete(ownerId.ToString(), id.ToString());
         }
     }
 }
