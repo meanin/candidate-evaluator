@@ -9,7 +9,7 @@ Functionallity of this application is to store categories and questions for tech
 ## Authors
 We intent to do this project on our owns, but any help will be appreciated. Feature requests are also very welcome. Following people are initial authors of this repository:
 * [Paweł Ruciński](https://github.com/meanin)
-* [plaumen](https://github.com/plaumen)
+* [Przemysław Ciszak](https://github.com/plaumen)
 
 ## CI / CD
 Continuous integration process is maintained on an Azure DevOps portal. Unit tests are in a roadmap
