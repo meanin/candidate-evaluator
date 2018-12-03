@@ -8,6 +8,7 @@ namespace CandidateEvaluator.Contract.Repositories
     public interface IUserRecentActivityRepository
     {
         Task<IEnumerable<RecentActivity>> GetAll(Guid ownerId);
-        Task Create(Guid ownerId, RecentActivity userActivity);
+        Task Upsert(Guid ownerId, RecentActivity userActivity);
+        Task Delete(Guid ownerId, RecentActivity userActivity);
     }
 }

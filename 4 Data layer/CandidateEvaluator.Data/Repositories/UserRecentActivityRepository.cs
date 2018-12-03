@@ -17,7 +17,7 @@ namespace CandidateEvaluator.Data.Repositories
 
         public UserRecentActivityRepository(AzureTableStorageOptions options)
         {
-            _table = new AzureTableStorageWrapper<RecentActivityEntity>(options.ConnectionString, options.CategoryTableName);
+            _table = new AzureTableStorageWrapper<RecentActivityEntity>(options.ConnectionString, options.UserRecentActivityTableName);
         }
 
         public async Task<IEnumerable<RecentActivity>> GetAll(Guid ownerId)
@@ -25,11 +25,11 @@ namespace CandidateEvaluator.Data.Repositories
             return (await _table.GetAll(ownerId.ToString())).Select(e => new RecentActivity
             {
                 EntityId = Guid.Parse((ReadOnlySpan<char>) e.EntityId),
-                Type = e.Type
+                Type = Enum.Parse<EntityType>(e.Type)
             });
         }
 
-        public async Task Create(Guid ownerId, RecentActivity userActivity)
+        public async Task Upsert(Guid ownerId, RecentActivity userActivity)
         {
             var partitionKey = ownerId.ToString();
             await _table.Add(new RecentActivityEntity
@@ -37,7 +37,7 @@ namespace CandidateEvaluator.Data.Repositories
                 PartitionKey = partitionKey,
                 RowKey = Guid.NewGuid().ToString(),
                 EntityId = userActivity.EntityId.ToString(),
-                Type = userActivity.Type
+                Type = userActivity.Type.ToString()
             });
 
             var entities = await _table.GetAll(partitionKey);
@@ -47,6 +47,21 @@ namespace CandidateEvaluator.Data.Repositories
             foreach (var recentActivityEntity in entities.OrderBy(e => e.Timestamp).Skip(MaxUserItemCount))
             {
                 await _table.Delete(partitionKey, recentActivityEntity.RowKey);
+            }
+        }
+
+        public async Task Delete(Guid ownerId, RecentActivity userActivity)
+        {
+            var entities = await _table.GetAll(ownerId.ToString());
+            try
+            {
+                await _table.Delete(ownerId.ToString(),
+                    entities.Single(e => e.EntityId == userActivity.EntityId.ToString() && e.Type == userActivity.Type.ToString())
+                        .RowKey);
+            }
+            catch
+            {
+                //TODO: NotFound?
             }
         }
     }

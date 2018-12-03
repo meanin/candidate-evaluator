@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using CandidateEvaluator.Contract.Models;
-using CandidateEvaluator.Contract.Repositories;
+using CandidateEvaluator.Contract.Services;
 using CandidateEvaluator.Server.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,25 +12,25 @@ namespace CandidateEvaluator.Server.Controllers
     [Route("api/[controller]")]
     public class CategoryController : Controller
     {
-        private readonly ICategoryRepository _repository;
+        private readonly ICategoryService _service;
 
-        public CategoryController(ICategoryRepository repository)
+        public CategoryController(ICategoryService service)
         {
-            _repository = repository;
+            _service = service;
         }
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] Category model)
         {
             model.OwnerId = HttpContext.GetUser().Oid;
-            var created = await _repository.Add(model);
+            var created = await _service.Add(model);
             return CreatedAtAction(nameof(Get), created);
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var categories = await _repository.GetAll(HttpContext.GetUser().Oid);
+            var categories = await _service.GetAll(HttpContext.GetUser().Oid);
             return Ok(categories);
         }
 
@@ -38,7 +38,7 @@ namespace CandidateEvaluator.Server.Controllers
         [Route("{id}")]
         public async Task<IActionResult> Get([FromRoute] Guid id)
         {
-            var category = await _repository.Get(HttpContext.GetUser().Oid, id);
+            var category = await _service.Get(HttpContext.GetUser().Oid, id);
             return Ok(category);
         }
 
@@ -47,7 +47,7 @@ namespace CandidateEvaluator.Server.Controllers
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] Category model)
         {
             model.OwnerId = HttpContext.GetUser().Oid;
-            await _repository.Update(model);
+            await _service.Update(model);
             return NoContent();
         }
 
@@ -55,7 +55,7 @@ namespace CandidateEvaluator.Server.Controllers
         [Route("{id}")]
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
-            await _repository.Delete(HttpContext.GetUser().Oid, id);
+            await _service.Delete(HttpContext.GetUser().Oid, id);
             return NoContent();
         }
     }

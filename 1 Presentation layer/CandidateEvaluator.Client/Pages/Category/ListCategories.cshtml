@@ -1,7 +1,6 @@
 ﻿@page "/category"
-@using CandidateEvaluator.Client.Services
 @using Microsoft.AspNetCore.Blazor.Services
-@inject UserIdentityService Http
+@inject Services.UserIdentityService Http
 @inject IUriHelper UriHelper
 
 @if (_categoryModels == null)
@@ -27,7 +26,7 @@ else
             }
         </tbody>
     </table>
-    <a href="category/00000000-0000-0000-0000-000000000000" class="btn">Create new category</a>
+    <a href="category/new" class="btn">Create new category</a>
 }
 
 @functions
