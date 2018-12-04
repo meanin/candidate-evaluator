@@ -21,7 +21,7 @@ namespace CandidateEvaluator.Client.Services
         private string _refreshToken = string.Empty;
         private string _code = string.Empty;
 
-        public User User { get; set; }
+        public string Username { get; set; }
 
         public UserIdentityService(
             HttpClient http,
@@ -46,12 +46,7 @@ namespace CandidateEvaluator.Client.Services
             var authTokens = JsonConvert.DeserializeObject<AuthTokens>(await response.Content.ReadAsStringAsync());
             _bearerToken = authTokens.BearerToken;
             _refreshToken = authTokens.RefreshToken;
-
-            var payload = _bearerToken.Split('.')[1];
-            if (!payload.EndsWith("=="))
-                payload += "==";
-            var base64EncodedBytes = Convert.FromBase64String(payload);
-            User = JsonConvert.DeserializeObject<User>(Encoding.UTF8.GetString(base64EncodedBytes));
+            Username = authTokens.Username;
         }
 
         public void Logout()

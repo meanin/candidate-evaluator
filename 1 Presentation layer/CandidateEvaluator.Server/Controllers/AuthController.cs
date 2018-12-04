@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http;
 using System.Threading.Tasks;
 using CandidateEvaluator.Contract.Configuration;
@@ -55,8 +56,12 @@ namespace CandidateEvaluator.Server.Controllers
             var tokens = new AuthTokens
             {
                 BearerToken = parsed["access_token"].ToString(),
-                RefreshToken = parsed["refresh_token"].ToString()
+                RefreshToken = parsed["refresh_token"].ToString(),
+                Username = new JwtSecurityTokenHandler()
+                    .ReadJwtToken(parsed["access_token"].ToString())
+                    .Payload["name"].ToString()
             };
+            
             return Ok(tokens);
         }
 
