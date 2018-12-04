@@ -10,7 +10,7 @@ namespace CandidateEvaluator.Server.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]
-    public class CategoryController : Controller
+    public class CategoryController : ControllerBase
     {
         private readonly ICategoryService _service;
 

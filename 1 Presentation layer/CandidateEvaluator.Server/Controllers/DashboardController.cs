@@ -8,7 +8,7 @@ namespace CandidateEvaluator.Server.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]
-    public class DashboardController : Controller
+    public class DashboardController : ControllerBase
     {
         private readonly IUserRecentActivityService _repository;
 
