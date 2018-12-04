@@ -24,7 +24,7 @@ namespace CandidateEvaluator.Data.Repositories
         {
             return (await _table.GetAll(ownerId.ToString())).Select(e => new RecentActivity
             {
-                EntityId = Guid.Parse((ReadOnlySpan<char>) e.EntityId),
+                EntityId = Guid.Parse((ReadOnlySpan<char>)e.EntityId),
                 Type = Enum.Parse<EntityType>(e.Type)
             });
         }
@@ -41,9 +41,9 @@ namespace CandidateEvaluator.Data.Repositories
             });
 
             var entities = await _table.GetAll(partitionKey);
-            if(entities.Count <= MaxUserItemCount)
+            if (entities.Count <= MaxUserItemCount)
                 return;
-            
+
             foreach (var recentActivityEntity in entities.OrderBy(e => e.Timestamp).Skip(MaxUserItemCount))
             {
                 await _table.Delete(partitionKey, recentActivityEntity.RowKey);
@@ -53,15 +53,9 @@ namespace CandidateEvaluator.Data.Repositories
         public async Task Delete(Guid ownerId, RecentActivity userActivity)
         {
             var entities = await _table.GetAll(ownerId.ToString());
-            try
+            foreach (var entity in entities.Where(e => e.EntityId == userActivity.EntityId.ToString() && e.Type == userActivity.Type.ToString()))
             {
-                await _table.Delete(ownerId.ToString(),
-                    entities.Single(e => e.EntityId == userActivity.EntityId.ToString() && e.Type == userActivity.Type.ToString())
-                        .RowKey);
-            }
-            catch
-            {
-                //TODO: NotFound?
+                await _table.Delete(ownerId.ToString(), entity.RowKey);
             }
         }
     }

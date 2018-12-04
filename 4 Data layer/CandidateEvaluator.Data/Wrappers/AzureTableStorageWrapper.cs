@@ -81,12 +81,6 @@ namespace CandidateEvaluator.Data.Wrappers
         public async Task Delete(string partitionKey, string rowKey)
         {
             var entity = await Get(partitionKey, rowKey);
-
-            if (entity == null)
-            {
-                return;
-            }
-
             var tableOperation = TableOperation.Delete(entity);
             await _table.ExecuteAsync(tableOperation);
         }

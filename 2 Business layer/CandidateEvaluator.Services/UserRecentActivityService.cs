@@ -11,13 +11,11 @@ namespace CandidateEvaluator.Services
     {
         private readonly IUserRecentActivityRepository _activityRepository;
         private readonly ICategoryRepository _categoryRepository;
-        private readonly IQuestionRepository _questionRepository;
 
-        public UserRecentActivityService(IUserRecentActivityRepository activityRepository, ICategoryRepository categoryRepository, IQuestionRepository questionRepository)
+        public UserRecentActivityService(IUserRecentActivityRepository activityRepository, ICategoryRepository categoryRepository)
         {
             _activityRepository = activityRepository;
             _categoryRepository = categoryRepository;
-            _questionRepository = questionRepository;
         }
 
         public async Task<IEnumerable<RecentActivity>> GetAll(Guid ownerId)
@@ -44,9 +42,6 @@ namespace CandidateEvaluator.Services
                 case EntityType.Category:
                     var category = await _categoryRepository.Get(ownerId, activity.EntityId);
                     fetched.Name = category.Name;
-                    break;
-
-                case EntityType.Question:
                     break;
 
                 default:
