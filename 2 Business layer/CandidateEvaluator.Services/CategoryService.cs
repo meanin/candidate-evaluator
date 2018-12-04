@@ -1,0 +1,66 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using CandidateEvaluator.Contract.Models;
+using CandidateEvaluator.Contract.Repositories;
+using CandidateEvaluator.Contract.Services;
+
+namespace CandidateEvaluator.Services
+{
+    public class CategoryService : ICategoryService
+    {
+        private readonly ICategoryRepository _modelRepository;
+        private readonly IUserRecentActivityRepository _activityRepository;
+
+        private static EntityType ModelType = EntityType.Category;
+
+        public CategoryService(
+            ICategoryRepository modelRepository, 
+            IUserRecentActivityRepository activityRepository)
+        {
+            _modelRepository = modelRepository;
+            _activityRepository = activityRepository;
+        }
+
+        public async Task<Category> Add(Category model)
+        {
+            var result = await _modelRepository.Add(model);
+            await _activityRepository.Upsert(model.OwnerId, new RecentActivity
+            {
+                Type = ModelType,
+                EntityId = result.Id
+            });
+            return result;
+        }
+
+        public Task<List<Category>> GetAll(Guid ownerId)
+        {
+            return _modelRepository.GetAll(ownerId);
+        }
+
+        public Task<Category> Get(Guid ownerId, Guid id)
+        {
+            return _modelRepository.Get(ownerId, id);
+        }
+
+        public async Task Update(Category model)
+        {
+            await _modelRepository.Update(model);
+            await _activityRepository.Upsert(model.OwnerId, new RecentActivity
+            {
+                Type = ModelType,
+                EntityId = model.Id
+            });
+        }
+
+        public async Task Delete(Guid ownerId, Guid id)
+        {
+            await _modelRepository.Delete(ownerId, id);
+            await _activityRepository.Delete(ownerId, new RecentActivity
+            {
+                Type = ModelType,
+                EntityId = id
+            });
+        }
+    }
+}

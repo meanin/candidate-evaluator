@@ -1,3 +1,68 @@
 ﻿@page "/dashboard"
+@using CandidateEvaluator.Contract.Models
+@using Microsoft.AspNetCore.Blazor.Services
+@inject Services.UserIdentityService Http
+@inject IUriHelper UriHelper
 
 <h1>Account Dashboard</h1>
+
+@if (_activities == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Type</th>
+                <th>Name</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var model in _activities)
+            {
+                <tr>
+                    <td>@model.EntityId</td>
+                    <td>@model.Type.ToString()</td>
+                    @switch (model.Type)
+                    {
+                        case EntityType.Category:
+                            <td><a href="/category/@model.EntityId">@model.Name</a></td>
+                            break;
+
+                        default:
+                            break;
+                    }
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <a class="btn btn-info" href="/manage-categories">Set categories</a>
+        <a class="btn btn-info" href="/">Interview layout</a>
+        <a class="btn btn-info" href="/">Start Interview</a>
+    </div>
+}
+
+
+@functions
+{
+
+    private IEnumerable<RecentActivity> _activities;
+
+    protected override async Task OnInitAsync()
+    {
+        try
+        {
+            _activities = await Http.AuthorizedGetJsonAsync<IEnumerable<RecentActivity>>("api/dashboard");
+        }
+        catch
+        {
+            UriHelper.NavigateTo("/");
+        }
+    }
+}

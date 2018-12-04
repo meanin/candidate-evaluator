@@ -9,6 +9,8 @@ using System.Net.Mime;
 using CandidateEvaluator.Data.Repositories;
 using CandidateEvaluator.Contract.Configuration;
 using CandidateEvaluator.Contract.Repositories;
+using CandidateEvaluator.Contract.Services;
+using CandidateEvaluator.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 
@@ -44,6 +46,11 @@ namespace CandidateEvaluator.Server
 
             services.AddSingleton<HttpClient>();
             services.AddTransient<ICategoryRepository, CategoryRepository>();
+            services.AddTransient<IQuestionRepository, QuestionRepository>();
+            services.AddTransient<IUserRecentActivityRepository, UserRecentActivityRepository>();
+
+            services.AddTransient<ICategoryService, CategoryService>();
+            services.AddTransient<IUserRecentActivityService, UserRecentActivityService>();
 
             services.AddMvc();
 

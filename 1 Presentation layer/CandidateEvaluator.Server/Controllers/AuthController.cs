@@ -9,7 +9,7 @@ using Newtonsoft.Json.Linq;
 namespace CandidateEvaluator.Server.Controllers
 {
     [Route("api/[controller]")]
-    public class AuthController : Controller
+    public class AuthController : ControllerBase
     {
         private readonly HttpClient _client;
         private readonly AadOptions _options;

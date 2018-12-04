@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\2 Business layer\CandidateEvaluator.Services\CandidateEvaluator.Services.csproj" />
     <ProjectReference Include="..\..\3 Domain layer\CandidatesEvaluator.Contract\CandidateEvaluator.Contract.csproj" />
     <ProjectReference Include="..\..\4 Data layer\CandidateEvaluator.Data\CandidateEvaluator.Data.csproj" />
     <ProjectReference Include="..\CandidateEvaluator.Client\CandidateEvaluator.Client.csproj" />

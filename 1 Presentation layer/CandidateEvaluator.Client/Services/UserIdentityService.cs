@@ -46,8 +46,11 @@ namespace CandidateEvaluator.Client.Services
             var authTokens = JsonConvert.DeserializeObject<AuthTokens>(await response.Content.ReadAsStringAsync());
             _bearerToken = authTokens.BearerToken;
             _refreshToken = authTokens.RefreshToken;
-            
-            var base64EncodedBytes = Convert.FromBase64String(_bearerToken.Split('.')[1]);
+
+            var payload = _bearerToken.Split('.')[1];
+            if (!payload.EndsWith("=="))
+                payload += "==";
+            var base64EncodedBytes = Convert.FromBase64String(payload);
             User = JsonConvert.DeserializeObject<User>(Encoding.UTF8.GetString(base64EncodedBytes));
         }
 
