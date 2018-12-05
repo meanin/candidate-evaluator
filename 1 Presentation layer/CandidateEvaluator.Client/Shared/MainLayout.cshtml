@@ -2,16 +2,16 @@
 @inject Services.UserIdentityService Http
 
 <div class="sidebar">
-    <NavMenu LoggedIn="@(Http.User != null)"/>
+    <NavMenu LoggedIn="@string.IsNullOrWhiteSpace(Http.Username)"/>
 </div>
 
 <div class="main">
     <div class="top-row px-4">
-    @if (Http.User != null)
+    @if (string.IsNullOrWhiteSpace(Http.Username))
     {
-        <p>Hi @Http.User.Name</p>
+        <p>Hi @Http.Username</p>
     }
-        <a href="https://github.com/meanin/candidate-evaluator/blob/master/README.md" target="_blank" class="ml-md-auto">About</a>
+        <a href="https://github.com/meanin/candidate-evaluator/blob/master/README.md" target="_blank" class="ml-md-auto">About Blazor</a>
     </div>
 
     <div class="content px-4">
