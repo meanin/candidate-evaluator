@@ -56,6 +56,14 @@ namespace CandidateEvaluator.Client.Services
             _refreshToken = string.Empty;
         }
 
+        public bool IsUserLogged()
+        {
+            return (string.IsNullOrWhiteSpace(_bearerToken) &&
+                    string.IsNullOrWhiteSpace(_refreshToken) &&
+                    string.IsNullOrWhiteSpace(_code) &&
+                    string.IsNullOrWhiteSpace(Username)) == false;
+        }
+
         private async Task GetRefreshToken()
         {
             var nameValueCollection = new[]
