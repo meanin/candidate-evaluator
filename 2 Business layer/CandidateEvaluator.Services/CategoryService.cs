@@ -22,7 +22,7 @@ namespace CandidateEvaluator.Services
             _activityRepository = activityRepository;
         }
 
-        public async Task<Category> Add(Category model)
+        public async Task<Guid> AddAsync(Category model)
         {
             var result = await _modelRepository.Add(model);
             await _activityRepository.Upsert(model.OwnerId, new RecentActivity
@@ -30,7 +30,7 @@ namespace CandidateEvaluator.Services
                 Type = ModelType,
                 EntityId = result.Id
             });
-            return result;
+            return result.Id;
         }
 
         public Task<List<Category>> GetAll(Guid ownerId)

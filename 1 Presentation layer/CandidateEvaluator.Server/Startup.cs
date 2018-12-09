@@ -13,6 +13,15 @@ using CandidateEvaluator.Contract.Services;
 using CandidateEvaluator.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
+using CandidateEvaluator.Services.Dispatchers;
+using CandidateEvaluator.Contract.Dispatchers;
+using CandidateEvaluator.Contract.Handlers;
+using CandidateEvaluator.Contract.Commands.Category;
+using CandidateEvaluator.Services.Handlers.Commands;
+using CandidateEvaluator.Services.Handlers.Queries;
+using CandidateEvaluator.Contract.Queries;
+using CandidateEvaluator.Contract.Models;
+using System.Collections.Generic;
 
 namespace CandidateEvaluator.Server
 {
@@ -48,6 +57,14 @@ namespace CandidateEvaluator.Server
             services.AddTransient<ICategoryRepository, CategoryRepository>();
             services.AddTransient<IQuestionRepository, QuestionRepository>();
             services.AddTransient<IUserRecentActivityRepository, UserRecentActivityRepository>();
+
+            services.AddTransient<IDispatcher, Dispatcher>();
+            services.AddTransient<ICommandDispatcher, CommandDispatcher>();
+            services.AddTransient<IQueryDispatcher, QueryDispatcher>();
+
+            services.AddTransient<ICommandHandler<CreateCategory>, CreateCategoryHandler>();
+
+            services.AddTransient<IQueryHandler<GetAllCategories, List<Category>>, GetAllCategoriesHandler>();
 
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<IUserRecentActivityService, UserRecentActivityService>();

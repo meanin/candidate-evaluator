@@ -7,7 +7,7 @@ namespace CandidateEvaluator.Contract.Services
 {
     public interface ICategoryService
     {
-        Task<Category> Add(Category model);
+        Task<Guid> AddAsync(Category model);
         Task<List<Category>> GetAll(Guid ownerId);
         Task<Category> Get(Guid ownerId, Guid id);
         Task Update(Category model);
