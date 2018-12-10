@@ -63,8 +63,11 @@ namespace CandidateEvaluator.Server
             services.AddTransient<IQueryDispatcher, QueryDispatcher>();
 
             services.AddTransient<ICommandHandler<CreateCategory>, CreateCategoryHandler>();
+            services.AddTransient<ICommandHandler<DeleteCategory>, DeleteCategoryHandler>();
+            services.AddTransient<ICommandHandler<UpdateCategory>, UpdateCategoryHandler>();
 
             services.AddTransient<IQueryHandler<GetAllCategories, List<Category>>, GetAllCategoriesHandler>();
+            services.AddTransient<IQueryHandler<GetCategory, Category>, GetCategoryHandler>();
 
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<IUserRecentActivityService, UserRecentActivityService>();

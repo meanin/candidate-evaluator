@@ -10,7 +10,7 @@ namespace CandidateEvaluator.Contract.Services
         Task<Guid> AddAsync(Category model);
         Task<List<Category>> GetAll(Guid ownerId);
         Task<Category> Get(Guid ownerId, Guid id);
-        Task Update(Category model);
+        Task<Guid> Update(Category model);
         Task Delete(Guid ownerId, Guid id);
     }
 }

@@ -45,21 +45,21 @@ namespace CandidateEvaluator.Server.Controllers
             return Ok(category);
         }
 
-        //[HttpPost]
-        //[Route("{id}")]
-        //public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] Category model)
-        //{
-        //    model.OwnerId = HttpContext.GetUser().Oid;
-        //    await _service.Update(model);
-        //    return NoContent();
-        //}
+        [HttpPost]
+        [Route("{id}")]
+        public async Task<IActionResult> Update([FromBody] UpdateCategory command)
+        {
+            command.OwnerId = HttpContext.GetUser().Oid;
+            var categoryId = await _dispatcher.SendAsync(command);
+            return Ok(categoryId);
+        }
 
-        //[HttpDelete]
-        //[Route("{id}")]
-        //public async Task<IActionResult> Delete([FromRoute] Guid id)
-        //{
-        //    await _service.Delete(HttpContext.GetUser().Oid, id);
-        //    return NoContent();
-        //}
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<IActionResult> Delete([FromRoute] Guid id)
+        {
+            await _dispatcher.SendAsync(new DeleteCategory { OwnerId = HttpContext.GetUser().Oid, Id = id });
+            return NoContent();
+        }
     }
 }

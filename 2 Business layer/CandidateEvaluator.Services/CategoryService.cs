@@ -28,9 +28,9 @@ namespace CandidateEvaluator.Services
             await _activityRepository.Upsert(model.OwnerId, new RecentActivity
             {
                 Type = ModelType,
-                EntityId = result.Id
+                EntityId = result
             });
-            return result.Id;
+            return result;
         }
 
         public Task<List<Category>> GetAll(Guid ownerId)
@@ -43,7 +43,7 @@ namespace CandidateEvaluator.Services
             return _modelRepository.Get(ownerId, id);
         }
 
-        public async Task Update(Category model)
+        public async Task<Guid> Update(Category model)
         {
             await _modelRepository.Update(model);
             await _activityRepository.Upsert(model.OwnerId, new RecentActivity
@@ -51,6 +51,7 @@ namespace CandidateEvaluator.Services
                 Type = ModelType,
                 EntityId = model.Id
             });
+            return model.Id;
         }
 
         public async Task Delete(Guid ownerId, Guid id)
