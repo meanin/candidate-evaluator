@@ -1,7 +1,10 @@
 ﻿@page "/question"
+@using Microsoft.AspNetCore.Blazor.Services
+@inject Services.UserIdentityService Http
+@inject IUriHelper UriHelper
 
 <div>
-    Wow, I am working!
+    <a href="question/new" class="btn">Create new question</a>
 </div>
 
 @functions
