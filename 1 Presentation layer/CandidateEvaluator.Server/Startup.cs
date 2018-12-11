@@ -1,27 +1,28 @@
+using CandidateEvaluator.Contract.Commands.Category;
+using CandidateEvaluator.Contract.Configuration;
+using CandidateEvaluator.Contract.Dispatchers;
+using CandidateEvaluator.Contract.Handlers;
+using CandidateEvaluator.Contract.Models;
+using CandidateEvaluator.Contract.Queries;
+using CandidateEvaluator.Contract.Queries.UserActivity;
+using CandidateEvaluator.Contract.Repositories;
+using CandidateEvaluator.Contract.Services;
+using CandidateEvaluator.Core.Dispatchers;
+using CandidateEvaluator.Core.Handlers.Commands;
+using CandidateEvaluator.Core.Handlers.Queries;
+using CandidateEvaluator.Core.Services;
+using CandidateEvaluator.Data.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Blazor.Server;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Mime;
-using CandidateEvaluator.Data.Repositories;
-using CandidateEvaluator.Contract.Configuration;
-using CandidateEvaluator.Contract.Repositories;
-using CandidateEvaluator.Contract.Services;
-using CandidateEvaluator.Services;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.Configuration;
-using CandidateEvaluator.Services.Dispatchers;
-using CandidateEvaluator.Contract.Dispatchers;
-using CandidateEvaluator.Contract.Handlers;
-using CandidateEvaluator.Contract.Commands.Category;
-using CandidateEvaluator.Services.Handlers.Commands;
-using CandidateEvaluator.Services.Handlers.Queries;
-using CandidateEvaluator.Contract.Queries;
-using CandidateEvaluator.Contract.Models;
-using System.Collections.Generic;
 
 namespace CandidateEvaluator.Server
 {
@@ -68,6 +69,7 @@ namespace CandidateEvaluator.Server
 
             services.AddTransient<IQueryHandler<GetAllCategories, List<Category>>, GetAllCategoriesHandler>();
             services.AddTransient<IQueryHandler<GetCategory, Category>, GetCategoryHandler>();
+            services.AddTransient<IQueryHandler<GetAllUserActivities, List<RecentActivity>>, GetAllUserActivitiesHandler>();
 
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<IUserRecentActivityService, UserRecentActivityService>();

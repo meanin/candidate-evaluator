@@ -1,4 +1,6 @@
 ﻿using System.Threading.Tasks;
+using CandidateEvaluator.Contract.Dispatchers;
+using CandidateEvaluator.Contract.Queries.UserActivity;
 using CandidateEvaluator.Contract.Services;
 using CandidateEvaluator.Server.Extensions;
 using Microsoft.AspNetCore.Authorization;
@@ -10,16 +12,16 @@ namespace CandidateEvaluator.Server.Controllers
     [Route("api/[controller]")]
     public class DashboardController : ControllerBase
     {
-        private readonly IUserRecentActivityService _repository;
+        private readonly IDispatcher _dispatcher;
 
-        public DashboardController(IUserRecentActivityService repository)
+        public DashboardController(IDispatcher dispatcher)
         {
-            _repository = repository;
+            _dispatcher = dispatcher;
         }
 
         public async Task<IActionResult> Get()
         {
-            var activities = await _repository.GetAll(HttpContext.GetUser().Oid);
+            var activities = await _dispatcher.QueryAsync(new GetAllUserActivities { OwnerId = HttpContext.GetUser().Oid });
             return Ok(activities);
         }
     }

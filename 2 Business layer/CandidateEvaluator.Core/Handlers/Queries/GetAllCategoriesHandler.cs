@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CandidateEvaluator.Services.Handlers.Queries
+namespace CandidateEvaluator.Core.Handlers.Queries
 {
     public class GetAllCategoriesHandler : IQueryHandler<GetAllCategories, List<Category>>
     {

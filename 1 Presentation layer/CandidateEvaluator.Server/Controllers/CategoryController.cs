@@ -18,7 +18,7 @@ namespace CandidateEvaluator.Server.Controllers
 
         public CategoryController(IDispatcher dispatcher)
         {
-            this._dispatcher = dispatcher;
+            _dispatcher = dispatcher;
         }
 
         [HttpPost]
@@ -33,7 +33,6 @@ namespace CandidateEvaluator.Server.Controllers
         public async Task<IActionResult> GetAll()
         {
             var categories = await _dispatcher.QueryAsync(new GetAllCategories { OwnerId = HttpContext.GetUser().Oid });
-
             return Ok(categories);
         }
 

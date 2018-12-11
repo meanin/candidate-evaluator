@@ -5,7 +5,7 @@ using CandidateEvaluator.Contract.Models;
 using CandidateEvaluator.Contract.Repositories;
 using CandidateEvaluator.Contract.Services;
 
-namespace CandidateEvaluator.Services
+namespace CandidateEvaluator.Core.Services
 {
     public class CategoryService : ICategoryService
     {

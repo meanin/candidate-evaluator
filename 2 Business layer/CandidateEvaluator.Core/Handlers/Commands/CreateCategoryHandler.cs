@@ -3,28 +3,30 @@ using CandidateEvaluator.Contract.Handlers;
 using CandidateEvaluator.Contract.Models;
 using CandidateEvaluator.Contract.Services;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace CandidateEvaluator.Services.Handlers.Commands
+namespace CandidateEvaluator.Core.Handlers.Commands
 {
-    public class UpdateCategoryHandler : ICommandHandler<UpdateCategory>
+    public class CreateCategoryHandler : ICommandHandler<CreateCategory>
     {
         private readonly ICategoryService _categoryService;
 
-        public UpdateCategoryHandler(ICategoryService categoryService)
+        public CreateCategoryHandler(ICategoryService categoryService)
         {
             _categoryService = categoryService;
         }
 
-        public async Task<Guid> HandleAsync(UpdateCategory command)
+        public async Task<Guid> HandleAsync(CreateCategory command)
         {
             var category = new Category
             {
-                Id = command.Id,
                 OwnerId = command.OwnerId,
                 Name = command.Name
             };
-            return await _categoryService.Update(category);
+            return await _categoryService.AddAsync(category);
         }
     }
 }

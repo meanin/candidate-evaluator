@@ -4,7 +4,7 @@ using CandidateEvaluator.Contract.Queries;
 using CandidateEvaluator.Contract.Services;
 using System.Threading.Tasks;
 
-namespace CandidateEvaluator.Services.Handlers.Queries
+namespace CandidateEvaluator.Core.Handlers.Queries
 {
     public class GetCategoryHandler : IQueryHandler<GetCategory, Category>
     {
