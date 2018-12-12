@@ -32,8 +32,8 @@ protected override async Task OnInitAsync()
 
 private async Task Save()
 {
-    await Http.AuthorizedPostJsonAsync<Guid>($"api/Category/{Id}", _categoryModel);
-    UriHelper.NavigateTo($"/category/{_categoryModel.Id}");
+    var modelId = await Http.AuthorizedPostJsonAsync<Guid>($"api/Category/{Id}", _categoryModel);
+    UriHelper.NavigateTo($"/category/{modelId}");
 }
 
 private async Task Delete()
