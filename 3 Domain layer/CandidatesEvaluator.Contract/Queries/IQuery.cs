@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CandidateEvaluator.Contract.Queries
 {
-    public interface IQuery<in TResult>
+    public interface IQuery<out TResult>
     {
         
     }
