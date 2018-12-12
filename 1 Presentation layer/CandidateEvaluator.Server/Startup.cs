@@ -10,7 +10,6 @@ using CandidateEvaluator.Contract.Services;
 using CandidateEvaluator.Core.Dispatchers;
 using CandidateEvaluator.Core.Handlers.Commands;
 using CandidateEvaluator.Core.Handlers.Queries;
-using CandidateEvaluator.Core.Services;
 using CandidateEvaluator.Data.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Blazor.Server;
@@ -70,9 +69,6 @@ namespace CandidateEvaluator.Server
             services.AddTransient<IQueryHandler<GetAllCategories, List<Category>>, GetAllCategoriesHandler>();
             services.AddTransient<IQueryHandler<GetCategory, Category>, GetCategoryHandler>();
             services.AddTransient<IQueryHandler<GetAllUserActivities, List<RecentActivity>>, GetAllUserActivitiesHandler>();
-
-            services.AddTransient<ICategoryService, CategoryService>();
-            services.AddTransient<IUserRecentActivityService, UserRecentActivityService>();
 
             services.AddMvc();
 
