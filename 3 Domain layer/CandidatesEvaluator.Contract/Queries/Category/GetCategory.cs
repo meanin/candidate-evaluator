@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace CandidateEvaluator.Contract.Queries
 {
-    public class GetCategory : QueryBase, IQuery<Category>
+    public class GetCategory : IQuery<Category>
     {
         public Guid Id { get; set; }
+        public Guid OwnerId { get; set; }
     }
 }

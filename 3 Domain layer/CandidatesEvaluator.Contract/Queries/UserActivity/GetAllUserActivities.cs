@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace CandidateEvaluator.Contract.Queries.UserActivity
 {
-    public class GetAllUserActivities : QueryBase, IQuery<List<RecentActivity>>
+    public class GetAllUserActivities : IQuery<List<RecentActivity>>
     {
+        public Guid OwnerId { get; set; }
     }
 }
