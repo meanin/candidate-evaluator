@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CandidateEvaluator.Contract.Handlers
 {
-    public interface ICommandHandler<T> where T : ICommand
+    public interface ICommandHandler<in T> where T : ICommand
     {
         Task<Guid> HandleAsync(T command);
     }

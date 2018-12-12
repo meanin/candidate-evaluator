@@ -1,6 +1,7 @@
 ﻿using CandidateEvaluator.Contract.Handlers;
 using CandidateEvaluator.Contract.Models;
 using CandidateEvaluator.Contract.Queries;
+using CandidateEvaluator.Contract.Repositories;
 using CandidateEvaluator.Contract.Services;
 using System;
 using System.Collections.Generic;
@@ -12,16 +13,16 @@ namespace CandidateEvaluator.Core.Handlers.Queries
 {
     public class GetAllCategoriesHandler : IQueryHandler<GetAllCategories, List<Category>>
     {
-        private readonly ICategoryService _categoryService;
+        private readonly ICategoryRepository _modelRepository;
 
-        public GetAllCategoriesHandler(ICategoryService categoryService)
+        public GetAllCategoriesHandler(ICategoryRepository modelRepository)
         {
-            _categoryService = categoryService;
+            this._modelRepository = modelRepository;
         }
 
         public async Task<List<Category>> HandleAsync(GetAllCategories query)
         {
-            return await _categoryService.GetAll(query.OwnerId);
+            return await _modelRepository.GetAll(query.OwnerId);
         }
     }
 }

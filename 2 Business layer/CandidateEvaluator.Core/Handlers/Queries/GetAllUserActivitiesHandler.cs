@@ -1,6 +1,7 @@
 ﻿using CandidateEvaluator.Contract.Handlers;
 using CandidateEvaluator.Contract.Models;
 using CandidateEvaluator.Contract.Queries.UserActivity;
+using CandidateEvaluator.Contract.Repositories;
 using CandidateEvaluator.Contract.Services;
 using System;
 using System.Collections.Generic;
@@ -12,16 +13,16 @@ namespace CandidateEvaluator.Core.Handlers.Queries
 {
     public class GetAllUserActivitiesHandler : IQueryHandler<GetAllUserActivities, List<RecentActivity>>
     {
-        private readonly IUserRecentActivityService _activityService;
+        private readonly IUserRecentActivityRepository _activityRepository;
 
-        public GetAllUserActivitiesHandler(IUserRecentActivityService activityService)
+        public GetAllUserActivitiesHandler(IUserRecentActivityRepository activityRepository)
         {
-            _activityService = activityService;
+            this._activityRepository = activityRepository;
         }
 
         public async Task<List<RecentActivity>> HandleAsync(GetAllUserActivities query)
         {
-            var allActivities = await _activityService.GetAll(query.OwnerId);
+            var allActivities = await _activityRepository.GetAll(query.OwnerId);
             return allActivities.ToList();
         }
     }

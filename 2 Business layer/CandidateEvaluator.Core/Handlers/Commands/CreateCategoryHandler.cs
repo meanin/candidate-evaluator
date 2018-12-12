@@ -1,6 +1,7 @@
 ﻿using CandidateEvaluator.Contract.Commands.Category;
 using CandidateEvaluator.Contract.Handlers;
 using CandidateEvaluator.Contract.Models;
+using CandidateEvaluator.Contract.Repositories;
 using CandidateEvaluator.Contract.Services;
 using System;
 using System.Collections.Generic;
@@ -12,21 +13,31 @@ namespace CandidateEvaluator.Core.Handlers.Commands
 {
     public class CreateCategoryHandler : ICommandHandler<CreateCategory>
     {
-        private readonly ICategoryService _categoryService;
+        private readonly ICategoryRepository _modelRepository;
+        private readonly IUserRecentActivityRepository _activityRepository;
 
-        public CreateCategoryHandler(ICategoryService categoryService)
+        public CreateCategoryHandler(ICategoryRepository modelRepository,
+            IUserRecentActivityRepository activityRepository)
         {
-            _categoryService = categoryService;
+            _modelRepository = modelRepository;
+            _activityRepository = activityRepository;
         }
 
         public async Task<Guid> HandleAsync(CreateCategory command)
         {
-            var category = new Category
+            var model = new Category
             {
                 OwnerId = command.OwnerId,
                 Name = command.Name
             };
-            return await _categoryService.AddAsync(category);
+
+            var result = await _modelRepository.Add(model);
+            await _activityRepository.Upsert(model.OwnerId, new RecentActivity
+            {
+                Type = EntityType.Category,
+                EntityId = result
+            });
+            return result;
         }
     }
 }
