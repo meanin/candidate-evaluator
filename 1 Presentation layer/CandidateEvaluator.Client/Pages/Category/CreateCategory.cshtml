@@ -21,7 +21,7 @@ private Contract.Models.Category _categoryModel = new Contract.Models.Category
 
 private async Task Save()
 {
-    var created = await Http.AuthorizedPostJsonAsync<Contract.Models.Category>("api/Category", _categoryModel);
-    UriHelper.NavigateTo($"/category/{created.Id}");
+    var categoryId = await Http.AuthorizedPostJsonAsync<Guid>("api/Category", _categoryModel);
+    UriHelper.NavigateTo($"/category/{categoryId}");
 }
 }

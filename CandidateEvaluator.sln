@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CandidateEvaluator.Data", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CandidateEvaluator.Contract", "3 Domain layer\CandidatesEvaluator.Contract\CandidateEvaluator.Contract.csproj", "{AFF57388-430B-4FBE-9982-2572816F1E4D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CandidateEvaluator.Services", "2 Business layer\CandidateEvaluator.Services\CandidateEvaluator.Services.csproj", "{62743C38-4BFE-474C-B14B-A3D2836549F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CandidateEvaluator.Core", "2 Business layer\CandidateEvaluator.Core\CandidateEvaluator.Core.csproj", "{62743C38-4BFE-474C-B14B-A3D2836549F1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
