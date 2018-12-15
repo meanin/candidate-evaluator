@@ -12,21 +12,23 @@ else
 {
     <div class="dropdown">
         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown">
-            Select category
+            @if (_selectedCategory == null)
+            {
+                <span>Select category</span>
+            }
+            else
+            {
+                <span>@_selectedCategory.Name</span>
+
+            }
         </button>
         <div class="dropdown-menu">
-            <a class="dropdown-item" href="#">Test</a>
-            <a class="dropdown-item" href="#">Test 2</a>
-            @*@foreach (var category in _categoryModels)
-                {
-                    <a class="dropdown-item" href="#">@category.Name</a>
-                }*@
+            @foreach (var category in _categoryModels)
+            {
+                <button class="dropdown-item" onclick="@(c => _setSelectedCategory(category))">@category.Name</button>
+            }
         </div>
     </div>
-    @foreach (var category in _categoryModels)
-    {
-        <a class="dropdown-item" href="#">@category.Name</a>
-    }
 }
 
 <a href="/question" class="btn">Go back</a>
@@ -34,6 +36,8 @@ else
 @functions
 {
 private List<Contract.Models.Category> _categoryModels;
+
+private Contract.Models.Category _selectedCategory;
 
 protected override async Task OnInitAsync()
 {
@@ -45,5 +49,11 @@ protected override async Task OnInitAsync()
     {
         UriHelper.NavigateTo("/");
     }
+}
+
+private void _setSelectedCategory(Contract.Models.Category category)
+{
+    _selectedCategory = category;
+
 }
 }
