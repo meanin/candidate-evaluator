@@ -25,5 +25,14 @@ namespace CandidateEvaluator.Server.Controllers
             var created = await _service.Add(model);
             return CreatedAtAction(nameof(Create), created);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var ownerId = HttpContext.GetUser().Oid;
+            var allQuestions = await _service.GetAll(ownerId);
+
+            return CreatedAtAction(nameof(GetAll), allQuestions);
+        }
     }
 }

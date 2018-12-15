@@ -7,11 +7,55 @@
     <a href="question/new" class="btn">Create new question</a>
 </div>
 
+@if (_questionModels != null)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var question in _questionModels)
+            {
+                <tr>
+                    <td class="align-middle">@question.Id</td>
+                    <td class="align-middle">@question.Name</td>
+                    <td class="align-middle">
+                        <div class="row">
+                            <a class="col-md-3 btn btn-block btn-success m-1" href="/question/@question.Id">Details</a>
+                            <button class="col-md-3 btn btn-block btn-danger m-1">Delete</button>
+                        </div>
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div>No questions found!</div>
+
+}
+
+
 @functions
 {
+
+private List<Contract.Models.Question> _questionModels;
 protected override async Task OnInitAsync()
 {
-
+    try
+    {
+        _questionModels = await Http.AuthorizedGetJsonAsync<List<Contract.Models.Question>>("api/question");
+    }
+    catch (Exception e)
+    {
+        UriHelper.NavigateTo("/");
+    }
 
 }
 }

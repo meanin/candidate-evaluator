@@ -1,6 +1,8 @@
 ﻿using CandidateEvaluator.Contract.Models;
 using CandidateEvaluator.Contract.Repositories;
 using CandidateEvaluator.Contract.Services;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace CandidateEvaluator.Services
@@ -28,6 +30,11 @@ namespace CandidateEvaluator.Services
                 EntityId = result.Id
             });
             return result;
+        }
+
+        public async Task<List<Question>> GetAll(Guid ownerId)
+        {
+            return await _modelRepository.GetAll(ownerId);
         }
     }
 }
