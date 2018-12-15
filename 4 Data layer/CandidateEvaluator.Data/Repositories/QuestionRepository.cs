@@ -19,7 +19,7 @@ namespace CandidateEvaluator.Data.Repositories
             _table = new AzureTableStorageWrapper<QuestionEntity>(options.ConnectionString, options.QuestionTableName);
         }
 
-        public async Task<Question> Create(Question model)
+        public async Task<Guid> Create(Question model)
         {
             var id = Guid.NewGuid();
             var entity = new QuestionEntity
@@ -30,9 +30,7 @@ namespace CandidateEvaluator.Data.Repositories
                 Text = model.Text
             };
             await _table.Add(entity);
-            model.Id = id;
-
-            return model;
+            return id;
         }
 
         public Task Delete(Guid ownerId, Guid categoryId, Guid questionId)
@@ -60,15 +58,16 @@ namespace CandidateEvaluator.Data.Repositories
             return entities.Select(ToQuestion).ToList();
         }
 
-        public Task Update(Question model)
+        public async Task<Guid> Update(Question model)
         {
-            return _table.Update(new QuestionEntity
+            await _table.Update(new QuestionEntity
             {
                 PartitionKey = CreatePartitionKey(model.OwnerId, model.CategoryId),
                 RowKey = model.Id.ToString(),
                 Name = model.Name,
                 Text = model.Text
             });
+            return model.Id;
         }
 
         private static string CreatePartitionKey(Guid ownerId, Guid categoryId)

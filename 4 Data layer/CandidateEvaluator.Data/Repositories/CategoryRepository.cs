@@ -19,7 +19,7 @@ namespace CandidateEvaluator.Data.Repositories
             _table = new AzureTableStorageWrapper<CategoryEntity>(options.ConnectionString, options.CategoryTableName);
         }
 
-        public async Task<Category> Add(Category model)
+        public async Task<Guid> Add(Category model)
         {
             var id = Guid.NewGuid();
             var entity = new CategoryEntity
@@ -29,8 +29,7 @@ namespace CandidateEvaluator.Data.Repositories
                 Name = model.Name
             };
             await _table.Add(entity);
-            model.Id = id;
-            return model;
+            return id;
         }
 
         public async Task<List<Category>> GetAll(Guid ownerId)
@@ -55,14 +54,15 @@ namespace CandidateEvaluator.Data.Repositories
             };
         }
 
-        public Task Update(Category model)
+        public async Task<Guid> Update(Category model)
         {
-            return _table.Update(new CategoryEntity
+            await _table.Update(new CategoryEntity
             {
                 PartitionKey = model.OwnerId.ToString(),
                 RowKey = model.Id.ToString(),
                 Name = model.Name
             });
+            return model.Id;
         }
 
         public Task Delete(Guid ownerId, Guid id)
