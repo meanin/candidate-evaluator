@@ -36,5 +36,10 @@ namespace CandidateEvaluator.Services
         {
             return await _modelRepository.GetAll(ownerId);
         }
+
+        public async Task<Question> Get(Guid ownerId, Guid categoryId, Guid questionId)
+        {
+            return await _modelRepository.Get(ownerId, categoryId, questionId);
+        }
     }
 }

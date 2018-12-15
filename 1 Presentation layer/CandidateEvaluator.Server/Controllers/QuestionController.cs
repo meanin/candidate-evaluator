@@ -3,6 +3,7 @@ using CandidateEvaluator.Contract.Services;
 using CandidateEvaluator.Server.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace CandidateEvaluator.Server.Controllers
@@ -33,6 +34,13 @@ namespace CandidateEvaluator.Server.Controllers
             var allQuestions = await _service.GetAll(ownerId);
 
             return CreatedAtAction(nameof(GetAll), allQuestions);
+        }
+
+        [HttpGet("/{ownerId:guid}/{categoryId:guid}/{id:guid}")]
+        public async Task<IActionResult> Get(Guid ownerId, Guid categoryId, Guid id)
+        {
+            var entity = await _service.Get(ownerId, categoryId, id);
+            return Ok(entity);
         }
     }
 }

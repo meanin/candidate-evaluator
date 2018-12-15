@@ -4,7 +4,7 @@
 @inject IUriHelper UriHelper
 
 <div>
-    <a href="question/new" class="btn">Create new question</a>
+    <a href="question/@Guid.Empty)" class="btn">Create new question</a>
 </div>
 
 @if (_questionModels != null)
@@ -25,7 +25,7 @@
                     <td class="align-middle">@question.Name</td>
                     <td class="align-middle">
                         <div class="row">
-                            <a class="col-md-3 btn btn-block btn-success m-1" href="/question/@question.Id">Details</a>
+                            <a class="col-md-3 btn btn-block btn-success m-1" href="/question/@question.OwnerId/@question.CategoryId/@question.Id">Details</a>
                             <button class="col-md-3 btn btn-block btn-danger m-1">Delete</button>
                         </div>
 
