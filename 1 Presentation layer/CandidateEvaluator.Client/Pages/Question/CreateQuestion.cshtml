@@ -1,8 +1,49 @@
 ﻿@page "/question/new"
+@using Microsoft.AspNetCore.Blazor.Services
+@inject Services.UserIdentityService Http
+@inject IUriHelper UriHelper
+
+@if (_categoryModels == null)
+{
+    <p><em>Loading...</em></p>
+
+}
+else
+{
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown">
+            Select category
+        </button>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="#">Test</a>
+            <a class="dropdown-item" href="#">Test 2</a>
+            @*@foreach (var category in _categoryModels)
+                {
+                    <a class="dropdown-item" href="#">@category.Name</a>
+                }*@
+        </div>
+    </div>
+    @foreach (var category in _categoryModels)
+    {
+        <a class="dropdown-item" href="#">@category.Name</a>
+    }
+}
 
 <a href="/question" class="btn">Go back</a>
 
 @functions
 {
+private List<Contract.Models.Category> _categoryModels;
 
+protected override async Task OnInitAsync()
+{
+    try
+    {
+        _categoryModels = await Http.AuthorizedGetJsonAsync<List<Contract.Models.Category>>("api/category");
+    }
+    catch (Exception e)
+    {
+        UriHelper.NavigateTo("/");
+    }
+}
 }
