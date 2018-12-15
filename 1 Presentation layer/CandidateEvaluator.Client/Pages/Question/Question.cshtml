@@ -1,0 +1,10 @@
+﻿@page "/question/{id:guid}"
+
+<div>Details of @Id</div>
+
+<a href="/question">Go back</a>
+
+@functions{
+    [Parameter]
+    Guid Id { get; set; }
+}
