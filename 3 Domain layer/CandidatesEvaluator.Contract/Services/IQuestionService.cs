@@ -10,5 +10,9 @@ namespace CandidateEvaluator.Contract.Services
         Task<Question> Add(Question question);
 
         Task<List<Question>> GetAll(Guid ownerId);
+
+        Task<List<Question>> GetAllFromCategory(Guid ownerId, Guid categoryId);
+
+        Task<Question> Get(Guid ownerId, Guid categoryId, Guid questionId);
     }
 }
