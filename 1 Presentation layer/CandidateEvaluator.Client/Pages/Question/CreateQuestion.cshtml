@@ -10,34 +10,48 @@
 }
 else
 {
-    <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown">
-            @if (_selectedCategory == null)
-            {
-                <span>Select category</span>
-            }
-            else
-            {
-                <span>@_selectedCategory.Name</span>
+    <a href="/question" class="btn">Go back</a>
+    <div class="form-group">
+        <label>Category</label>
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown">
+                @if (_selectedCategory == null)
+                {
+                    <span>Select category</span>
+                }
+                else
+                {
+                    <span>@_selectedCategory.Name</span>
 
-            }
-        </button>
-        <div class="dropdown-menu">
-            @foreach (var category in _categoryModels)
-            {
-                <button class="dropdown-item" onclick="@(c => _setSelectedCategory(category))">@category.Name</button>
-            }
+                }
+            </button>
+            <div class="dropdown-menu">
+                @foreach (var category in _categoryModels)
+                {
+                    <button class="dropdown-item" onclick="@(c => _setSelectedCategory(category))">@category.Name</button>
+                }
+            </div>
         </div>
     </div>
-}
+    <div class="form-group">
+        <label>Name</label>
+        <input class="form-control" type="text" bind=@_questionName placeholder="Enter question name..." />
+    </div>
+    <div>
 
-<a href="/question" class="btn">Go back</a>
+        <textarea class="form-control" rows="4" bind=@_questionContent placeholder="Enter question" />
+    </div>
+}
 
 @functions
 {
 private List<Contract.Models.Category> _categoryModels;
 
 private Contract.Models.Category _selectedCategory;
+
+private string _questionName { get; set; }
+
+private string _questionContent;
 
 protected override async Task OnInitAsync()
 {
