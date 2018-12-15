@@ -1,4 +1,4 @@
-﻿@page "/question"
+﻿@page "/category/{categoryId:guid}/questions"
 @using Microsoft.AspNetCore.Blazor.Services
 @inject Services.UserIdentityService Http
 @inject IUriHelper UriHelper
@@ -25,7 +25,7 @@
                     <td class="align-middle">@question.Name</td>
                     <td class="align-middle">
                         <div class="row">
-                            <a class="col-md-3 btn btn-block btn-success m-1" href="/question/@question.OwnerId/@question.CategoryId/@question.Id">Details</a>
+                            <a class="col-md-3 btn btn-block btn-success m-1" href="/question/@question.CategoryId/@question.Id">Details</a>
                             <button class="col-md-3 btn btn-block btn-danger m-1">Delete</button>
                         </div>
 
@@ -44,13 +44,16 @@ else
 
 @functions
 {
+[Parameter]
+private Guid CategoryId { get; set; }
 
 private List<Contract.Models.Question> _questionModels;
 protected override async Task OnInitAsync()
 {
     try
     {
-        _questionModels = await Http.AuthorizedGetJsonAsync<List<Contract.Models.Question>>("api/question");
+
+        _questionModels = await Http.AuthorizedGetJsonAsync<List<Contract.Models.Question>>($"api/question/{CategoryId}");
     }
     catch (Exception e)
     {

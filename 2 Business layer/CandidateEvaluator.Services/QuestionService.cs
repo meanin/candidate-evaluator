@@ -41,5 +41,10 @@ namespace CandidateEvaluator.Services
         {
             return await _modelRepository.Get(ownerId, categoryId, questionId);
         }
+
+        public async Task<List<Question>> GetAllFromCategory(Guid ownerId, Guid categoryId)
+        {
+            return await _modelRepository.GetAllFromPartition(ownerId, categoryId);
+        }
     }
 }

@@ -36,6 +36,15 @@ namespace CandidateEvaluator.Server.Controllers
             return CreatedAtAction(nameof(GetAll), allQuestions);
         }
 
+        [HttpGet("{categoryId:guid}")]
+        public async Task<IActionResult> GetAllFromCategory(Guid categoryId)
+        {
+            var ownerId = HttpContext.GetUser().Oid;
+            var questionsFromCategory = await _service.GetAllFromCategory(ownerId, categoryId);
+
+            return CreatedAtAction(nameof(GetAllFromCategory), questionsFromCategory);
+        }
+
         [HttpGet("/{ownerId:guid}/{categoryId:guid}/{id:guid}")]
         public async Task<IActionResult> Get(Guid ownerId, Guid categoryId, Guid id)
         {
