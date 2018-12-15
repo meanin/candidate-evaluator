@@ -46,5 +46,25 @@ namespace CandidateEvaluator.Services
         {
             return await _modelRepository.GetAllFromPartition(ownerId, categoryId);
         }
+
+        public async Task Update(Question model)
+        {
+            await _modelRepository.Update(model);
+            await _activityRepository.Upsert(model.OwnerId, new RecentActivity
+            {
+                Type = ModelType,
+                EntityId = model.Id
+            });
+        }
+
+        public async Task Delete(Guid ownerId, Guid categoryId, Guid questionId)
+        {
+            await _modelRepository.Delete(ownerId, categoryId, questionId);
+            await _activityRepository.Delete(ownerId, new RecentActivity
+            {
+                Type = ModelType,
+                EntityId = questionId
+            });
+        }
     }
 }

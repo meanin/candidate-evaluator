@@ -27,15 +27,6 @@ namespace CandidateEvaluator.Server.Controllers
             return CreatedAtAction(nameof(Create), created);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
-        {
-            var ownerId = HttpContext.GetUser().Oid;
-            var allQuestions = await _service.GetAll(ownerId);
-
-            return CreatedAtAction(nameof(GetAll), allQuestions);
-        }
-
         [HttpGet("{categoryId:guid}")]
         public async Task<IActionResult> GetAllFromCategory(Guid categoryId)
         {
@@ -52,5 +43,23 @@ namespace CandidateEvaluator.Server.Controllers
             var entity = await _service.Get(ownerId, categoryId, id);
             return Ok(entity);
         }
+
+
+        [HttpPost]
+        [Route("{id}")]
+        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] Question model)
+        {
+            await _service.Update(model);
+            return NoContent();
+        }
+
+        [HttpDelete]
+        [Route("{categoryId:guid}/{id:guid}")]
+        public async Task<IActionResult> Delete([FromRoute] Guid categoryId, [FromRoute] Guid id)
+        {
+            await _service.Delete(HttpContext.GetUser().Oid, categoryId, id);
+            return NoContent();
+        }
+
     }
 }

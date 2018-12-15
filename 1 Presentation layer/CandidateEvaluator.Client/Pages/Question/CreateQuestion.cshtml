@@ -10,7 +10,7 @@
 }
 else
 {
-    <a href="/question" class="btn">Go back</a>
+    <a href="/category/@_questionModel.CategoryId/questions" class="btn">Go back</a>
     <div class="form-group">
         <label>Category</label>
         <div class="dropdown">
@@ -40,7 +40,10 @@ else
     <div>
         <textarea class="form-control" rows="4" bind=@_questionModel.Text placeholder="Enter question" />
     </div>
-    <button class="btn btn-blue" onclick="@Add">Add</button>
+    <div>
+        <button class="btn btn-blue" onclick="@Add">Add</button>
+    </div>
+
 }
 
 @functions
@@ -74,7 +77,7 @@ protected override async Task OnInitAsync()
 private async Task Add()
 {
     var created = await Http.AuthorizedPostJsonAsync<Contract.Models.Question>("api/question", _questionModel);
-    UriHelper.NavigateTo($"/category/{created.CategoryId}/question/{created.Id}");
+    UriHelper.NavigateTo($"/category/{created.CategoryId}/questions");
 }
 
 private void _setSelectedCategory(Contract.Models.Category category)

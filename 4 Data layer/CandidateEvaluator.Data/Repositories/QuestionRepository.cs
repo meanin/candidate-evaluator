@@ -37,7 +37,7 @@ namespace CandidateEvaluator.Data.Repositories
 
         public Task Delete(Guid ownerId, Guid categoryId, Guid questionId)
         {
-            return _table.Delete(categoryId.ToString(), questionId.ToString());
+            return _table.Delete(CreatePartitionKey(ownerId, categoryId), questionId.ToString());
         }
 
         public async Task<Question> Get(Guid ownerId, Guid categoryId, Guid questionId)

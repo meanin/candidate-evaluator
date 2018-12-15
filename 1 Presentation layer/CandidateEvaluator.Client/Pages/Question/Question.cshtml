@@ -4,36 +4,14 @@
 @inject Services.UserIdentityService Http
 @inject IUriHelper UriHelper
 
-@if (_categoryModels == null)
+@if (_questionModel == null)
 {
     <p><em>Loading...</em></p>
 
 }
 else
 {
-    <a href="/question" class="btn">Go back</a>
-    <div class="form-group">
-        <label>Category</label>
-        <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown">
-                @if (_selectedCategory == null)
-                {
-                    <span>Select category</span>
-                }
-                else
-                {
-                    <span>@_selectedCategory.Name</span>
-
-                }
-            </button>
-            <div class="dropdown-menu">
-                @foreach (var category in _categoryModels)
-                {
-                    <button class="dropdown-item" onclick="@(c => _setSelectedCategory(category))">@category.Name</button>
-                }
-            </div>
-        </div>
-    </div>
+    <a href="/category/@CategoryId/questions" class="btn">Go back</a>
     <div class="form-group">
         <label>Name</label>
         <input class="form-control" type="text" bind=@_questionModel.Name placeholder="Enter question name..." />
@@ -42,8 +20,8 @@ else
         <textarea class="form-control" rows="4" bind=@_questionModel.Text placeholder="Enter question" />
     </div>
     <div class="row">
-        <button class="btn btn-blue" onclick="@Save">Save</button>
-        <button class="btn btn-blue" onclick="@Delete">Delete</button>
+        <button class="col-md-3 btn btn-block btn-success m-1" onclick="@Save">Save</button>
+        <button class="col-md-3 btn btn-block btn-danger m-1" onclick="@Delete">Delete</button>
     </div>
 }
 
@@ -55,21 +33,13 @@ private Guid CategoryId { get; set; }
 [Parameter]
 private Guid Id { get; set; }
 
-private List<Contract.Models.Category> _categoryModels;
-
-private Contract.Models.Category _selectedCategory;
-
-private Contract.Models.Question _questionModel = new Contract.Models.Question();
+private Contract.Models.Question _questionModel;
 
 protected override async Task OnInitAsync()
 {
     try
     {
-        _categoryModels = await Http.AuthorizedGetJsonAsync<List<Contract.Models.Category>>("api/category");
-
         _questionModel = await Http.AuthorizedGetJsonAsync<Contract.Models.Question>($"api/question/{CategoryId}/{Id}");
-
-        _selectedCategory = _categoryModels.FirstOrDefault(c => c.Id == _questionModel.CategoryId);
     }
     catch (Exception e)
     {
@@ -79,20 +49,14 @@ protected override async Task OnInitAsync()
 
 private async Task Save()
 {
-    //var created = await Http.AuthorizedPostJsonAsync<Contract.Models.Question>("api/question", _questionModel);
-    //UriHelper.NavigateTo($"/category/{created.CategoryId}/question/{created.Id}");
+    var result = await Http.AuthorizedPostJsonAsync<Contract.Models.Question>($"api/question/{_questionModel.Id}", _questionModel);
+    UriHelper.NavigateTo($"/category/{CategoryId}/questions");
 }
 
 private async Task Delete()
 {
 
-
-}
-
-private void _setSelectedCategory(Contract.Models.Category category)
-{
-    _selectedCategory = category;
-    _questionModel.CategoryId = category.Id;
-
+    await Http.AuthorizedDeleteAsync($"api/question/{_questionModel.CategoryId}/{_questionModel.Id}");
+    UriHelper.NavigateTo($"/category/{CategoryId}/questions");
 }
 }

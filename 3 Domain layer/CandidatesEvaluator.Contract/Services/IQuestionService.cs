@@ -14,5 +14,9 @@ namespace CandidateEvaluator.Contract.Services
         Task<List<Question>> GetAllFromCategory(Guid ownerId, Guid categoryId);
 
         Task<Question> Get(Guid ownerId, Guid categoryId, Guid questionId);
+
+        Task Update(Question model);
+
+        Task Delete(Guid ownerId, Guid categoryId, Guid questionId);
     }
 }
