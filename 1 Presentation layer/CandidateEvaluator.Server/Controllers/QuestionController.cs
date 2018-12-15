@@ -1,5 +1,7 @@
-﻿using CandidateEvaluator.Contract.Models;
-using CandidateEvaluator.Contract.Services;
+﻿
+using CandidateEvaluator.Contract.Commands.Question;
+using CandidateEvaluator.Contract.Dispatchers;
+using CandidateEvaluator.Contract.Queries.Question;
 using CandidateEvaluator.Server.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,52 +14,50 @@ namespace CandidateEvaluator.Server.Controllers
     [Route("api/[controller]")]
     public class QuestionController : ControllerBase
     {
-        private IQuestionService _service;
+        private IDispatcher _dispatcher;
 
-        public QuestionController(IQuestionService questionService)
+        public QuestionController(IDispatcher dispatcher)
         {
-            _service = questionService;
+            _dispatcher = dispatcher;
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] Question model)
+        public async Task<IActionResult> Create([FromBody] CreateQuestion command)
         {
-            model.OwnerId = HttpContext.GetUser().Oid;
-            var created = await _service.Add(model);
+            command.OwnerId = HttpContext.GetUser().Oid;
+            var created = await _dispatcher.SendAsync(command);
             return CreatedAtAction(nameof(Create), created);
         }
 
         [HttpGet("{categoryId:guid}")]
         public async Task<IActionResult> GetAllFromCategory(Guid categoryId)
         {
-            var ownerId = HttpContext.GetUser().Oid;
-            var questionsFromCategory = await _service.GetAllFromCategory(ownerId, categoryId);
-
-            return CreatedAtAction(nameof(GetAllFromCategory), questionsFromCategory);
+            var questions = await _dispatcher.QueryAsync(new GetQuestionsFromCategory { OwnerId = HttpContext.GetUser().Oid, CategoryId = categoryId });
+            return Ok(questions);
         }
 
         [HttpGet("{categoryId:guid}/{id:guid}")]
         public async Task<IActionResult> Get(Guid categoryId, Guid id)
         {
-            var ownerId = HttpContext.GetUser().Oid;
-            var entity = await _service.Get(ownerId, categoryId, id);
-            return Ok(entity);
+            var question = await _dispatcher.QueryAsync(new GetQuestion { OwnerId = HttpContext.GetUser().Oid, CategoryId = categoryId, Id = id });
+            return Ok(question);
         }
 
 
         [HttpPost]
         [Route("{id}")]
-        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] Question model)
+        public async Task<IActionResult> Update([FromBody] UpdateQuestion command)
         {
-            await _service.Update(model);
-            return NoContent();
+            command.OwnerId = HttpContext.GetUser().Oid;
+            var categoryId = await _dispatcher.SendAsync(command);
+            return Ok(categoryId);
         }
 
         [HttpDelete]
         [Route("{categoryId:guid}/{id:guid}")]
         public async Task<IActionResult> Delete([FromRoute] Guid categoryId, [FromRoute] Guid id)
         {
-            await _service.Delete(HttpContext.GetUser().Oid, categoryId, id);
+            await _dispatcher.SendAsync(new DeleteQuestion { OwnerId = HttpContext.GetUser().Oid, CategoryId = categoryId, Id = id });
             return NoContent();
         }
 

@@ -67,7 +67,9 @@ namespace CandidateEvaluator.Data.Repositories
                 Name = model.Name,
                 Text = model.Text
             });
+
             return model.Id;
+
         }
 
         private static string CreatePartitionKey(Guid ownerId, Guid categoryId)

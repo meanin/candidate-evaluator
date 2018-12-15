@@ -1,13 +1,13 @@
-using CandidateEvaluator.Services;
 using CandidateEvaluator.Contract.Commands.Category;
+using CandidateEvaluator.Contract.Commands.Question;
 using CandidateEvaluator.Contract.Configuration;
 using CandidateEvaluator.Contract.Dispatchers;
 using CandidateEvaluator.Contract.Handlers;
 using CandidateEvaluator.Contract.Models;
 using CandidateEvaluator.Contract.Queries;
+using CandidateEvaluator.Contract.Queries.Question;
 using CandidateEvaluator.Contract.Queries.UserActivity;
 using CandidateEvaluator.Contract.Repositories;
-using CandidateEvaluator.Contract.Services;
 using CandidateEvaluator.Core.Dispatchers;
 using CandidateEvaluator.Core.Handlers.Commands;
 using CandidateEvaluator.Core.Handlers.Queries;
@@ -59,11 +59,6 @@ namespace CandidateEvaluator.Server
             services.AddTransient<IQuestionRepository, QuestionRepository>();
             services.AddTransient<IUserRecentActivityRepository, UserRecentActivityRepository>();
 
-<<<<<<< HEAD
-            services.AddTransient<ICategoryService, CategoryService>();
-            services.AddTransient<IQuestionService, QuestionService>();
-            services.AddTransient<IUserRecentActivityService, UserRecentActivityService>();
-=======
             services.AddTransient<IDispatcher, Dispatcher>();
             services.AddTransient<ICommandDispatcher, CommandDispatcher>();
             services.AddTransient<IQueryDispatcher, QueryDispatcher>();
@@ -72,10 +67,15 @@ namespace CandidateEvaluator.Server
             services.AddTransient<ICommandHandler<DeleteCategory>, DeleteCategoryHandler>();
             services.AddTransient<ICommandHandler<UpdateCategory>, UpdateCategoryHandler>();
 
+            services.AddTransient<ICommandHandler<CreateQuestion>, CreateQuestionHandler>();
+            services.AddTransient<ICommandHandler<DeleteQuestion>, DeleteQuestionHandler>();
+            services.AddTransient<ICommandHandler<UpdateQuestion>, UpdateQuestionHandler>();
+
             services.AddTransient<IQueryHandler<GetAllCategories, List<Category>>, GetAllCategoriesHandler>();
             services.AddTransient<IQueryHandler<GetCategory, Category>, GetCategoryHandler>();
+            services.AddTransient<IQueryHandler<GetQuestionsFromCategory, List<Question>>, GetQuestionsFromCategoryHandler>();
+            services.AddTransient<IQueryHandler<GetQuestion, Question>, GetQuestionHandler>();
             services.AddTransient<IQueryHandler<GetAllUserActivities, List<RecentActivity>>, GetAllUserActivitiesHandler>();
->>>>>>> b1f22165e196e1d76d4168404e187df5801408ad
 
             services.AddMvc();
 
