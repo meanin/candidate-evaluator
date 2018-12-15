@@ -1,18 +1,18 @@
+using CandidateEvaluator.Contract.Configuration;
+using CandidateEvaluator.Contract.Repositories;
+using CandidateEvaluator.Contract.Services;
+using CandidateEvaluator.Data.Repositories;
+using CandidateEvaluator.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Blazor.Server;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Mime;
-using CandidateEvaluator.Data.Repositories;
-using CandidateEvaluator.Contract.Configuration;
-using CandidateEvaluator.Contract.Repositories;
-using CandidateEvaluator.Contract.Services;
-using CandidateEvaluator.Services;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.Configuration;
 
 namespace CandidateEvaluator.Server
 {
@@ -24,7 +24,7 @@ namespace CandidateEvaluator.Server
         {
             Configuration = configuration;
         }
-        
+
         public void ConfigureServices(IServiceCollection services)
         {
             var atsConfig = new AzureTableStorageOptions();
@@ -50,6 +50,7 @@ namespace CandidateEvaluator.Server
             services.AddTransient<IUserRecentActivityRepository, UserRecentActivityRepository>();
 
             services.AddTransient<ICategoryService, CategoryService>();
+            services.AddTransient<IQuestionService, QuestionService>();
             services.AddTransient<IUserRecentActivityService, UserRecentActivityService>();
 
             services.AddMvc();
@@ -63,7 +64,7 @@ namespace CandidateEvaluator.Server
                 });
             });
         }
-        
+
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseResponseCompression();
