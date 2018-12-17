@@ -15,9 +15,9 @@ namespace CandidateEvaluator.Core.Handlers.Queries
             _modelRepository = modelRepository;
         }
 
-        public async Task<Question> HandleAsync(GetQuestion query)
+        public Task<Question> HandleAsync(GetQuestion query)
         {
-            return await _modelRepository.Get(query.OwnerId, query.CategoryId, query.Id);
+            return _modelRepository.Get(query.OwnerId, query.CategoryId, query.Id);
         }
     }
 }

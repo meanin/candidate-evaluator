@@ -1,5 +1,6 @@
 ﻿@page "/category/{categoryId:guid}/question/new"
 @using Microsoft.AspNetCore.Blazor.Services
+@using Contract.Models;
 @inject Services.UserIdentityService Http
 @inject IUriHelper UriHelper
 
@@ -28,7 +29,7 @@ else
             <div class="dropdown-menu">
                 @foreach (var category in _categoryModels)
                 {
-                    <button class="dropdown-item" onclick="@(c => _setSelectedCategory(category))">@category.Name</button>
+                    <button class="dropdown-item" onclick="@(c => setSelectedCategory(category))">@category.Name</button>
                 }
             </div>
         </div>
@@ -52,9 +53,7 @@ else
 Guid CategoryId { get; set; }
 
 private List<Contract.Models.Category> _categoryModels;
-
 private Contract.Models.Category _selectedCategory;
-
 private Contract.Models.Question _questionModel = new Contract.Models.Question();
 
 protected override async Task OnInitAsync()
@@ -76,11 +75,17 @@ protected override async Task OnInitAsync()
 
 private async Task Add()
 {
-    await Http.AuthorizedPostJsonAsync<Guid>("api/question", _questionModel);
+    try
+    {
+        await Http.AuthorizedPostJsonAsync<Guid>("api/question", _questionModel);
+    }
+    catch
+    { }
+
     UriHelper.NavigateTo($"/category/{_questionModel.CategoryId}/questions");
 }
 
-private void _setSelectedCategory(Contract.Models.Category category)
+private void setSelectedCategory(Contract.Models.Category category)
 {
     _selectedCategory = category;
     _questionModel.CategoryId = category.Id;

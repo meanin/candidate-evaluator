@@ -49,14 +49,26 @@ protected override async Task OnInitAsync()
 
 private async Task Save()
 {
-    await Http.AuthorizedPostJsonAsync<Guid>($"api/question/{_questionModel.Id}", _questionModel);
+    try
+    {
+        await Http.AuthorizedPostJsonAsync<Guid>($"api/question/{_questionModel.Id}", _questionModel);
+    }
+    catch
+    { }
+
+
     UriHelper.NavigateTo($"/category/{_questionModel.CategoryId}/questions");
 }
 
 private async Task Delete()
 {
+    try
+    {
+        await Http.AuthorizedDeleteAsync($"api/question/{_questionModel.CategoryId}/{_questionModel.Id}");
+    }
+    catch
+    { }
 
-    await Http.AuthorizedDeleteAsync($"api/question/{_questionModel.CategoryId}/{_questionModel.Id}");
     UriHelper.NavigateTo($"/category/{CategoryId}/questions");
 }
 }

@@ -26,20 +26,30 @@ namespace CandidateEvaluator.Server.Controllers
         {
             command.OwnerId = HttpContext.GetUser().Oid;
             var created = await _dispatcher.SendAsync(command);
-            return CreatedAtAction(nameof(Create), created);
+            return CreatedAtAction(nameof(Get), created);
         }
 
         [HttpGet("{categoryId:guid}")]
         public async Task<IActionResult> GetAllFromCategory(Guid categoryId)
         {
-            var questions = await _dispatcher.QueryAsync(new GetQuestionsFromCategory { OwnerId = HttpContext.GetUser().Oid, CategoryId = categoryId });
+            var questions = await _dispatcher.QueryAsync(new GetQuestionsFromCategory
+            {
+                OwnerId = HttpContext.GetUser().Oid,
+                CategoryId = categoryId
+            }
+            );
             return Ok(questions);
         }
 
         [HttpGet("{categoryId:guid}/{id:guid}")]
         public async Task<IActionResult> Get(Guid categoryId, Guid id)
         {
-            var question = await _dispatcher.QueryAsync(new GetQuestion { OwnerId = HttpContext.GetUser().Oid, CategoryId = categoryId, Id = id });
+            var question = await _dispatcher.QueryAsync(new GetQuestion
+            {
+                OwnerId = HttpContext.GetUser().Oid,
+                CategoryId = categoryId,
+                Id = id
+            });
             return Ok(question);
         }
 
@@ -57,7 +67,12 @@ namespace CandidateEvaluator.Server.Controllers
         [Route("{categoryId:guid}/{id:guid}")]
         public async Task<IActionResult> Delete([FromRoute] Guid categoryId, [FromRoute] Guid id)
         {
-            await _dispatcher.SendAsync(new DeleteQuestion { OwnerId = HttpContext.GetUser().Oid, CategoryId = categoryId, Id = id });
+            await _dispatcher.SendAsync(new DeleteQuestion
+            {
+                OwnerId = HttpContext.GetUser().Oid,
+                CategoryId = categoryId,
+                Id = id
+            });
             return NoContent();
         }
 
