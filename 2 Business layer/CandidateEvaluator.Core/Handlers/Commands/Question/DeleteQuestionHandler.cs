@@ -1,11 +1,11 @@
-﻿using CandidateEvaluator.Contract.Commands.Question;
+﻿using System;
+using System.Threading.Tasks;
+using CandidateEvaluator.Contract.Commands.Question;
 using CandidateEvaluator.Contract.Handlers;
 using CandidateEvaluator.Contract.Models;
 using CandidateEvaluator.Contract.Repositories;
-using System;
-using System.Threading.Tasks;
 
-namespace CandidateEvaluator.Core.Handlers.Commands
+namespace CandidateEvaluator.Core.Handlers.Commands.Question
 {
     public class DeleteQuestionHandler : ICommandHandler<DeleteQuestion>
     {

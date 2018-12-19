@@ -1,16 +1,16 @@
-﻿using CandidateEvaluator.Contract.Commands.Question;
+﻿using System;
+using System.Threading.Tasks;
+using CandidateEvaluator.Contract.Commands.Question;
 using CandidateEvaluator.Contract.Handlers;
 using CandidateEvaluator.Contract.Models;
 using CandidateEvaluator.Contract.Repositories;
-using System;
-using System.Threading.Tasks;
 
-namespace CandidateEvaluator.Core.Handlers.Commands
+namespace CandidateEvaluator.Core.Handlers.Commands.Question
 {
     public class CreateQuestionHandler : ICommandHandler<CreateQuestion>
     {
-        private IQuestionRepository _modelRepository;
-        private IUserRecentActivityRepository _activityRepository;
+        private readonly IQuestionRepository _modelRepository;
+        private readonly IUserRecentActivityRepository _activityRepository;
 
         public CreateQuestionHandler(IQuestionRepository modelRepository, IUserRecentActivityRepository recentActivityRepository)
         {
@@ -20,7 +20,7 @@ namespace CandidateEvaluator.Core.Handlers.Commands
 
         public async Task<Guid> HandleAsync(CreateQuestion command)
         {
-            var model = new Question
+            var model = new Contract.Models.Question
             {
                 OwnerId = command.OwnerId,
                 CategoryId = command.CategoryId,

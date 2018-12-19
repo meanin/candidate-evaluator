@@ -1,14 +1,9 @@
-﻿using CandidateEvaluator.Contract.Models;
-using CandidateEvaluator.Contract.Queries;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace CandidateEvaluator.Contract.Queries
+namespace CandidateEvaluator.Contract.Queries.Category
 {
-    public class GetAllCategories : IQuery<List<Category>>
+    public class GetAllCategories : IQuery<List<Models.Category>>
     {
         public Guid OwnerId { get; set; }
     }

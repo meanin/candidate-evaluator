@@ -4,12 +4,10 @@ using CandidateEvaluator.Contract.Configuration;
 using CandidateEvaluator.Contract.Dispatchers;
 using CandidateEvaluator.Contract.Handlers;
 using CandidateEvaluator.Contract.Models;
-using CandidateEvaluator.Contract.Queries;
 using CandidateEvaluator.Contract.Queries.Question;
 using CandidateEvaluator.Contract.Queries.UserActivity;
 using CandidateEvaluator.Contract.Repositories;
 using CandidateEvaluator.Core.Dispatchers;
-using CandidateEvaluator.Core.Handlers.Commands;
 using CandidateEvaluator.Core.Handlers.Queries;
 using CandidateEvaluator.Data.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -23,6 +21,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Mime;
+using CandidateEvaluator.Contract.Queries.Category;
+using CandidateEvaluator.Core.Handlers.Commands.Category;
+using CandidateEvaluator.Core.Handlers.Commands.Question;
+using CandidateEvaluator.Core.Handlers.Queries.Category;
+using CandidateEvaluator.Core.Handlers.Queries.Question;
 
 namespace CandidateEvaluator.Server
 {

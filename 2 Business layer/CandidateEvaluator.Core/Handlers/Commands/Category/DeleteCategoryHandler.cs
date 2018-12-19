@@ -1,12 +1,11 @@
-﻿using CandidateEvaluator.Contract.Commands.Category;
+﻿using System;
+using System.Threading.Tasks;
+using CandidateEvaluator.Contract.Commands.Category;
 using CandidateEvaluator.Contract.Handlers;
 using CandidateEvaluator.Contract.Models;
 using CandidateEvaluator.Contract.Repositories;
-using CandidateEvaluator.Contract.Services;
-using System;
-using System.Threading.Tasks;
 
-namespace CandidateEvaluator.Core.Handlers.Commands
+namespace CandidateEvaluator.Core.Handlers.Commands.Category
 {
     public class DeleteCategoryHandler : ICommandHandler<DeleteCategory>
     {

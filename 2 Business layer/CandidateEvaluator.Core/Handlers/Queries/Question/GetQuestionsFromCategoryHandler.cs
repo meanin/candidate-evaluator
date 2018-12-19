@@ -1,13 +1,12 @@
-﻿using CandidateEvaluator.Contract.Handlers;
-using CandidateEvaluator.Contract.Models;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using CandidateEvaluator.Contract.Handlers;
 using CandidateEvaluator.Contract.Queries.Question;
 using CandidateEvaluator.Contract.Repositories;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
-namespace CandidateEvaluator.Core.Handlers.Queries
+namespace CandidateEvaluator.Core.Handlers.Queries.Question
 {
-    public class GetQuestionsFromCategoryHandler : IQueryHandler<GetQuestionsFromCategory, List<Question>>
+    public class GetQuestionsFromCategoryHandler : IQueryHandler<GetQuestionsFromCategory, List<Contract.Models.Question>>
     {
         private readonly IQuestionRepository _modelRepository;
 
@@ -16,7 +15,7 @@ namespace CandidateEvaluator.Core.Handlers.Queries
             _modelRepository = modelRepository;
         }
 
-        public Task<List<Question>> HandleAsync(GetQuestionsFromCategory query)
+        public Task<List<Contract.Models.Question>> HandleAsync(GetQuestionsFromCategory query)
         {
             return _modelRepository.GetAllFromPartition(query.OwnerId, query.CategoryId);
         }
