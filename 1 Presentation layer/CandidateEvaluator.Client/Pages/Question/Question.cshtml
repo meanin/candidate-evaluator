@@ -1,0 +1,74 @@
+﻿@page "/category/{categoryId:guid}/question/{id:guid}"
+
+@using Microsoft.AspNetCore.Blazor.Services
+@inject Services.UserIdentityService Http
+@inject IUriHelper UriHelper
+
+@if (_questionModel == null)
+{
+    <p><em>Loading...</em></p>
+
+}
+else
+{
+    <a href="/category/@CategoryId/questions" class="btn">Go back</a>
+    <div class="form-group">
+        <label>Name</label>
+        <input class="form-control" type="text" bind=@_questionModel.Name placeholder="Enter question name..." />
+    </div>
+    <div>
+        <textarea class="form-control" rows="4" bind=@_questionModel.Text placeholder="Enter question" />
+    </div>
+    <div class="row">
+        <button class="col-md-3 btn btn-block btn-success m-1" onclick="@Save">Save</button>
+        <button class="col-md-3 btn btn-block btn-danger m-1" onclick="@Delete">Delete</button>
+    </div>
+}
+
+@functions
+{
+[Parameter]
+private Guid CategoryId { get; set; }
+
+[Parameter]
+private Guid Id { get; set; }
+
+private Contract.Models.Question _questionModel;
+
+protected override async Task OnInitAsync()
+{
+    try
+    {
+        _questionModel = await Http.AuthorizedGetJsonAsync<Contract.Models.Question>($"api/question/{CategoryId}/{Id}");
+    }
+    catch (Exception e)
+    {
+        UriHelper.NavigateTo($"/category/{CategoryId}");
+    }
+}
+
+private async Task Save()
+{
+    try
+    {
+        await Http.AuthorizedPostJsonAsync<Guid>($"api/question/{_questionModel.Id}", _questionModel);
+    }
+    catch
+    { }
+
+
+    UriHelper.NavigateTo($"/category/{_questionModel.CategoryId}/questions");
+}
+
+private async Task Delete()
+{
+    try
+    {
+        await Http.AuthorizedDeleteAsync($"api/question/{_questionModel.CategoryId}/{_questionModel.Id}");
+    }
+    catch
+    { }
+
+    UriHelper.NavigateTo($"/category/{CategoryId}/questions");
+}
+}

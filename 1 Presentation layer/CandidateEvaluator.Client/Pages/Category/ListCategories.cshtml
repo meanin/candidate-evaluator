@@ -14,6 +14,7 @@ else
             <tr>
                 <th>Id</th>
                 <th>Name</th>
+                <th>Questions</th>
             </tr>
         </thead>
         <tbody>
@@ -22,6 +23,7 @@ else
                 <tr>
                     <td>@model.Id</td>
                     <td><a href="/category/@model.Id">@model.Name</a></td>
+                    <td><a href="/category/@model.Id/questions"> Questions </a></td>
                 </tr>
             }
         </tbody>
@@ -31,17 +33,17 @@ else
 
 @functions
 {
-    private List<Contract.Models.Category> _categoryModels;
+private List<Contract.Models.Category> _categoryModels;
 
-    protected override async Task OnInitAsync()
+protected override async Task OnInitAsync()
+{
+    try
     {
-        try
-        {
-            _categoryModels = await Http.AuthorizedGetJsonAsync<List<Contract.Models.Category>>("api/category");
-        }
-        catch (Exception e)
-        {
-            UriHelper.NavigateTo("/");
-        }
+        _categoryModels = await Http.AuthorizedGetJsonAsync<List<Contract.Models.Category>>("api/category");
     }
+    catch (Exception e)
+    {
+        UriHelper.NavigateTo("/");
+    }
+}
 }

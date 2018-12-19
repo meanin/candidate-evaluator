@@ -35,12 +35,12 @@ namespace CandidateEvaluator.Data.Repositories
 
         public Task Delete(Guid ownerId, Guid categoryId, Guid questionId)
         {
-            return _table.Delete(categoryId.ToString(), questionId.ToString());
+            return _table.Delete(CreatePartitionKey(ownerId, categoryId), questionId.ToString());
         }
 
         public async Task<Question> Get(Guid ownerId, Guid categoryId, Guid questionId)
         {
-            var entity = await _table.Get(categoryId.ToString(), questionId.ToString());
+            var entity = await _table.Get(CreatePartitionKey(ownerId, categoryId), questionId.ToString());
             return ToQuestion(entity);
         }
 
@@ -51,9 +51,9 @@ namespace CandidateEvaluator.Data.Repositories
             return entities.Select(ToQuestion).ToList();
         }
 
-        public async Task<List<Question>> GetAllFromPartition(Guid ownerId, Guid partitionKey)
+        public async Task<List<Question>> GetAllFromPartition(Guid ownerId, Guid categoryId)
         {
-            var entities = await _table.GetAll(partitionKey.ToString());
+            var entities = await _table.GetAll(CreatePartitionKey(ownerId, categoryId));
 
             return entities.Select(ToQuestion).ToList();
         }
@@ -67,7 +67,9 @@ namespace CandidateEvaluator.Data.Repositories
                 Name = model.Name,
                 Text = model.Text
             });
+
             return model.Id;
+
         }
 
         private static string CreatePartitionKey(Guid ownerId, Guid categoryId)

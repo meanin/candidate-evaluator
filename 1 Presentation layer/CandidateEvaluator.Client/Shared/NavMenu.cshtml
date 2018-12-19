@@ -22,33 +22,28 @@
         }
         else
         {
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="dashboard">
-                <span class="oi oi-lock-unlocked" aria-hidden="true"></span> Dashboard
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="category">
-                <span class="oi oi-puzzle-piece" aria-hidden="true"></span> Category
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="question">
-                <span class="oi oi-question-mark" aria-hidden="true"></span> Question
-            </NavLink>
-        </li>
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="dashboard">
+                    <span class="oi oi-lock-unlocked" aria-hidden="true"></span> Dashboard
+                </NavLink>
+            </li>
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="category">
+                    <span class="oi oi-puzzle-piece" aria-hidden="true"></span> Category
+                </NavLink>
+            </li>
         }
     </ul>
 </div>
 
 @functions {
-    [Parameter]
-    bool LoggedIn { get; set; }
+[Parameter]
+bool LoggedIn { get; set; }
 
-    bool _collapseNavMenu = true;
+bool _collapseNavMenu = true;
 
-    void ToggleNavMenu()
-    {
-        _collapseNavMenu = !_collapseNavMenu;
-    }
+void ToggleNavMenu()
+{
+    _collapseNavMenu = !_collapseNavMenu;
+}
 }

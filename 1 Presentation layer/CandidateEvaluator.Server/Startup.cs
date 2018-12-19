@@ -1,12 +1,13 @@
 using CandidateEvaluator.Contract.Commands.Category;
+using CandidateEvaluator.Contract.Commands.Question;
 using CandidateEvaluator.Contract.Configuration;
 using CandidateEvaluator.Contract.Dispatchers;
 using CandidateEvaluator.Contract.Handlers;
 using CandidateEvaluator.Contract.Models;
 using CandidateEvaluator.Contract.Queries;
+using CandidateEvaluator.Contract.Queries.Question;
 using CandidateEvaluator.Contract.Queries.UserActivity;
 using CandidateEvaluator.Contract.Repositories;
-using CandidateEvaluator.Contract.Services;
 using CandidateEvaluator.Core.Dispatchers;
 using CandidateEvaluator.Core.Handlers.Commands;
 using CandidateEvaluator.Core.Handlers.Queries;
@@ -33,7 +34,7 @@ namespace CandidateEvaluator.Server
         {
             Configuration = configuration;
         }
-        
+
         public void ConfigureServices(IServiceCollection services)
         {
             var atsConfig = new AzureTableStorageOptions();
@@ -66,8 +67,14 @@ namespace CandidateEvaluator.Server
             services.AddTransient<ICommandHandler<DeleteCategory>, DeleteCategoryHandler>();
             services.AddTransient<ICommandHandler<UpdateCategory>, UpdateCategoryHandler>();
 
+            services.AddTransient<ICommandHandler<CreateQuestion>, CreateQuestionHandler>();
+            services.AddTransient<ICommandHandler<DeleteQuestion>, DeleteQuestionHandler>();
+            services.AddTransient<ICommandHandler<UpdateQuestion>, UpdateQuestionHandler>();
+
             services.AddTransient<IQueryHandler<GetAllCategories, List<Category>>, GetAllCategoriesHandler>();
             services.AddTransient<IQueryHandler<GetCategory, Category>, GetCategoryHandler>();
+            services.AddTransient<IQueryHandler<GetQuestionsFromCategory, List<Question>>, GetQuestionsFromCategoryHandler>();
+            services.AddTransient<IQueryHandler<GetQuestion, Question>, GetQuestionHandler>();
             services.AddTransient<IQueryHandler<GetAllUserActivities, List<RecentActivity>>, GetAllUserActivitiesHandler>();
 
             services.AddMvc();
@@ -81,7 +88,7 @@ namespace CandidateEvaluator.Server
                 });
             });
         }
-        
+
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseResponseCompression();

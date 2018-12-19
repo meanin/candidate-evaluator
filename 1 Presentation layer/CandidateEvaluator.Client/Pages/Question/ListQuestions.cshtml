@@ -1,0 +1,60 @@
+﻿@page "/category/{categoryId:guid}/questions"
+@using Microsoft.AspNetCore.Blazor.Services
+@inject Services.UserIdentityService Http
+@inject IUriHelper UriHelper
+
+<div>
+    <a href="/category/@CategoryId/question/new" class="btn">Create new question</a>
+</div>
+
+@if (_questionModels != null)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var question in _questionModels)
+            {
+                <tr>
+                    <td class="align-middle">@question.Id</td>
+                    <td class="align-middle">@question.Name</td>
+                    <td class="align-middle">
+                        <a class="col-md-3 btn btn-block btn-success m-1" href="/category/@question.CategoryId/question/@question.Id">Details</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div>No questions found!</div>
+
+}
+
+
+@functions
+{
+[Parameter]
+private Guid CategoryId { get; set; }
+
+private List<Contract.Models.Question> _questionModels;
+protected override async Task OnInitAsync()
+{
+    try
+    {
+
+        _questionModels = await Http.AuthorizedGetJsonAsync<List<Contract.Models.Question>>($"api/question/{CategoryId}");
+    }
+    catch (Exception e)
+    {
+        UriHelper.NavigateTo("/");
+    }
+
+}
+}
