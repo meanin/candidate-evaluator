@@ -1,27 +1,28 @@
-﻿using CandidateEvaluator.Contract.Commands.Category;
+﻿using System;
+using System.Threading.Tasks;
+using CandidateEvaluator.Contract.Commands.Interview;
 using CandidateEvaluator.Contract.Dispatchers;
+using CandidateEvaluator.Contract.Queries.Category;
+using CandidateEvaluator.Contract.Queries.Interview;
 using CandidateEvaluator.Server.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Threading.Tasks;
-using CandidateEvaluator.Contract.Queries.Category;
 
 namespace CandidateEvaluator.Server.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]
-    public class CategoryController : ControllerBase
+    public class InterviewController : ControllerBase
     {
         private readonly IDispatcher _dispatcher;
 
-        public CategoryController(IDispatcher dispatcher)
+        public InterviewController(IDispatcher dispatcher)
         {
             _dispatcher = dispatcher;
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateCategory command)
+        public async Task<IActionResult> Create([FromBody] CreateInterview command)
         {
             command.OwnerId = HttpContext.GetUser().Oid;
             var created = await _dispatcher.SendAsync(command);
@@ -37,26 +38,26 @@ namespace CandidateEvaluator.Server.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        public async Task<IActionResult> Get([FromRoute] Guid id) 
+        public async Task<IActionResult> Get([FromRoute] Guid id)
         {
-            var category = await _dispatcher.QueryAsync(new GetCategory { OwnerId = HttpContext.GetUser().Oid, Id = id });
-            return Ok(category);
+            var result = await _dispatcher.QueryAsync(new GetInterview { OwnerId = HttpContext.GetUser().Oid, Id = id });
+            return Ok(result);
         }
 
         [HttpPost]
         [Route("{id}")]
-        public async Task<IActionResult> Update([FromBody] UpdateCategory command)
+        public async Task<IActionResult> Update([FromBody] UpdateInterview command)
         {
             command.OwnerId = HttpContext.GetUser().Oid;
-            var categoryId = await _dispatcher.SendAsync(command);
-            return Ok(categoryId);
+            var resultId = await _dispatcher.SendAsync(command);
+            return Ok(resultId);
         }
 
         [HttpDelete]
         [Route("{id}")]
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
-            await _dispatcher.SendAsync(new DeleteCategory { OwnerId = HttpContext.GetUser().Oid, Id = id });
+            await _dispatcher.SendAsync(new DeleteInterview { OwnerId = HttpContext.GetUser().Oid, Id = id });
             return NoContent();
         }
     }

@@ -1,0 +1,37 @@
+﻿@page "/interview/new"
+@using CandidateEvaluator.Contract.Models
+@using Microsoft.AspNetCore.Blazor.Services
+@inject Services.UserIdentityService Http
+@inject IUriHelper UriHelper
+@if (_categories == null)
+{
+<p><em>Loading...</em></p>
+
+}
+else
+{
+    <div class="form-group">
+        <div class="form-group">
+            <label>Name</label>
+            <input class="form-control" type="text" bind=@_createCommand.Name placeholder="Enter question name..." />
+        </div>
+
+    </div>
+}
+@functions
+{
+    private List<Category> _categories;
+    private readonly Contract.Commands.Interview.CreateInterview _createCommand = new Contract.Commands.Interview.CreateInterview();
+
+    protected override async Task OnInitAsync()
+    {
+        try
+        {
+            _categories = await Http.AuthorizedGetJsonAsync<List<Category>>("api/category");
+        }
+        catch
+        {
+            UriHelper.NavigateTo("/");
+        }
+    }
+}
