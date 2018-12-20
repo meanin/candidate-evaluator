@@ -41,7 +41,7 @@ namespace CandidateEvaluator.Data.Repositories
                 Id = Guid.Parse(e.RowKey),
                 Name = e.Name,
                 OwnerId = ownerId,
-                Content = JsonConvert.DeserializeObject<Dictionary<Guid, List<Guid>>>(e.Content)
+                Content = JsonConvert.DeserializeObject<Dictionary<Guid, int>>(e.Content)
             }).ToList();
         }
 
@@ -53,7 +53,7 @@ namespace CandidateEvaluator.Data.Repositories
                 Id = Guid.Parse((ReadOnlySpan<char>)entity.RowKey),
                 Name = entity.Name,
                 OwnerId = ownerId,
-                Content = JsonConvert.DeserializeObject<Dictionary<Guid, List<Guid>>>(entity.Content)
+                Content = JsonConvert.DeserializeObject<Dictionary<Guid, int>>(entity.Content)
             };
         }
 

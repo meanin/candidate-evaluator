@@ -32,7 +32,8 @@ namespace CandidateEvaluator.Core.Handlers.Commands.Question
             await _activityRepository.Upsert(model.OwnerId, new RecentActivity
             {
                 Type = EntityType.Question,
-                EntityId = model.Id
+                EntityId = model.Id,
+                Name = command.Name
             });
 
             return model.Id;

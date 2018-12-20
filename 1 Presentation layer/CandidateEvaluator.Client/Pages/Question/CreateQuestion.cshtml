@@ -1,6 +1,5 @@
 ﻿@page "/category/{categoryId:guid}/question/new"
 @using Microsoft.AspNetCore.Blazor.Services
-@using Contract.Models;
 @inject Services.UserIdentityService Http
 @inject IUriHelper UriHelper
 
@@ -49,46 +48,48 @@ else
 
 @functions
 {
-[Parameter]
-Guid CategoryId { get; set; }
+    [Parameter]
+    Guid CategoryId { get; set; }
 
-private List<Contract.Models.Category> _categoryModels;
-private Contract.Models.Category _selectedCategory;
-private Contract.Models.Question _questionModel = new Contract.Models.Question();
+    private List<Contract.Models.Category> _categoryModels;
+    private Contract.Models.Category _selectedCategory;
+    private Contract.Models.Question _questionModel = new Contract.Models.Question();
 
-protected override async Task OnInitAsync()
-{
-    try
+    protected override async Task OnInitAsync()
     {
-        _categoryModels = await Http.AuthorizedGetJsonAsync<List<Contract.Models.Category>>("api/category");
+        try
+        {
+            _categoryModels = await Http.AuthorizedGetJsonAsync<List<Contract.Models.Category>>("api/category");
 
-        _questionModel = new Contract.Models.Question();
-        _questionModel.CategoryId = CategoryId;
+            _questionModel = new Contract.Models.Question();
+            _questionModel.CategoryId = CategoryId;
 
-        _selectedCategory = _categoryModels.FirstOrDefault(c => c.Id == _questionModel.CategoryId);
+            _selectedCategory = _categoryModels.FirstOrDefault(c => c.Id == _questionModel.CategoryId);
+        }
+        catch
+        {
+            UriHelper.NavigateTo($"/category/{CategoryId}");
+        }
     }
-    catch (Exception e)
+
+    private async Task Add()
     {
-        UriHelper.NavigateTo($"/category/{CategoryId}");
-    }
-}
+        try
+        {
+            await Http.AuthorizedPostJsonAsync<Guid>("api/question", _questionModel);
+            UriHelper.NavigateTo($"/category/{_questionModel.CategoryId}/questions");
+        }
+        catch
+        {
+            UriHelper.NavigateTo("/");
+        }
 
-private async Task Add()
-{
-    try
+    }
+
+    private void setSelectedCategory(Contract.Models.Category category)
     {
-        await Http.AuthorizedPostJsonAsync<Guid>("api/question", _questionModel);
+        _selectedCategory = category;
+        _questionModel.CategoryId = category.Id;
+
     }
-    catch
-    { }
-
-    UriHelper.NavigateTo($"/category/{_questionModel.CategoryId}/questions");
-}
-
-private void setSelectedCategory(Contract.Models.Category category)
-{
-    _selectedCategory = category;
-    _questionModel.CategoryId = category.Id;
-
-}
 }

@@ -32,7 +32,8 @@ namespace CandidateEvaluator.Core.Handlers.Commands.Category
             await _activityRepository.Upsert(model.OwnerId, new RecentActivity
             {
                 Type = EntityType.Category,
-                EntityId = model.Id
+                EntityId = model.Id,
+                Name = command.Name
             });
             return model.Id;
         }

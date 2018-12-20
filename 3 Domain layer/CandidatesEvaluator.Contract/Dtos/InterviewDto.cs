@@ -9,6 +9,12 @@ namespace CandidateEvaluator.Contract.Dtos
         public Guid Id { get; set; }
         public string Name { get; set; }
         public Guid OwnerId { get; set; }
-        public Dictionary<Category, List<Question>> Content { get; set; }
+        public List<InterviewContent> Content { get; set; }
+    }
+
+    public class InterviewContent
+    {
+        public Category Category { get; set; }
+        public List<Question> Questions { get; set; }
     }
 }

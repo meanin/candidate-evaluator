@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using CandidateEvaluator.Contract.Commands.Interview;
 using CandidateEvaluator.Contract.Dispatchers;
-using CandidateEvaluator.Contract.Queries.Category;
 using CandidateEvaluator.Contract.Queries.Interview;
 using CandidateEvaluator.Server.Extensions;
 using Microsoft.AspNetCore.Authorization;
@@ -32,8 +31,8 @@ namespace CandidateEvaluator.Server.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var categories = await _dispatcher.QueryAsync(new GetAllCategories { OwnerId = HttpContext.GetUser().Oid });
-            return Ok(categories);
+            var result = await _dispatcher.QueryAsync(new GetAllInterviews { OwnerId = HttpContext.GetUser().Oid });
+            return Ok(result);
         }
 
         [HttpGet]

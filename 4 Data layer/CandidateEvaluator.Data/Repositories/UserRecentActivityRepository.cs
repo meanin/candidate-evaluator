@@ -25,22 +25,33 @@ namespace CandidateEvaluator.Data.Repositories
             return (await _table.GetAll(ownerId.ToString())).Select(e => new RecentActivity
             {
                 EntityId = Guid.Parse((ReadOnlySpan<char>)e.EntityId),
-                Type = Enum.Parse<EntityType>(e.Type)
+                Type = Enum.Parse<EntityType>(e.Type),
+                Name = e.Name
             });
         }
 
         public async Task Upsert(Guid ownerId, RecentActivity userActivity)
         {
             var partitionKey = ownerId.ToString();
+            var entities = await _table.GetAll(partitionKey);
+            foreach (var toRemove in entities.Where(e => 
+                e.PartitionKey == partitionKey && 
+                e.EntityId == userActivity.EntityId.ToString() &&
+                e.Type == userActivity.Type.ToString()))
+            {
+                await _table.Delete(toRemove.PartitionKey, toRemove.RowKey);
+            }
+
             await _table.Add(new RecentActivityEntity
             {
                 PartitionKey = partitionKey,
                 RowKey = Guid.NewGuid().ToString(),
                 EntityId = userActivity.EntityId.ToString(),
-                Type = userActivity.Type.ToString()
+                Type = userActivity.Type.ToString(),
+                Name = userActivity.Name
             });
 
-            var entities = await _table.GetAll(partitionKey);
+
             if (entities.Count <= MaxUserItemCount)
                 return;
 

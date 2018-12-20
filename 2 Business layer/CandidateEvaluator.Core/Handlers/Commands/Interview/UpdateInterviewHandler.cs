@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CandidateEvaluator.Contract.Commands.Interview;
@@ -27,14 +28,18 @@ namespace CandidateEvaluator.Core.Handlers.Commands.Interview
             {
                 Id = command.Id,
                 OwnerId = command.OwnerId,
-                Name = command.Name
+                Name = command.Name,
+                Content = new Dictionary<Guid, int>(
+                    command.Content.Select(
+                        c => new KeyValuePair<Guid, int>(c.CategoryId, c.QuestionCount)))
             };
             await _modelRepository.Update(model);
 
             await _activityRepository.Upsert(model.OwnerId, new RecentActivity
             {
                 Type = EntityType.Interview,
-                EntityId = model.Id
+                EntityId = model.Id,
+                Name = command.Name
             });
             return model.Id;
         }

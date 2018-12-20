@@ -21,10 +21,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Mime;
+using CandidateEvaluator.Contract.Commands.Interview;
+using CandidateEvaluator.Contract.Dtos;
 using CandidateEvaluator.Contract.Queries.Category;
+using CandidateEvaluator.Contract.Queries.Interview;
 using CandidateEvaluator.Core.Handlers.Commands.Category;
+using CandidateEvaluator.Core.Handlers.Commands.Interview;
 using CandidateEvaluator.Core.Handlers.Commands.Question;
 using CandidateEvaluator.Core.Handlers.Queries.Category;
+using CandidateEvaluator.Core.Handlers.Queries.Interview;
 using CandidateEvaluator.Core.Handlers.Queries.Question;
 
 namespace CandidateEvaluator.Server
@@ -61,6 +66,7 @@ namespace CandidateEvaluator.Server
             services.AddTransient<ICategoryRepository, CategoryRepository>();
             services.AddTransient<IQuestionRepository, QuestionRepository>();
             services.AddTransient<IUserRecentActivityRepository, UserRecentActivityRepository>();
+            services.AddTransient<IInterviewRepository, InterviewRepository>();
 
             services.AddTransient<IDispatcher, Dispatcher>();
             services.AddTransient<ICommandDispatcher, CommandDispatcher>();
@@ -74,10 +80,16 @@ namespace CandidateEvaluator.Server
             services.AddTransient<ICommandHandler<DeleteQuestion>, DeleteQuestionHandler>();
             services.AddTransient<ICommandHandler<UpdateQuestion>, UpdateQuestionHandler>();
 
+            services.AddTransient<ICommandHandler<CreateInterview>, CreateInterviewHandler>();
+            services.AddTransient<ICommandHandler<DeleteInterview>, DeleteInterviewHandler>();
+            services.AddTransient<ICommandHandler<UpdateInterview>, UpdateInterviewHandler>();
+
             services.AddTransient<IQueryHandler<GetAllCategories, List<Category>>, GetAllCategoriesHandler>();
             services.AddTransient<IQueryHandler<GetCategory, Category>, GetCategoryHandler>();
             services.AddTransient<IQueryHandler<GetQuestionsFromCategory, List<Question>>, GetQuestionsFromCategoryHandler>();
             services.AddTransient<IQueryHandler<GetQuestion, Question>, GetQuestionHandler>();
+            services.AddTransient<IQueryHandler<GetInterview, InterviewDto>, GetInterviewHandler>();
+            services.AddTransient<IQueryHandler<GetAllInterviews, InterviewListDto>, GetAllInterviewsHandler>();
             services.AddTransient<IQueryHandler<GetAllUserActivities, List<RecentActivity>>, GetAllUserActivitiesHandler>();
 
             services.AddMvc();

@@ -7,6 +7,12 @@ namespace CandidateEvaluator.Contract.Commands.Interview
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public List<Tuple<Guid, List<Guid>>> Content { get; set; }
+        public List<UpdateInterviewCategory> Content { get; set; } = new List<UpdateInterviewCategory>();
+
+        public class UpdateInterviewCategory
+        {
+            public Guid CategoryId { get; set; }
+            public int QuestionCount { get; set; }
+        }
     }
 }

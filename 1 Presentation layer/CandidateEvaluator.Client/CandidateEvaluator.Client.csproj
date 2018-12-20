@@ -23,10 +23,4 @@
     <ProjectReference Include="..\..\3 Domain layer\CandidatesEvaluator.Contract\CandidateEvaluator.Contract.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Content Update="Pages\Account\ManageCategories.cshtml">
-      <Pack>$(IncludeRazorContentInPack)</Pack>
-    </Content>
-  </ItemGroup>
-
 </Project>

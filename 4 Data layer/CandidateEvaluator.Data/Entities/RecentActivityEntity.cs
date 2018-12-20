@@ -6,5 +6,6 @@ namespace CandidateEvaluator.Data.Entities
     {
         public string Type { get; set; }
         public string EntityId { get; set; }
+        public string Name { get; set; }
     }
 }

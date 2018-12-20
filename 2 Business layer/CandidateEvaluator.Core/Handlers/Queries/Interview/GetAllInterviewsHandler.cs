@@ -1,12 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
 using System.Threading.Tasks;
+using CandidateEvaluator.Contract.Dtos;
 using CandidateEvaluator.Contract.Handlers;
 using CandidateEvaluator.Contract.Queries.Interview;
 using CandidateEvaluator.Contract.Repositories;
 
 namespace CandidateEvaluator.Core.Handlers.Queries.Interview
 {
-    public class GetAllInterviewsHandler : IQueryHandler<GetAllInterviews, List<Contract.Models.Interview>>
+    public class GetAllInterviewsHandler : IQueryHandler<GetAllInterviews, InterviewListDto>
     {
         private readonly IInterviewRepository _modelRepository;
 
@@ -15,9 +16,17 @@ namespace CandidateEvaluator.Core.Handlers.Queries.Interview
             _modelRepository = modelRepository;
         }
 
-        public Task<List<Contract.Models.Interview>> HandleAsync(GetAllInterviews query)
+        public async Task<InterviewListDto> HandleAsync(GetAllInterviews query)
         {
-            return _modelRepository.GetAll(query.OwnerId);
+            var interviews = await _modelRepository.GetAll(query.OwnerId);
+            return new InterviewListDto
+            {
+                List = interviews.Select(i => new InterviewListDto.InterviewListElement
+                {
+                    Name = i.Name,
+                    Id = i.Id
+                }).ToList()
+            };
         }
     }
 }

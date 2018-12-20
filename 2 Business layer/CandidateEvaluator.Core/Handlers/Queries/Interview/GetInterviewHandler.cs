@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using CandidateEvaluator.Contract.Dtos;
 using CandidateEvaluator.Contract.Handlers;
@@ -12,6 +14,7 @@ namespace CandidateEvaluator.Core.Handlers.Queries.Interview
         private readonly ICategoryRepository _categoryRepository;
         private readonly IInterviewRepository _interviewRepository;
         private readonly IQuestionRepository _questionRepository;
+        private static Random _random = new Random();
 
         public GetInterviewHandler(
             IInterviewRepository interviewRepository,
@@ -31,18 +34,27 @@ namespace CandidateEvaluator.Core.Handlers.Queries.Interview
                 Name = model.Name,
                 Id = model.Id,
                 OwnerId = model.OwnerId,
-                Content = new Dictionary<Contract.Models.Category, List<Contract.Models.Question>>()
+                Content = new List<InterviewContent>()
             };
 
             foreach (var categoryId in model.Content.Keys)
             {
                 var category = await _categoryRepository.Get(query.OwnerId, categoryId);
-                dto.Content[category] = new List<Contract.Models.Question>();
-                var questionIds = model.Content[categoryId];
-                foreach (var questionId in questionIds)
+                var categoryQuestions = await _questionRepository.GetAllFromPartition(query.OwnerId, categoryId);
+                var interviewContent = new InterviewContent
                 {
-                    dto.Content[category].Add(await _questionRepository.Get(query.OwnerId, categoryId, questionId));
+                    Category = category,
+                    Questions = new List<Contract.Models.Question>()
+                };
+                for (var i = 0; i < model.Content[categoryId]; i++)
+                {
+                    var questionsLeft = categoryQuestions.Where(q => !interviewContent.Questions.Contains(q));
+                    if(!questionsLeft.Any())
+                        break;
+                    var question = questionsLeft.ElementAt(_random.Next(questionsLeft.Count()));
+                    interviewContent.Questions.Add(question);
                 }
+                dto.Content.Add(interviewContent);
             }
 
             return dto;

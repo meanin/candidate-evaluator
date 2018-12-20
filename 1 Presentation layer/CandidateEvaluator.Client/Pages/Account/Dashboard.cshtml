@@ -17,36 +17,43 @@ else
     <div>
         <table class="table">
             <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Type</th>
-                    <th>Name</th>
-                </tr>
+            <tr>
+                <th>Id</th>
+                <th>Type</th>
+                <th>Name</th>
+            </tr>
             </thead>
             <tbody>
-                @foreach (var model in _activities)
-                {
-                    <tr>
-                        <td>@model.EntityId</td>
-                        <td>@model.Type.ToString()</td>
-                        @switch (model.Type)
-                        {
-                            case EntityType.Category:
-                                <td><a href="/category/@model.EntityId">@model.Name</a></td>
-                                break;
+            @foreach (var model in _activities)
+            {
+                <tr>
+                    <td>@model.EntityId</td>
+                    <td>@model.Type.ToString()</td>
+                    @switch (model.Type)
+                    {
+                        case EntityType.Category:
+                            <td><a href="/category/@model.EntityId">@model.Name</a></td>
+                            break;
 
-                            default:
-                                break;
-                        }
-                    </tr>
-                }
+                        case EntityType.Interview:
+                            <td><a href="/interview/@model.EntityId">@model.Name</a></td>
+                            break;
+
+                        case EntityType.Question:
+                            <td>@model.Name</td>
+                            break;
+                        
+
+                        default:
+                            break;
+                    }
+                </tr>
+            }
             </tbody>
         </table>
     </div>
     <div>
-        <a class="btn btn-info" href="/manage-categories">Set categories</a>
-        <a class="btn btn-info" href="/">Interview layout</a>
-        <a class="btn btn-info" href="/">Start Interview</a>
+        <a class="btn btn-info" href="/interview/new">Create interview</a>
     </div>
 }
 
@@ -54,17 +61,18 @@ else
 @functions
 {
 
-private IEnumerable<RecentActivity> _activities;
+    private IEnumerable<RecentActivity> _activities;
 
-protected override async Task OnInitAsync()
-{
-    try
+    protected override async Task OnInitAsync()
     {
-        _activities = await Http.AuthorizedGetJsonAsync<IEnumerable<RecentActivity>>("api/dashboard");
+        try
+        {
+            _activities = await Http.AuthorizedGetJsonAsync<IEnumerable<RecentActivity>>("api/dashboard");
+        }
+        catch
+        {
+            UriHelper.NavigateTo("/");
+        }
     }
-    catch
-    {
-        UriHelper.NavigateTo("/");
-    }
-}
+
 }

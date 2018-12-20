@@ -2,11 +2,8 @@
 using CandidateEvaluator.Contract.Models;
 using CandidateEvaluator.Contract.Queries.UserActivity;
 using CandidateEvaluator.Contract.Repositories;
-using CandidateEvaluator.Contract.Services;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace CandidateEvaluator.Core.Handlers.Queries
@@ -17,7 +14,7 @@ namespace CandidateEvaluator.Core.Handlers.Queries
 
         public GetAllUserActivitiesHandler(IUserRecentActivityRepository activityRepository)
         {
-            this._activityRepository = activityRepository;
+            _activityRepository = activityRepository;
         }
 
         public async Task<List<RecentActivity>> HandleAsync(GetAllUserActivities query)

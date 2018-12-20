@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
+using CandidateEvaluator.Contract.Dtos;
 
 namespace CandidateEvaluator.Contract.Queries.Interview
 {
-    public class GetAllInterviews : IQuery<List<Models.Interview>>
+    public class GetAllInterviews : IQuery<InterviewListDto>
     {
         public Guid OwnerId { get; set; }
     }
