@@ -12,5 +12,4 @@ namespace CandidateEvaluator.Contract.Dtos
             public string Name { get; set; }
         }
     }
-
 }

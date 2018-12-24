@@ -4,7 +4,6 @@
 @inject Services.UserIdentityService Http
 @inject IUriHelper UriHelper
 
-
 <h1>Interviews</h1>
 
 @if (_interviews == null)
@@ -48,23 +47,30 @@ else
 
 @functions
 {
-private InterviewListDto _interviews;
+    private InterviewListDto _interviews;
 
-protected override async Task OnInitAsync()
-{
-    try
+    protected override async Task OnInitAsync()
     {
-        _interviews = await Http.AuthorizedGetJsonAsync<InterviewListDto>("api/interview");
+        try
+        {
+            _interviews = await Http.AuthorizedGetJsonAsync<InterviewListDto>("api/interview");
+        }
+        catch
+        {
+            UriHelper.NavigateTo("/");
+        }
     }
-    catch
-    {
-        UriHelper.NavigateTo("/");
-    }
-}
 
-private async Task Delete(Guid interviewId)
-{
-    await Http.AuthorizedDeleteAsync($"api/interview/{interviewId}");
-    UriHelper.NavigateTo("/interview");
-}
+    private async Task Delete(Guid interviewId)
+    {
+        try
+        {
+            await Http.AuthorizedDeleteAsync($"api/interview/{interviewId}");
+            UriHelper.NavigateTo("/interview");
+        }
+        catch
+        {
+            UriHelper.NavigateTo("/");
+        }
+    }
 }

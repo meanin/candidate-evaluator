@@ -13,7 +13,7 @@ namespace CandidateEvaluator.Data.Repositories
     public class UserRecentActivityRepository : IUserRecentActivityRepository
     {
         private readonly AzureTableStorageWrapper<RecentActivityEntity> _table;
-        private static int MaxUserItemCount = 10;
+        private const int MaxUserItemCount = 10;
 
         public UserRecentActivityRepository(AzureTableStorageOptions options)
         {
@@ -50,7 +50,6 @@ namespace CandidateEvaluator.Data.Repositories
                 Type = userActivity.Type.ToString(),
                 Name = userActivity.Name
             });
-
 
             if (entities.Count <= MaxUserItemCount)
                 return;

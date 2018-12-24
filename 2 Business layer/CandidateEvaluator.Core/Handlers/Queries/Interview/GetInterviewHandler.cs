@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CandidateEvaluator.Contract.Dtos;
 using CandidateEvaluator.Contract.Handlers;
 using CandidateEvaluator.Contract.Queries.Interview;
 using CandidateEvaluator.Contract.Repositories;
+using CandidateEvaluator.Core.Extensions;
 
 namespace CandidateEvaluator.Core.Handlers.Queries.Interview
 {
@@ -14,7 +14,6 @@ namespace CandidateEvaluator.Core.Handlers.Queries.Interview
         private readonly ICategoryRepository _categoryRepository;
         private readonly IInterviewRepository _interviewRepository;
         private readonly IQuestionRepository _questionRepository;
-        private static Random _random = new Random();
 
         public GetInterviewHandler(
             IInterviewRepository interviewRepository,
@@ -41,22 +40,12 @@ namespace CandidateEvaluator.Core.Handlers.Queries.Interview
             {
                 var category = await _categoryRepository.Get(query.OwnerId, categoryId);
                 var categoryQuestions = await _questionRepository.GetAllFromPartition(query.OwnerId, categoryId);
-                var interviewContent = new InterviewContent
+                dto.Content.Add(new InterviewContent
                 {
                     Category = category,
-                    Questions = new List<Contract.Models.Question>()
-                };
-                for (var i = 0; i < model.Content[categoryId]; i++)
-                {
-                    var questionsLeft = categoryQuestions.Where(q => !interviewContent.Questions.Contains(q));
-                    if(!questionsLeft.Any())
-                        break;
-                    var question = questionsLeft.ElementAt(_random.Next(questionsLeft.Count()));
-                    interviewContent.Questions.Add(question);
-                }
-                dto.Content.Add(interviewContent);
+                    Questions = categoryQuestions.Shuffle().Take(model.Content[categoryId]).ToList()
+                });
             }
-
             return dto;
         }
     }

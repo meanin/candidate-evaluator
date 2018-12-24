@@ -34,16 +34,12 @@ else
                         case EntityType.Category:
                             <td><a href="/category/@model.EntityId">@model.Name</a></td>
                             break;
-
                         case EntityType.Interview:
                             <td><a href="/interview/@model.EntityId">@model.Name</a></td>
                             break;
-
                         case EntityType.Question:
                             <td>@model.Name</td>
                             break;
-                        
-
                         default:
                             break;
                     }
@@ -60,7 +56,6 @@ else
 
 @functions
 {
-
     private IEnumerable<RecentActivity> _activities;
 
     protected override async Task OnInitAsync()
@@ -74,5 +69,4 @@ else
             UriHelper.NavigateTo("/");
         }
     }
-
 }
