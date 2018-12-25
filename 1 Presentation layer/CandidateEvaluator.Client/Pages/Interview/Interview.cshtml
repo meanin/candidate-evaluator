@@ -1,0 +1,101 @@
+﻿@page "/interview/{id:guid}"
+@using CandidateEvaluator.Contract.Commands.Interview
+@using CandidateEvaluator.Contract.Dtos
+@using CandidateEvaluator.Contract.Models
+@using Microsoft.AspNetCore.Blazor.Services
+@inject Services.UserIdentityService Http
+@inject IUriHelper UriHelper
+@if (_categories == null)
+{
+    <div class="fa-3x">
+        <i class="fas fa-spinner fa-pulse"></i>
+    </div>
+}
+else
+{
+    <div class="form-group">
+        <div class="form-group">
+            <label>Name</label>
+            <input class="form-control" type="text" bind=@_updateCommand.Name placeholder="Enter interview name..." />
+        </div>
+        <div class="form-group">
+            @foreach (var category in _updateCommand.Content)
+            {
+                <div>
+                    <label>@_categories.FirstOrDefault(c => c.Id == category.CategoryId)?.Name</label>
+                    <input class="form-control" type="number" bind=@category.QuestionCount placeholder="1" />
+                </div>
+            }
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown">
+                    <span>Add category</span>
+                </button>
+                <div class="dropdown-menu">
+                    @foreach (var category in _categories.Where(c => !_updateCommand.Content.Select(cmd => cmd.CategoryId).Contains(c.Id)))
+                    {
+                        <button class="dropdown-item" onclick="@(c => AddCategory(category.Id))">@category.Name</button>
+                    }
+                </div>
+            </div>
+            <div class="btn btn-info" onclick="@Save">Save</div>
+        </div>
+
+    </div>
+}
+@functions
+{
+    [Parameter]
+    private Guid Id { get; set; }
+
+    private List<Category> _categories;
+    private UpdateInterview _updateCommand;
+
+    protected override async Task OnInitAsync()
+    {
+        try
+        {
+            _categories = await Http.AuthorizedGetJsonAsync<List<Category>>("api/category");
+            var dto = await Http.AuthorizedGetJsonAsync<InterviewDto>($"api/interview/{Id}");
+            _updateCommand = new UpdateInterview
+            {
+                Name = dto.Name,
+                Id = dto.Id,
+                Content = dto.Content
+                    .Select(c => new UpdateInterview.UpdateInterviewCategory
+                    {
+                        CategoryId = c.Category.Id,
+                        QuestionCount = c.Questions.Count
+                    }).ToList()
+            };
+        }
+        catch
+        {
+            UriHelper.NavigateTo("/");
+        }
+    }
+
+    private void AddCategory(Guid categoryId)
+    {
+        if (_updateCommand.Content.Any(c => c.CategoryId == categoryId))
+            return;
+
+        _updateCommand.Content.Add(new UpdateInterview.UpdateInterviewCategory
+        {
+            CategoryId = categoryId,
+            QuestionCount = 1
+        });
+    }
+
+    private async Task Save()
+    {
+        try
+        {
+            await Http.AuthorizedPostJsonAsync<Guid>($"api/interview/{Id}", _updateCommand);
+            UriHelper.NavigateTo("/dashboard");
+        }
+        catch
+        {
+            UriHelper.NavigateTo("/");
+        }
+    }
+}

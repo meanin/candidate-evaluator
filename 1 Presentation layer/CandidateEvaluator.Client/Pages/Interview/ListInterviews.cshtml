@@ -1,0 +1,76 @@
+﻿@page "/interview"
+@using CandidateEvaluator.Contract.Dtos
+@using Microsoft.AspNetCore.Blazor.Services
+@inject Services.UserIdentityService Http
+@inject IUriHelper UriHelper
+
+<h1>Interviews</h1>
+
+@if (_interviews == null)
+{
+    <div class="fa-3x">
+        <i class="fas fa-spinner fa-pulse"></i>
+    </div>
+}
+else
+{
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var interview in _interviews.List)
+            {
+                <tr>
+                    <td>@interview.Id</td>
+                    <td>@interview.Name</td>
+                    <td>
+                        <div class="btn btn-info"><a href="/">Start</a></div>
+                        <div class="btn btn-info"><a href="/interview/@interview.Id">Edit</a></div>
+                        <div class="btn btn-danger" onclick="@(c => Delete(interview.Id))">Delete</div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div>
+    <a href="/interview/new" class="btn">Create new interview</a>
+</div>
+}
+
+
+@functions
+{
+    private InterviewListDto _interviews;
+
+    protected override async Task OnInitAsync()
+    {
+        try
+        {
+            _interviews = await Http.AuthorizedGetJsonAsync<InterviewListDto>("api/interview");
+        }
+        catch
+        {
+            UriHelper.NavigateTo("/");
+        }
+    }
+
+    private async Task Delete(Guid interviewId)
+    {
+        try
+        {
+            await Http.AuthorizedDeleteAsync($"api/interview/{interviewId}");
+            UriHelper.NavigateTo("/interview");
+        }
+        catch
+        {
+            UriHelper.NavigateTo("/");
+        }
+    }
+}

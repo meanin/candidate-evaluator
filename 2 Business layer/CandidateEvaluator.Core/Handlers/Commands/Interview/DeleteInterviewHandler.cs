@@ -1,31 +1,30 @@
-﻿using CandidateEvaluator.Contract.Commands.Category;
+﻿using System;
+using System.Threading.Tasks;
+using CandidateEvaluator.Contract.Commands.Interview;
 using CandidateEvaluator.Contract.Handlers;
 using CandidateEvaluator.Contract.Models;
 using CandidateEvaluator.Contract.Repositories;
-using CandidateEvaluator.Contract.Services;
-using System;
-using System.Threading.Tasks;
 
-namespace CandidateEvaluator.Core.Handlers.Commands
+namespace CandidateEvaluator.Core.Handlers.Commands.Interview
 {
-    public class DeleteCategoryHandler : ICommandHandler<DeleteCategory>
+    public class DeleteInterviewHandler : ICommandHandler<DeleteInterview>
     {
-        private readonly ICategoryRepository _modelRepository;
+        private readonly IInterviewRepository _modelRepository;
         private readonly IUserRecentActivityRepository _activityRepository;
 
-        public DeleteCategoryHandler(ICategoryRepository modelRepository,
+        public DeleteInterviewHandler(IInterviewRepository modelRepository,
             IUserRecentActivityRepository activityRepository)
         {
             _modelRepository = modelRepository;
             _activityRepository = activityRepository;
         }
 
-        public async Task<Guid> HandleAsync(DeleteCategory command)
+        public async Task<Guid> HandleAsync(DeleteInterview command)
         {
             await _modelRepository.Delete(command.OwnerId, command.Id);
             await _activityRepository.Delete(command.OwnerId, new RecentActivity
             {
-                Type = EntityType.Category,
+                Type = EntityType.Interview,
                 EntityId = command.Id
             });
             return Guid.Empty;

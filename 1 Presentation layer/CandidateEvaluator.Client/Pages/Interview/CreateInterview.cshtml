@@ -1,0 +1,85 @@
+﻿@page "/interview/new"
+@using CandidateEvaluator.Contract.Commands.Interview
+@using CandidateEvaluator.Contract.Models
+@using Microsoft.AspNetCore.Blazor.Services
+@inject Services.UserIdentityService Http
+@inject IUriHelper UriHelper
+@if (_categories == null)
+{
+    <div class="fa-3x">
+        <i class="fas fa-spinner fa-pulse"></i>
+    </div>
+}
+else
+{
+<div class="form-group">
+    <div class="form-group">
+        <label>Name</label>
+        <input class="form-control" type="text" bind=@_createCommand.Name placeholder="Enter interview name..." />
+    </div>
+    <div class="form-group">
+        @foreach (var category in _createCommand.Content)
+            {
+        <div>
+            <label>@_categories.FirstOrDefault(c => c.Id == category.CategoryId)?.Name</label>
+            <input class="form-control" type="number" bind=@category.QuestionCount placeholder="1" />
+        </div>
+            }
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown">
+                <span>Add category</span>
+            </button>
+            <div class="dropdown-menu">
+                @foreach (var category in _categories.Where(c => !_createCommand.Content.Select(cmd => cmd.CategoryId).Contains(c.Id)))
+                    {
+                <button class="dropdown-item" onclick="@(c => AddCategory(category.Id))">@category.Name</button>
+                    }
+            </div>
+        </div>
+        <div class="btn btn-info" onclick="@Save">Save</div>
+    </div>
+
+</div>
+}
+@functions
+{
+    private List<Category> _categories;
+    private readonly Contract.Commands.Interview.CreateInterview _createCommand = new Contract.Commands.Interview.CreateInterview();
+
+    protected override async Task OnInitAsync()
+    {
+        try
+        {
+            _categories = await Http.AuthorizedGetJsonAsync<List<Category>>("api/category");
+        }
+        catch
+        {
+            UriHelper.NavigateTo("/");
+        }
+    }
+
+    private void AddCategory(Guid categoryId)
+    {
+        if (_createCommand.Content.Any(c => c.CategoryId == categoryId))
+            return;
+
+        _createCommand.Content.Add(new CreateInterviewCategory
+        {
+            CategoryId = categoryId,
+            QuestionCount = 1
+        });
+    }
+
+    private async Task Save()
+    {
+        try
+        {
+            await Http.AuthorizedPostJsonAsync<Guid>("api/interview", _createCommand);
+            UriHelper.NavigateTo("/dashboard");
+        }
+        catch
+        {
+            UriHelper.NavigateTo("/");
+        }
+    }
+}

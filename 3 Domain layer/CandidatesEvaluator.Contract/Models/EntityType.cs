@@ -3,6 +3,7 @@
     public enum EntityType
     {
         Category,
-        Question
+        Question,
+        Interview
     }
 }

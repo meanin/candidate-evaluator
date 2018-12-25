@@ -1,12 +1,11 @@
 ﻿using CandidateEvaluator.Contract.Commands.Category;
 using CandidateEvaluator.Contract.Dispatchers;
-using CandidateEvaluator.Contract.Models;
-using CandidateEvaluator.Contract.Queries;
 using CandidateEvaluator.Server.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using CandidateEvaluator.Contract.Queries.Category;
 
 namespace CandidateEvaluator.Server.Controllers
 {

@@ -1,11 +1,11 @@
-﻿using CandidateEvaluator.Contract.Commands.Question;
+﻿using System;
+using System.Threading.Tasks;
+using CandidateEvaluator.Contract.Commands.Question;
 using CandidateEvaluator.Contract.Handlers;
 using CandidateEvaluator.Contract.Models;
 using CandidateEvaluator.Contract.Repositories;
-using System;
-using System.Threading.Tasks;
 
-namespace CandidateEvaluator.Core.Handlers.Commands
+namespace CandidateEvaluator.Core.Handlers.Commands.Question
 {
     public class UpdateQuestionHandler : ICommandHandler<UpdateQuestion>
     {
@@ -20,7 +20,7 @@ namespace CandidateEvaluator.Core.Handlers.Commands
 
         public async Task<Guid> HandleAsync(UpdateQuestion command)
         {
-            var model = new Question
+            var model = new Contract.Models.Question
             {
                 CategoryId = command.CategoryId,
                 Name = command.Name,
@@ -32,7 +32,8 @@ namespace CandidateEvaluator.Core.Handlers.Commands
             await _activityRepository.Upsert(model.OwnerId, new RecentActivity
             {
                 Type = EntityType.Question,
-                EntityId = model.Id
+                EntityId = model.Id,
+                Name = command.Name
             });
 
             return model.Id;
