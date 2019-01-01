@@ -12,7 +12,7 @@ namespace CandidateEvaluator.Core.Handlers.Queries.Category
 
         public GetAllCategoriesHandler(ICategoryRepository modelRepository)
         {
-            this._modelRepository = modelRepository;
+            _modelRepository = modelRepository;
         }
 
         public async Task<List<Contract.Models.Category>> HandleAsync(GetAllCategories query)

@@ -11,7 +11,7 @@ namespace CandidateEvaluator.Core.Handlers.Queries.Category
 
         public GetCategoryHandler(ICategoryRepository modelRepository)
         {
-            this._modelRepository = modelRepository;
+            _modelRepository = modelRepository;
         }
 
         public async Task<Contract.Models.Category> HandleAsync(GetCategory query)
