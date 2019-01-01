@@ -17,7 +17,7 @@ namespace CandidateEvaluator.Core.Handlers.Queries
             _activityRepository = activityRepository;
         }
 
-        public async Task<List<RecentActivity>> HandleAsync(GetAllUserActivities query)
+        public async Task<List<RecentActivity>> Handle(GetAllUserActivities query)
         {
             var allActivities = await _activityRepository.GetAll(query.OwnerId);
             return allActivities.ToList();

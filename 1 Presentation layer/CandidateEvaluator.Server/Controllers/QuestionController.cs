@@ -25,14 +25,14 @@ namespace CandidateEvaluator.Server.Controllers
         public async Task<IActionResult> Create([FromBody] CreateQuestion command)
         {
             command.OwnerId = HttpContext.GetUser().Oid;
-            var created = await _dispatcher.SendAsync(command);
+            var created = await _dispatcher.Send(command);
             return CreatedAtAction(nameof(Get), created);
         }
 
         [HttpGet("{categoryId:guid}")]
         public async Task<IActionResult> GetAllFromCategory(Guid categoryId)
         {
-            var questions = await _dispatcher.QueryAsync(new GetQuestionsFromCategory
+            var questions = await _dispatcher.Query(new GetQuestionsFromCategory
             {
                 OwnerId = HttpContext.GetUser().Oid,
                 CategoryId = categoryId
@@ -44,7 +44,7 @@ namespace CandidateEvaluator.Server.Controllers
         [HttpGet("{categoryId:guid}/{id:guid}")]
         public async Task<IActionResult> Get(Guid categoryId, Guid id)
         {
-            var question = await _dispatcher.QueryAsync(new GetQuestion
+            var question = await _dispatcher.Query(new GetQuestion
             {
                 OwnerId = HttpContext.GetUser().Oid,
                 CategoryId = categoryId,
@@ -59,7 +59,7 @@ namespace CandidateEvaluator.Server.Controllers
         public async Task<IActionResult> Update([FromBody] UpdateQuestion command)
         {
             command.OwnerId = HttpContext.GetUser().Oid;
-            var categoryId = await _dispatcher.SendAsync(command);
+            var categoryId = await _dispatcher.Send(command);
             return Ok(categoryId);
         }
 
@@ -67,7 +67,7 @@ namespace CandidateEvaluator.Server.Controllers
         [Route("{categoryId:guid}/{id:guid}")]
         public async Task<IActionResult> Delete([FromRoute] Guid categoryId, [FromRoute] Guid id)
         {
-            await _dispatcher.SendAsync(new DeleteQuestion
+            await _dispatcher.Send(new DeleteQuestion
             {
                 OwnerId = HttpContext.GetUser().Oid,
                 CategoryId = categoryId,

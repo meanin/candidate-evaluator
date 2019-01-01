@@ -24,14 +24,14 @@ namespace CandidateEvaluator.Server.Controllers
         public async Task<IActionResult> Create([FromBody] CreateCategory command)
         {
             command.OwnerId = HttpContext.GetUser().Oid;
-            var created = await _dispatcher.SendAsync(command);
+            var created = await _dispatcher.Send(command);
             return CreatedAtAction(nameof(Get), created);
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var categories = await _dispatcher.QueryAsync(new GetAllCategories { OwnerId = HttpContext.GetUser().Oid });
+            var categories = await _dispatcher.Query(new GetAllCategories { OwnerId = HttpContext.GetUser().Oid });
             return Ok(categories);
         }
 
@@ -39,7 +39,7 @@ namespace CandidateEvaluator.Server.Controllers
         [Route("{id}")]
         public async Task<IActionResult> Get([FromRoute] Guid id) 
         {
-            var category = await _dispatcher.QueryAsync(new GetCategory { OwnerId = HttpContext.GetUser().Oid, Id = id });
+            var category = await _dispatcher.Query(new GetCategory { OwnerId = HttpContext.GetUser().Oid, Id = id });
             return Ok(category);
         }
 
@@ -48,7 +48,7 @@ namespace CandidateEvaluator.Server.Controllers
         public async Task<IActionResult> Update([FromBody] UpdateCategory command)
         {
             command.OwnerId = HttpContext.GetUser().Oid;
-            var categoryId = await _dispatcher.SendAsync(command);
+            var categoryId = await _dispatcher.Send(command);
             return Ok(categoryId);
         }
 
@@ -56,7 +56,7 @@ namespace CandidateEvaluator.Server.Controllers
         [Route("{id}")]
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
-            await _dispatcher.SendAsync(new DeleteCategory { OwnerId = HttpContext.GetUser().Oid, Id = id });
+            await _dispatcher.Send(new DeleteCategory { OwnerId = HttpContext.GetUser().Oid, Id = id });
             return NoContent();
         }
     }

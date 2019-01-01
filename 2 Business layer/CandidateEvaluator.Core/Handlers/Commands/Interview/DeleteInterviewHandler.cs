@@ -19,7 +19,7 @@ namespace CandidateEvaluator.Core.Handlers.Commands.Interview
             _activityRepository = activityRepository;
         }
 
-        public async Task<Guid> HandleAsync(DeleteInterview command)
+        public async Task<Guid> Handle(DeleteInterview command)
         {
             await _modelRepository.Delete(command.OwnerId, command.Id);
             await _activityRepository.Delete(command.OwnerId, new RecentActivity

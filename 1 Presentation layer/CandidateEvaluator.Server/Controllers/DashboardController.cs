@@ -20,7 +20,7 @@ namespace CandidateEvaluator.Server.Controllers
 
         public async Task<IActionResult> Get()
         {
-            var activities = await _dispatcher.QueryAsync(new GetAllUserActivities { OwnerId = HttpContext.GetUser().Oid });
+            var activities = await _dispatcher.Query(new GetAllUserActivities { OwnerId = HttpContext.GetUser().Oid });
             return Ok(activities);
         }
     }

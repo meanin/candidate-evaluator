@@ -17,14 +17,14 @@ namespace CandidateEvaluator.Core.Dispatchers
             _commandDispatcher = commandDispatcher;
         }
 
-        public Task<TResult> QueryAsync<TResult>(IQuery<TResult> query)
+        public Task<TResult> Query<TResult>(IQuery<TResult> query)
         {
-            return _queryDispatcher.QueryAsync(query);
+            return _queryDispatcher.Query(query);
         }
 
-        public Task<Guid> SendAsync<TCommand>(TCommand command) where TCommand : ICommand
+        public Task<Guid> Send<TCommand>(TCommand command) where TCommand : ICommand
         {
-            return _commandDispatcher.SendAsync(command);
+            return _commandDispatcher.Send(command);
         }
     }
 }

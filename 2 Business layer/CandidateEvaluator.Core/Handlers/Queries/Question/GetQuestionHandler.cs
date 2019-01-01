@@ -14,7 +14,7 @@ namespace CandidateEvaluator.Core.Handlers.Queries.Question
             _modelRepository = modelRepository;
         }
 
-        public Task<Contract.Models.Question> HandleAsync(GetQuestion query)
+        public Task<Contract.Models.Question> Handle(GetQuestion query)
         {
             return _modelRepository.Get(query.OwnerId, query.CategoryId, query.Id);
         }

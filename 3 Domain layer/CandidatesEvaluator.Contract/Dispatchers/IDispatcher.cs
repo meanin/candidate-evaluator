@@ -7,7 +7,7 @@ namespace CandidateEvaluator.Contract.Dispatchers
 {
     public interface IDispatcher
     {
-        Task<Guid> SendAsync<TCommand>(TCommand command) where TCommand : ICommand;
-        Task<TResult> QueryAsync<TResult>(IQuery<TResult> query);
+        Task<Guid> Send<TCommand>(TCommand command) where TCommand : ICommand;
+        Task<TResult> Query<TResult>(IQuery<TResult> query);
     }
 }

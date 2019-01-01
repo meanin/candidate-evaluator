@@ -16,7 +16,7 @@ namespace CandidateEvaluator.Core.Handlers.Queries.Interview
             _modelRepository = modelRepository;
         }
 
-        public async Task<InterviewListDto> HandleAsync(GetAllInterviews query)
+        public async Task<InterviewListDto> Handle(GetAllInterviews query)
         {
             var interviews = await _modelRepository.GetAll(query.OwnerId);
             return new InterviewListDto

@@ -15,11 +15,11 @@ namespace CandidateEvaluator.Core.Dispatchers
             _serviceProvider = serviceProvider;
         }
 
-        public async Task<TResult> QueryAsync<TResult>(IQuery<TResult> query)
+        public async Task<TResult> Query<TResult>(IQuery<TResult> query)
         {
             var handlerType = typeof(IQueryHandler<,>).MakeGenericType(query.GetType(), typeof(TResult));
             dynamic handler = _serviceProvider.GetService(handlerType);
-            return await handler.HandleAsync((dynamic)query);
+            return await handler.Handle((dynamic)query);
         }
     }
 }
