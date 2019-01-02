@@ -27,7 +27,7 @@ else
             @foreach (var model in _activities)
             {
                 <tr>
-                    <td class="align-middle">@(_activities.IndexOf(model)+1)</td>
+                    <td>@(_activities.IndexOf(model)+1)</td>
                     <td>@model.EntityId</td>
                     <td>@model.Type.ToString()</td>
                     @switch (model.Type)
@@ -49,9 +49,6 @@ else
             </tbody>
         </table>
     </div>
-    <div>
-        <a class="btn btn-info" href="/interview/new">Create interview</a>
-    </div>
 }
 
 
@@ -63,7 +60,7 @@ else
     {
         try
         {
-            _activities = (await Http.AuthorizedGetJsonAsync<IEnumerable<RecentActivity>>("api/dashboard")).ToList();
+            _activities = await Http.AuthorizedGetJsonAsync<List<RecentActivity>>("api/dashboard");
         }
         catch
         {
