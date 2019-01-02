@@ -12,6 +12,7 @@
     <table class="table">
         <thead>
             <tr>
+                <th></th>
                 <th>Id</th>
                 <th>Name</th>
                 <th>Actions</th>
@@ -21,6 +22,7 @@
             @foreach (var question in _questionModels)
             {
                 <tr>
+                    <td class="align-middle">@(_questionModels.IndexOf(question)+1)</td>
                     <td class="align-middle">@question.Id</td>
                     <td class="align-middle">@question.Name</td>
                     <td class="align-middle">

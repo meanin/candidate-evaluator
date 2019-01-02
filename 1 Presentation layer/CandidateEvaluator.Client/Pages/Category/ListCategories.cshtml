@@ -12,6 +12,7 @@ else
     <table class="table">
         <thead>
             <tr>
+                <th></th>
                 <th>Id</th>
                 <th>Name</th>
                 <th>Questions</th>
@@ -21,6 +22,7 @@ else
             @foreach (var model in _categoryModels)
             {
                 <tr>
+                    <td>@(_categoryModels.IndexOf(model)+1)</td>
                     <td>@model.Id</td>
                     <td><a href="/category/@model.Id">@model.Name</a></td>
                     <td><a href="/category/@model.Id/questions"> Questions </a></td>
