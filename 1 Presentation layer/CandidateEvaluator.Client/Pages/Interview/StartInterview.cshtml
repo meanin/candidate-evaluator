@@ -1,0 +1,70 @@
+﻿@page "/interview/{id:guid}/start"
+@using CandidateEvaluator.Contract.Dtos
+@using Microsoft.AspNetCore.Blazor.Services
+@inject Services.UserIdentityService Http
+@inject IUriHelper UriHelper
+
+@if (_interview == null)
+{
+    <div class="fa-3x">
+        <i class="fas fa-spinner fa-pulse"></i>
+    </div>
+}
+else
+{
+    <div>
+        <label>@_interview.Name</label>
+        <text>@DateTime.Now</text>
+        <textarea class="form-control" rows="1" @*bind=@użyszkodnik*@ placeholder="Enter candidate name" />
+    </div>
+
+    <div id="content">
+
+        @foreach (var content in _interview.Content)
+        {
+            var id = _interview.Content.IndexOf(content);
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0">
+                        <button class="btn btn-link@(id!=0?" collapsed":"")" data-toggle="collapse" data-target="#category-@id">
+                            @content.Category.Name
+                        </button>
+                    </h4>
+                </div>
+
+                <div id="category-@id" class="collapse@(id==0?" show":"")" data-parent="#content">
+                    <div class="card-body">
+                        @foreach (var question in content.Questions)
+                        {
+                            <label>@question.Name</label>
+                            <br />
+                            <pre>@question.Text</pre>
+                            <input class="form-control" type="number" min="0" max="1" step="0.25" @*bind=@category.QuestionCount*@ placeholder="0.0" />
+                            <textarea class="form-control" rows="2" @*bind=@_questionModel.Text*@ placeholder="Enter notes" />
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+}
+@functions
+{
+    [Parameter]
+    private Guid Id { get; set; }
+
+    private InterviewDto _interview;
+
+    protected override async Task OnInitAsync()
+    {
+        try
+        {
+            _interview = await Http.AuthorizedGetJsonAsync<InterviewDto>($"api/interview/{Id}");
+        }
+        catch
+        {
+            UriHelper.NavigateTo("/");
+        }
+    }
+}

@@ -51,7 +51,7 @@ namespace CandidateEvaluator.Data.Repositories
                 Name = userActivity.Name
             });
 
-            if (entities.Count <= MaxUserItemCount)
+            if (entities.Count < MaxUserItemCount)
                 return;
 
             foreach (var recentActivityEntity in entities.OrderBy(e => e.Timestamp).Skip(MaxUserItemCount))
