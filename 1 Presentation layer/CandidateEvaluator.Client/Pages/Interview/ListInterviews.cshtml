@@ -32,7 +32,7 @@ else
                     <td>@interview.Id</td>
                     <td>@interview.Name</td>
                     <td>
-                        <div class="btn btn-info"><a href="/startinterview/@interview.Id">Start</a></div>
+                        <div class="btn btn-info"><a href="/interview/@interview.Id/start">Start</a></div>
                         <div class="btn btn-info"><a href="/interview/@interview.Id">Edit</a></div>
                         <div class="btn btn-danger" onclick="@(c => Delete(interview.Id))">Delete</div>
                     </td>
