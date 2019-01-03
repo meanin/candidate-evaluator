@@ -16,14 +16,22 @@ We intent to do this project on our owns, but any help will be appreciated. Feat
 Continuous integration process is maintained on an Azure DevOps portal. Unit tests are in a roadmap
 ###### Build status: 
 ![build](https://dev.azure.com/meaninit-after-hours/candidate-evaluator/_apis/build/status/Candidate%20Evaluator%20build%20master)
+###### Release status:
+![release](https://vsrm.dev.azure.com/meaninit-after-hours/_apis/public/Release/badge/c2137fd5-c76d-4cb8-8c75-f2439324623d/1/1)
+
+App avaliable [here](https://candidate-evaluator.azurewebsites.net/). If you want to have a demo access for a some time, contact [me](mailto:meanin@wp.pl).
 
 ## Roadmap
-* Dashboard on which you will be able to select your favourite interview categories
-* Enable / Disable questions
-* Generate interview sheet based on selected categories (with support for favourite ones)
-* Store interview results
-* Create interview report (pdf support maybe?)
-* Azure function for completed interview - send mail
+- [x] Create users categories and questions
+- [x] Dashboard for latest edited entities
+- [x] Create interview layout with given number of randomized questions
+- [ ] Store interview results
+- [ ] Create interview report (pdf support maybe?)
+- [ ] Dashboard on which you will be able to select your favourite interview categories
+- [ ] Enable / Disable questions
+- [ ] Generate interview sheet based on selected categories (with support for favourite ones)
+- [ ] Azure function for completed interview - send mail
+- [ ] Automatic trial accounts after registration
 
-* and more
+and more
  
