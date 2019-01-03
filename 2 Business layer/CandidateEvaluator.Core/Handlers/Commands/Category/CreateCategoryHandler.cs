@@ -19,7 +19,7 @@ namespace CandidateEvaluator.Core.Handlers.Commands.Category
             _activityRepository = activityRepository;
         }
 
-        public async Task<Guid> HandleAsync(CreateCategory command)
+        public async Task<Guid> Handle(CreateCategory command)
         {
             var model = new Contract.Models.Category
             {

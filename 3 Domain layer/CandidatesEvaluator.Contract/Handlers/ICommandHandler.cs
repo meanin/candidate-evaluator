@@ -9,6 +9,6 @@ namespace CandidateEvaluator.Contract.Handlers
 {
     public interface ICommandHandler<in T> where T : ICommand
     {
-        Task<Guid> HandleAsync(T command);
+        Task<Guid> Handle(T command);
     }
 }

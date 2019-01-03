@@ -15,10 +15,10 @@ namespace CandidateEvaluator.Core.Dispatchers
             _serviceProvider = serviceProvider;
         }
 
-        public async Task<Guid> SendAsync<T>(T command) where T : ICommand
+        public async Task<Guid> Send<T>(T command) where T : ICommand
         {
             var handler = (ICommandHandler<T>)_serviceProvider.GetService(typeof(ICommandHandler<T>));
-            return await handler.HandleAsync(command);
+            return await handler.Handle(command);
         }
     }
 }

@@ -18,7 +18,7 @@ namespace CandidateEvaluator.Core.Handlers.Commands.Question
             _activityRepository = activityRepository;
         }
 
-        public async Task<Guid> HandleAsync(UpdateQuestion command)
+        public async Task<Guid> Handle(UpdateQuestion command)
         {
             var model = new Contract.Models.Question
             {

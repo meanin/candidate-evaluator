@@ -9,6 +9,6 @@ namespace CandidateEvaluator.Contract.Dispatchers
 {
     public interface IQueryDispatcher
     {
-        Task<TResult> QueryAsync<TResult>(IQuery<TResult> query);
+        Task<TResult> Query<TResult>(IQuery<TResult> query);
     }
 }

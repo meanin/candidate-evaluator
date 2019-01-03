@@ -22,7 +22,7 @@ namespace CandidateEvaluator.Core.Handlers.Commands.Interview
             _activityRepository = activityRepository;
         }
 
-        public async Task<Guid> HandleAsync(UpdateInterview command)
+        public async Task<Guid> Handle(UpdateInterview command)
         {
             var model = new Contract.Models.Interview
             {

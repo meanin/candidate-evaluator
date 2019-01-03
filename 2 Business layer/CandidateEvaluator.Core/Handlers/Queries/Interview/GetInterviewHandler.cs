@@ -25,7 +25,7 @@ namespace CandidateEvaluator.Core.Handlers.Queries.Interview
             _questionRepository = questionRepository;
         }
 
-        public async Task<InterviewDto> HandleAsync(GetInterview query)
+        public async Task<InterviewDto> Handle(GetInterview query)
         {
             var model = await _interviewRepository.Get(query.OwnerId, query.Id);
             var dto = new InterviewDto

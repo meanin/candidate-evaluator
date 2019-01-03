@@ -19,7 +19,7 @@ namespace CandidateEvaluator.Core.Handlers.Commands.Category
             _activityRepository = activityRepository;
         }
 
-        public async Task<Guid> HandleAsync(DeleteCategory command)
+        public async Task<Guid> Handle(DeleteCategory command)
         {
             await _modelRepository.Delete(command.OwnerId, command.Id);
             await _activityRepository.Delete(command.OwnerId, new RecentActivity

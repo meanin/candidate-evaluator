@@ -9,6 +9,6 @@ namespace CandidateEvaluator.Contract.Dispatchers
 {
     public interface ICommandDispatcher
     {
-        Task<Guid> SendAsync<T>(T command) where T : ICommand;
+        Task<Guid> Send<T>(T command) where T : ICommand;
     }
 }

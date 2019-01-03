@@ -24,14 +24,14 @@ namespace CandidateEvaluator.Server.Controllers
         public async Task<IActionResult> Create([FromBody] CreateInterview command)
         {
             command.OwnerId = HttpContext.GetUser().Oid;
-            var resultId = await _dispatcher.SendAsync(command);
+            var resultId = await _dispatcher.Send(command);
             return CreatedAtAction(nameof(Get), resultId);
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var result = await _dispatcher.QueryAsync(new GetAllInterviews { OwnerId = HttpContext.GetUser().Oid });
+            var result = await _dispatcher.Query(new GetAllInterviews { OwnerId = HttpContext.GetUser().Oid });
             return Ok(result);
         }
 
@@ -39,7 +39,7 @@ namespace CandidateEvaluator.Server.Controllers
         [Route("{id}")]
         public async Task<IActionResult> Get([FromRoute] Guid id)
         {
-            var result = await _dispatcher.QueryAsync(new GetInterview { OwnerId = HttpContext.GetUser().Oid, Id = id });
+            var result = await _dispatcher.Query(new GetInterview { OwnerId = HttpContext.GetUser().Oid, Id = id });
             return Ok(result);
         }
 
@@ -48,7 +48,7 @@ namespace CandidateEvaluator.Server.Controllers
         public async Task<IActionResult> Update([FromBody] UpdateInterview command)
         {
             command.OwnerId = HttpContext.GetUser().Oid;
-            var resultId = await _dispatcher.SendAsync(command);
+            var resultId = await _dispatcher.Send(command);
             return Ok(resultId);
         }
 
@@ -56,7 +56,7 @@ namespace CandidateEvaluator.Server.Controllers
         [Route("{id}")]
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
-            await _dispatcher.SendAsync(new DeleteInterview { OwnerId = HttpContext.GetUser().Oid, Id = id });
+            await _dispatcher.Send(new DeleteInterview { OwnerId = HttpContext.GetUser().Oid, Id = id });
             return NoContent();
         }
     }
