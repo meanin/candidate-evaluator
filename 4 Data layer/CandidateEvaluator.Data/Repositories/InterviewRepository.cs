@@ -19,6 +19,7 @@ namespace CandidateEvaluator.Data.Repositories
         {
             _table = new AzureTableStorageWrapper<InterviewEntity>(options.ConnectionString, options.InterviewTableName);
         }
+
         public async Task<Guid> Add(Interview model)
         {
             var id = Guid.NewGuid();
