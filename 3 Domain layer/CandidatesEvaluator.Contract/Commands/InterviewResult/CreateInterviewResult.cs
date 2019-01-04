@@ -22,5 +22,6 @@ namespace CandidateEvaluator.Contract.Commands.InterviewResult
         public Guid QuestionId { get; set; }
         public string QuestionName { get; set; }
         public double Score { get; set; }
+        public string Notes { get; set; }
     }
 }
