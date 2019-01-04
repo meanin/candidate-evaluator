@@ -32,7 +32,8 @@ namespace CandidateEvaluator.Core.Handlers.Commands.InterviewResult
                     {
                         QuestionId = q.QuestionId,
                         QuestionName = q.QuestionName,
-                        Score = q.Score
+                        Score = q.Score,
+                        Notes = q.Notes
                     }).ToList()
                 }).ToList()
             };

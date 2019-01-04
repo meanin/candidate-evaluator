@@ -1,4 +1,5 @@
 ﻿@page "/interview/{id:guid}/start"
+@using CandidateEvaluator.Contract.Commands.InterviewResult
 @using CandidateEvaluator.Contract.Dtos
 @using Microsoft.AspNetCore.Blazor.Services
 @inject Services.UserIdentityService Http
@@ -14,8 +15,8 @@ else
 {
     <div>
         <label>@_interview.Name</label>
-        <text>@DateTime.Now</text>
-        <textarea class="form-control" rows="1" @*bind=@użyszkodnik*@ placeholder="Enter candidate name" />
+        <text>@_result.InterviewDate</text>
+        <textarea class="form-control" rows="1" maxlength="30" bind=@_result.CandidateName placeholder="Enter candidate name" />
     </div>
 
     <div id="content">
@@ -36,11 +37,13 @@ else
                     <div class="card-body">
                         @foreach (var question in content.Questions)
                         {
+                            var questionResult = _result.Content.Single(c => c.CategoryId == content.Category.Id)
+                                ?.QuestionResults.Single(q => q.QuestionId == question.Id);
                             <label>@question.Name</label>
                             <br />
                             <pre>@question.Text</pre>
-                            <input class="form-control" type="number" min="0" max="1" step="0.25" @*bind=@category.QuestionCount*@ placeholder="0.0" />
-                            <textarea class="form-control" rows="2" @*bind=@_questionModel.Text*@ placeholder="Enter notes" />
+                            <input class="form-control" type="number" min="0" max="1" step="0.25" bind=@questionResult.Score placeholder="0.0" />
+                            <textarea class="form-control" rows="2" bind=@questionResult.Notes placeholder="Enter notes" />
                         }
                     </div>
                 </div>
@@ -48,6 +51,7 @@ else
         }
 
     </div>
+    <button class="btn btn-info" onclick="@Save"></button>
 }
 @functions
 {
@@ -55,16 +59,45 @@ else
     private Guid Id { get; set; }
 
     private InterviewDto _interview;
+    private CreateInterviewResult _result;
 
     protected override async Task OnInitAsync()
     {
         try
         {
             _interview = await Http.AuthorizedGetJsonAsync<InterviewDto>($"api/interview/{Id}");
+            _result = new CreateInterviewResult
+            {
+                InterviewDate = DateTime.Now,
+                Content = _interview.Content.Select(c => new CreateCategoryResult
+                {
+                    CategoryId = c.Category.Id,
+                    CategoryName = c.Category.Name,
+                    QuestionResults = c.Questions.Select(q => new CreateQuestionResult
+                    {
+                        QuestionId = q.Id,
+                        QuestionName = q.Name
+                    }).ToList()
+                }).ToList()
+            };
         }
         catch
         {
             UriHelper.NavigateTo("/");
         }
     }
+
+    private async Task Save()
+    {
+        try
+        {
+            await Http.AuthorizedPostAsync("api/interviewresult", _result);
+            UriHelper.NavigateTo("/dashboard");
+        }
+        catch
+        {
+            UriHelper.NavigateTo("/");
+        }
+    }
+
 }
