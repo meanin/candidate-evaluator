@@ -7,5 +7,6 @@
         public string QuestionTableName { get; set; }
         public string InterviewTableName { get; set; }
         public string UserRecentActivityTableName { get; set; }
+        public string InterviewResultTableName { get; set; }
     }
 }

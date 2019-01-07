@@ -1,4 +1,5 @@
 ﻿@page "/dashboard"
+@using System.Collections
 @using CandidateEvaluator.Contract.Models
 @using Microsoft.AspNetCore.Blazor.Services
 @inject Services.UserIdentityService Http
@@ -50,22 +51,47 @@ else
             </tbody>
         </table>
     </div>
+
+    <div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Candidate name</th>
+                <th>Interview date</th>
+            </tr>
+            </thead>
+            <tbody>
+                @foreach (var result in _interviewResults)
+                {
+                    <tr>
+                        <td>@result.Id</td>
+                        <td><a href="/interview/result/@result.Id">@result.CandidateName</a></td>
+                        <td>@result.InterviewDate</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 }
 
 
 @functions
 {
     private List<RecentActivity> _activities;
+    private List<InterviewResult> _interviewResults;
 
     protected override async Task OnInitAsync()
     {
         try
         {
             _activities = await Http.AuthorizedGetJsonAsync<List<RecentActivity>>("api/dashboard");
+            _interviewResults = await Http.AuthorizedGetJsonAsync<List<InterviewResult>>("api/interviewresult");
         }
         catch
         {
             UriHelper.NavigateTo("/");
         }
     }
+
 }

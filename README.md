@@ -25,7 +25,7 @@ App avaliable [here](https://candidate-evaluator.azurewebsites.net/). If you wan
 - [x] Create users categories and questions
 - [x] Dashboard for latest edited entities
 - [x] Create interview layout with given number of randomized questions
-- [ ] Store interview results
+- [x] Store interview results
 - [ ] Create interview report (pdf support maybe?)
 - [ ] Dashboard on which you will be able to select your favourite interview categories
 - [ ] Enable / Disable questions

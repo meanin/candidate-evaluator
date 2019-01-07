@@ -23,4 +23,8 @@
     <ProjectReference Include="..\..\3 Domain layer\CandidatesEvaluator.Contract\CandidateEvaluator.Contract.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Pages\InterviewResult\" />
+  </ItemGroup>
+
 </Project>
