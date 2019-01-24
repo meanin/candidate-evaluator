@@ -3,56 +3,66 @@
 @inject Services.UserIdentityService Http
 @inject IUriHelper UriHelper
 
-<div>
-    <a href="/question/?categoryid=00000000-0000-0000-0000-000000000000" class="btn">Create new question</a>
-</div>
-
-@if (_questionModels != null)
+@if (_initialized == false)
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th></th>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var question in _questionModels)
-            {
-                <tr>
-                    <td class="align-middle">@(_questionModels.IndexOf(question)+1)</td>
-                    <td class="align-middle">@question.Id</td>
-                    <td class="align-middle">@question.Name</td>
-                    <td class="align-middle">
-                        <a class="col-md-3 btn btn-block btn-success m-1" href="/category/@question.CategoryId/question/@question.Id">Details</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    <div class="fa-3x">
+        <i class="fas fa-spinner fa-pulse"></i>
+    </div>
 }
 else
 {
-    <div>No questions found!</div>
 
+    <div>
+        <a href="/question/?categoryid=00000000-0000-0000-0000-000000000000" class="btn">Create new question</a>
+    </div>
+    <div id="content">
+
+        @foreach (var category in _categoryModels)
+        {
+            var id = _categoryModels.IndexOf(category);
+            var questions = _questionModels.Where(q => q.CategoryId == category.Id);
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0">
+                        <button class="btn btn-link@(id!=0?" collapsed":"")" data-toggle="collapse" data-target="#category-@id">
+                            @category.Name
+                        </button>
+                    </h4>
+                </div>
+            </div>
+
+            <div id="category-@id" class=" collapse@(id == 0 ? " show" : "")" data-parent="#content">
+                <div class="card-body">
+                    @foreach (var question in questions)
+                    {
+                        <label>@question.Name</label>
+                        <pre>@question.Text</pre>
+                        <br/>
+                    }
+                </div>
+            </div>
+        }
+    </div>
 }
-
 
 @functions
 {
-private List<Contract.Models.Question> _questionModels;
-protected override async Task OnInitAsync()
-{
-    try
+    private List<Contract.Models.Question> _questionModels;
+    private List<Contract.Models.Category> _categoryModels;
+    private bool _initialized = false;
+    protected override async Task OnInitAsync()
     {
-        _questionModels = await Http.AuthorizedGetJsonAsync<List<Contract.Models.Question>>("api/question/");
+        try
+        {
+            _questionModels = await Http.AuthorizedGetJsonAsync<List<Contract.Models.Question>>("api/question/");
+            var categories = await Http.AuthorizedGetJsonAsync<List<Contract.Models.Category>>("api/category/");
+            _categoryModels = categories.Where(c => _questionModels.Any(q => q.CategoryId == c.Id)).ToList();
+            _initialized = true;
+        }
+        catch
+        {
+            UriHelper.NavigateTo("/");
+        }
+    
     }
-    catch
-    {
-        UriHelper.NavigateTo("/");
-    }
-
-}
 }
