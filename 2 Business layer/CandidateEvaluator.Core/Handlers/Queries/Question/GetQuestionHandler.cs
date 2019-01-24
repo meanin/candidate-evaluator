@@ -16,7 +16,7 @@ namespace CandidateEvaluator.Core.Handlers.Queries.Question
 
         public Task<Contract.Models.Question> Handle(GetQuestion query)
         {
-            return _modelRepository.Get(query.OwnerId, query.CategoryId, query.Id);
+            return _modelRepository.Get(query.OwnerId, query.Id);
         }
     }
 }

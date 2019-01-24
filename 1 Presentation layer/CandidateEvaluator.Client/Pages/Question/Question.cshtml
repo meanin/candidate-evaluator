@@ -1,4 +1,4 @@
-﻿@page "/category/{categoryId:guid}/question/{id:guid}"
+﻿@page "/question/{id:guid}"
 
 @using Microsoft.AspNetCore.Blazor.Services
 @inject Services.UserIdentityService Http
@@ -11,7 +11,7 @@
 }
 else
 {
-    <a href="/category/@CategoryId/questions" class="btn">Go back</a>
+    <a href="/question" class="btn">Go back</a>
     <div class="form-group">
         <label>Name</label>
         <input class="form-control" type="text" bind=@_questionModel.Name placeholder="Enter question name..." />
@@ -28,9 +28,6 @@ else
 @functions
 {
     [Parameter]
-    private Guid CategoryId { get; set; }
-
-    [Parameter]
     private Guid Id { get; set; }
 
     private Contract.Models.Question _questionModel;
@@ -39,7 +36,7 @@ else
     {
         try
         {
-            _questionModel = await Http.AuthorizedGetJsonAsync<Contract.Models.Question>($"api/question/{CategoryId}/{Id}");
+            _questionModel = await Http.AuthorizedGetJsonAsync<Contract.Models.Question>($"api/question/{Id}");
         }
         catch
         {
@@ -52,7 +49,7 @@ else
         try
         {
             await Http.AuthorizedPostJsonAsync<Guid>($"api/question/{_questionModel.Id}", _questionModel);
-            UriHelper.NavigateTo($"/category/{_questionModel.CategoryId}/questions");
+            UriHelper.NavigateTo($"/question/{Id}");
         }
         catch
         {
@@ -64,8 +61,8 @@ else
     {
         try
         {
-            await Http.AuthorizedDeleteAsync($"api/question/{_questionModel.CategoryId}/{_questionModel.Id}");
-            UriHelper.NavigateTo($"/category/{CategoryId}/questions");
+            await Http.AuthorizedDeleteAsync($"api/question/{_questionModel.Id}");
+            UriHelper.NavigateTo("/question");
         }
         catch
         {

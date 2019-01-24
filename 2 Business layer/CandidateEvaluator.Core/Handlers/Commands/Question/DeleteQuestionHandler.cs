@@ -20,7 +20,7 @@ namespace CandidateEvaluator.Core.Handlers.Commands.Question
 
         public async Task<Guid> Handle(DeleteQuestion command)
         {
-            await _modelRepository.Delete(command.OwnerId, command.CategoryId, command.Id);
+            await _modelRepository.Delete(command.OwnerId, command.Id);
             await _activityRepository.Delete(command.OwnerId, new RecentActivity
             {
                 Type = EntityType.Question,
