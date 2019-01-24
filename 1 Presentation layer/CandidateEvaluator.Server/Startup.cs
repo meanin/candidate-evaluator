@@ -94,7 +94,7 @@ namespace CandidateEvaluator.Server
 
             services.AddTransient<IQueryHandler<GetAllCategories, IEnumerable<Category>>, GetAllCategoriesHandler>();
             services.AddTransient<IQueryHandler<GetCategory, Category>, GetCategoryHandler>();
-            services.AddTransient<IQueryHandler<GetQuestionsFromCategory, IEnumerable<Question>>, GetQuestionsFromCategoryHandler>();
+            services.AddTransient<IQueryHandler<GetQuestions, IEnumerable<Question>>, GetQuestionsHandler>();
             services.AddTransient<IQueryHandler<GetQuestion, Question>, GetQuestionHandler>();
             services.AddTransient<IQueryHandler<GetInterview, InterviewDto>, GetInterviewHandler>();
             services.AddTransient<IQueryHandler<GetAllInterviews, InterviewListDto>, GetAllInterviewsHandler>();

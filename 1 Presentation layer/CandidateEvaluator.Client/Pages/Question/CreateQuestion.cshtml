@@ -1,4 +1,4 @@
-﻿@page "/category/{categoryId:guid}/question/new"
+﻿@page "/question/create"
 @using Microsoft.AspNetCore.Blazor.Services
 @inject Services.UserIdentityService Http
 @inject IUriHelper UriHelper
@@ -48,9 +48,6 @@ else
 
 @functions
 {
-    [Parameter]
-    Guid CategoryId { get; set; }
-
     private List<Contract.Models.Category> _categoryModels;
     private Contract.Models.Category _selectedCategory;
     private Contract.Models.Question _questionModel = new Contract.Models.Question();
@@ -60,8 +57,7 @@ else
         try
         {
             _categoryModels = await Http.AuthorizedGetJsonAsync<List<Contract.Models.Category>>("api/category");
-            _questionModel = new Contract.Models.Question {CategoryId = CategoryId};
-
+            _questionModel = new Contract.Models.Question {CategoryId = _categoryModels.First().Id};
             _selectedCategory = _categoryModels.FirstOrDefault(c => c.Id == _questionModel.CategoryId);
         }
         catch

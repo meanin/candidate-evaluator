@@ -4,7 +4,7 @@
 @inject IUriHelper UriHelper
 
 <div>
-    <a href="/category/@CategoryId/question/new" class="btn">Create new question</a>
+    <a href="/question/create" class="btn">Create new question</a>
 </div>
 
 @if (_questionModels != null)
@@ -51,9 +51,9 @@ protected override async Task OnInitAsync()
     try
     {
 
-        _questionModels = await Http.AuthorizedGetJsonAsync<List<Contract.Models.Question>>($"api/question/{CategoryId}");
+        _questionModels = await Http.AuthorizedGetJsonAsync<List<Contract.Models.Question>>($"api/question/?categoryid={CategoryId}");
     }
-    catch (Exception e)
+    catch
     {
         UriHelper.NavigateTo("/");
     }

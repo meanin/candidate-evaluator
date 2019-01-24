@@ -34,12 +34,12 @@ namespace CandidateEvaluator.Data.Repositories
             return id;
         }
 
-        public Task Delete(Guid ownerId, Guid categoryId, Guid questionId)
+        public Task Delete(Guid ownerId, Guid questionId)
         {
             return _table.Delete(ownerId.ToString(), questionId.ToString());
         }
 
-        public async Task<Question> Get(Guid ownerId, Guid categoryId, Guid questionId)
+        public async Task<Question> Get(Guid ownerId, Guid questionId)
         {
             var entity = await _table.Get(ownerId.ToString(), questionId.ToString());
             return ToQuestion(entity);
@@ -47,7 +47,7 @@ namespace CandidateEvaluator.Data.Repositories
 
         public async Task<IEnumerable<Question>> GetAll(Guid ownerId)
         {
-            var entities = await _table.GetAll();
+            var entities = await _table.GetAll(ownerId.ToString());
             return entities.Select(ToQuestion);
         }
 

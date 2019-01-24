@@ -22,6 +22,7 @@ namespace CandidateEvaluator.Server.Controllers
         }
 
         [HttpPost]
+        [Route("")]
         public async Task<IActionResult> Create([FromBody] CreateQuestion command)
         {
             command.OwnerId = HttpContext.GetUser().Oid;
@@ -29,25 +30,26 @@ namespace CandidateEvaluator.Server.Controllers
             return CreatedAtAction(nameof(Get), created);
         }
 
-        [HttpGet("{categoryId:guid}")]
-        public async Task<IActionResult> GetAllFromCategory(Guid categoryId)
+        [HttpGet]
+        [Route("")]
+        public async Task<IActionResult> GetAllFromCategory([FromQuery(Name = "categoryid")] Guid categoryId)
         {
-            var questions = await _dispatcher.Query(new GetQuestionsFromCategory
+            var questions = await _dispatcher.Query(new GetQuestions
             {
                 OwnerId = HttpContext.GetUser().Oid,
                 CategoryId = categoryId
-            }
-            );
+            });
+
             return Ok(questions);
         }
 
-        [HttpGet("{categoryId:guid}/{id:guid}")]
-        public async Task<IActionResult> Get(Guid categoryId, Guid id)
+        [HttpGet]
+        [Route("{id:guid}")]
+        public async Task<IActionResult> Get(Guid id)
         {
             var question = await _dispatcher.Query(new GetQuestion
             {
                 OwnerId = HttpContext.GetUser().Oid,
-                CategoryId = categoryId,
                 Id = id
             });
             return Ok(question);
@@ -55,7 +57,7 @@ namespace CandidateEvaluator.Server.Controllers
 
 
         [HttpPost]
-        [Route("{id}")]
+        [Route("{id:guid}")]
         public async Task<IActionResult> Update([FromBody] UpdateQuestion command)
         {
             command.OwnerId = HttpContext.GetUser().Oid;
@@ -64,13 +66,12 @@ namespace CandidateEvaluator.Server.Controllers
         }
 
         [HttpDelete]
-        [Route("{categoryId:guid}/{id:guid}")]
-        public async Task<IActionResult> Delete([FromRoute] Guid categoryId, [FromRoute] Guid id)
+        [Route("{id:guid}")]
+        public async Task<IActionResult> Delete(Guid id)
         {
             await _dispatcher.Send(new DeleteQuestion
             {
                 OwnerId = HttpContext.GetUser().Oid,
-                CategoryId = categoryId,
                 Id = id
             });
             return NoContent();
