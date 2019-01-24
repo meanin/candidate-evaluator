@@ -6,7 +6,7 @@ using CandidateEvaluator.Contract.Repositories;
 
 namespace CandidateEvaluator.Core.Handlers.Queries.Question
 {
-    public class GetQuestionsFromCategoryHandler : IQueryHandler<GetQuestionsFromCategory, List<Contract.Models.Question>>
+    public class GetQuestionsFromCategoryHandler : IQueryHandler<GetQuestionsFromCategory, IEnumerable<Contract.Models.Question>>
     {
         private readonly IQuestionRepository _modelRepository;
 
@@ -15,7 +15,7 @@ namespace CandidateEvaluator.Core.Handlers.Queries.Question
             _modelRepository = modelRepository;
         }
 
-        public Task<List<Contract.Models.Question>> Handle(GetQuestionsFromCategory query)
+        public Task<IEnumerable<Contract.Models.Question>> Handle(GetQuestionsFromCategory query)
         {
             return _modelRepository.GetAllFromPartition(query.OwnerId, query.CategoryId);
         }

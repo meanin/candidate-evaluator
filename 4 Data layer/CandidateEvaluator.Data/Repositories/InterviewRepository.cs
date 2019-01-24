@@ -34,7 +34,7 @@ namespace CandidateEvaluator.Data.Repositories
             return id;
         }
 
-        public async Task<List<Interview>> GetAll(Guid ownerId)
+        public async Task<IEnumerable<Interview>> GetAll(Guid ownerId)
         {
             var entities = await _table.GetAll(ownerId.ToString());
             return entities.Select(e => new Interview
@@ -43,7 +43,7 @@ namespace CandidateEvaluator.Data.Repositories
                 Name = e.Name,
                 OwnerId = ownerId,
                 Content = JsonConvert.DeserializeObject<Dictionary<Guid, int>>(e.Content)
-            }).ToList();
+            });
         }
 
         public async Task<Interview> Get(Guid ownerId, Guid id)

@@ -1,8 +1,10 @@
-﻿using Microsoft.WindowsAzure.Storage.Table;
+﻿using System.Runtime.CompilerServices;
+using Microsoft.WindowsAzure.Storage.Table;
 
+[assembly: InternalsVisibleTo("Microsoft.WindowsAzure.Storage.Table")]
 namespace CandidateEvaluator.Data.Entities
 {
-    public class QuestionEntity : TableEntity
+    internal class QuestionEntity : TableEntity
     {
         public string Name { get; set; }
         public string Text { get; set; }

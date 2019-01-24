@@ -33,7 +33,7 @@ namespace CandidateEvaluator.Data.Repositories
         public async Task Upsert(Guid ownerId, RecentActivity userActivity)
         {
             var partitionKey = ownerId.ToString();
-            var entities = await _table.GetAll(partitionKey);
+            var entities = (await _table.GetAll(partitionKey)).ToList();
             foreach (var toRemove in entities.Where(e => 
                 e.PartitionKey == partitionKey && 
                 e.EntityId == userActivity.EntityId.ToString() &&
