@@ -8,7 +8,7 @@ namespace CandidateEvaluator.Contract.Repositories
     public interface IInterviewRepository
     {
         Task<Guid> Add(Interview model);
-        Task<List<Interview>> GetAll(Guid ownerId);
+        Task<IEnumerable<Interview>> GetAll(Guid ownerId);
         Task<Interview> Get(Guid ownerId, Guid id);
         Task<Guid> Update(Interview model);
         Task Delete(Guid ownerId, Guid id);

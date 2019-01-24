@@ -32,7 +32,7 @@ namespace CandidateEvaluator.Data.Repositories
             return id;
         }
 
-        public async Task<List<Category>> GetAll(Guid ownerId)
+        public async Task<IEnumerable<Category>> GetAll(Guid ownerId)
         {
             var entities = await _table.GetAll(ownerId.ToString());
             return entities.Select(e => new Category
@@ -40,7 +40,7 @@ namespace CandidateEvaluator.Data.Repositories
                 Id = Guid.Parse(e.RowKey),
                 Name = e.Name,
                 OwnerId = ownerId
-            }).ToList();
+            });
         }
 
         public async Task<Category> Get(Guid ownerId, Guid id)

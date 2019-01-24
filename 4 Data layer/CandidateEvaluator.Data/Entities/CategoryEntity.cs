@@ -1,8 +1,10 @@
-﻿using Microsoft.WindowsAzure.Storage.Table;
+﻿using System.Runtime.CompilerServices;
+using Microsoft.WindowsAzure.Storage.Table;
 
+[assembly: InternalsVisibleTo("Microsoft.WindowsAzure.Storage.Table")]
 namespace CandidateEvaluator.Data.Entities
 {
-    public class CategoryEntity : TableEntity
+    internal class CategoryEntity : TableEntity
     {
         public string Name { get; set; }
     }
