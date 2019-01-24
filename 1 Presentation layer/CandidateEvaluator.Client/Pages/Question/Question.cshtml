@@ -27,48 +27,49 @@ else
 
 @functions
 {
-[Parameter]
-private Guid CategoryId { get; set; }
+    [Parameter]
+    private Guid CategoryId { get; set; }
 
-[Parameter]
-private Guid Id { get; set; }
+    [Parameter]
+    private Guid Id { get; set; }
 
-private Contract.Models.Question _questionModel;
+    private Contract.Models.Question _questionModel;
 
-protected override async Task OnInitAsync()
-{
-    try
+    protected override async Task OnInitAsync()
     {
-        _questionModel = await Http.AuthorizedGetJsonAsync<Contract.Models.Question>($"api/question/{CategoryId}/{Id}");
+        try
+        {
+            _questionModel = await Http.AuthorizedGetJsonAsync<Contract.Models.Question>($"api/question/{CategoryId}/{Id}");
+        }
+        catch
+        {
+            UriHelper.NavigateTo("/");
+        }
     }
-    catch (Exception e)
+
+    private async Task Save()
     {
-        UriHelper.NavigateTo($"/category/{CategoryId}");
+        try
+        {
+            await Http.AuthorizedPostJsonAsync<Guid>($"api/question/{_questionModel.Id}", _questionModel);
+            UriHelper.NavigateTo($"/category/{_questionModel.CategoryId}/questions");
+        }
+        catch
+        {
+            UriHelper.NavigateTo("/");
+        }
     }
-}
 
-private async Task Save()
-{
-    try
+    private async Task Delete()
     {
-        await Http.AuthorizedPostJsonAsync<Guid>($"api/question/{_questionModel.Id}", _questionModel);
+        try
+        {
+            await Http.AuthorizedDeleteAsync($"api/question/{_questionModel.CategoryId}/{_questionModel.Id}");
+            UriHelper.NavigateTo($"/category/{CategoryId}/questions");
+        }
+        catch
+        {
+            UriHelper.NavigateTo("/");
+        }
     }
-    catch
-    { }
-
-
-    UriHelper.NavigateTo($"/category/{_questionModel.CategoryId}/questions");
-}
-
-private async Task Delete()
-{
-    try
-    {
-        await Http.AuthorizedDeleteAsync($"api/question/{_questionModel.CategoryId}/{_questionModel.Id}");
-    }
-    catch
-    { }
-
-    UriHelper.NavigateTo($"/category/{CategoryId}/questions");
-}
 }
