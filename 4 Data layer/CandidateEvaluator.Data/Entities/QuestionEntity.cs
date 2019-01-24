@@ -6,6 +6,7 @@ namespace CandidateEvaluator.Data.Entities
 {
     internal class QuestionEntity : TableEntity
     {
+        public string CategoryId { get; set; }
         public string Name { get; set; }
         public string Text { get; set; }
     }

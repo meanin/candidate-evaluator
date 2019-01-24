@@ -10,7 +10,7 @@ namespace CandidateEvaluator.Contract.Repositories
         Task<Guid> Create(Question model);
         Task<Question> Get(Guid ownerId, Guid categoryId, Guid id);
         Task<IEnumerable<Question>> GetAll(Guid ownerId);
-        Task<IEnumerable<Question>> GetAllFromPartition(Guid ownerId, Guid categoryId);
+        Task<IEnumerable<Question>> GetAllFromCategory(Guid ownerId, Guid categoryId);
         Task<Guid> Update(Question model);
         Task Delete(Guid ownerId, Guid categoryId, Guid questionId);
     }
