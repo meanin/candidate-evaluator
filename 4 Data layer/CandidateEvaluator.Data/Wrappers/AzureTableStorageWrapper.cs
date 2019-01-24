@@ -31,7 +31,7 @@ namespace CandidateEvaluator.Data.Wrappers
                 $"No {typeof(TEntity).Name} with partitionKey: {partitionKey} and rowKey: {rowKey} found");
         }
 
-        public async Task<List<TEntity>> GetAll(string partitionKey = "")
+        public async Task<IEnumerable<TEntity>> GetAll(string partitionKey = "")
         {
             try
             {

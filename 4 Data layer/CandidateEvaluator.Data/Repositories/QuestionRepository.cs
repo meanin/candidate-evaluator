@@ -44,18 +44,16 @@ namespace CandidateEvaluator.Data.Repositories
             return ToQuestion(entity);
         }
 
-        public async Task<List<Question>> GetAll(Guid ownerId)
+        public async Task<IEnumerable<Question>> GetAll(Guid ownerId)
         {
             var entities = await _table.GetAll();
-
-            return entities.Select(ToQuestion).ToList();
+            return entities.Select(ToQuestion);
         }
 
-        public async Task<List<Question>> GetAllFromPartition(Guid ownerId, Guid categoryId)
+        public async Task<IEnumerable<Question>> GetAllFromPartition(Guid ownerId, Guid categoryId)
         {
             var entities = await _table.GetAll(CreatePartitionKey(ownerId, categoryId));
-
-            return entities.Select(ToQuestion).ToList();
+            return entities.Select(ToQuestion);
         }
 
         public async Task<Guid> Update(Question model)
@@ -67,9 +65,7 @@ namespace CandidateEvaluator.Data.Repositories
                 Name = model.Name,
                 Text = model.Text
             });
-
             return model.Id;
-
         }
 
         private static string CreatePartitionKey(Guid ownerId, Guid categoryId)

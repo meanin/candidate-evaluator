@@ -13,15 +13,22 @@
 
 @functions
 {
-private Contract.Models.Category _categoryModel = new Contract.Models.Category
-{
-    Id = Guid.Empty,
-    Name = string.Empty
-};
+    private readonly Contract.Models.Category _categoryModel = new Contract.Models.Category
+    {
+        Id = Guid.Empty,
+        Name = string.Empty
+    };
 
-private async Task Save()
-{
-    var categoryId = await Http.AuthorizedPostJsonAsync<Guid>("api/Category", _categoryModel);
-    UriHelper.NavigateTo($"/category/{categoryId}");
-}
+    private async Task Save()
+    {
+        try
+        {
+            var categoryId = await Http.AuthorizedPostJsonAsync<Guid>("api/Category", _categoryModel);
+            UriHelper.NavigateTo($"/category/{categoryId}");
+        }
+        catch
+        {
+            UriHelper.NavigateTo("/");
+        }
+    }
 }

@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using Microsoft.WindowsAzure.Storage.Table;
 
+[assembly: InternalsVisibleTo("Microsoft.WindowsAzure.Storage.Table")]
 namespace CandidateEvaluator.Data.Entities
 {
-    public class InterviewResultEntity : TableEntity
+    internal class InterviewResultEntity : TableEntity
     {
         public string CandidateName { get; set; }
         public DateTime InterviewDate { get; set; }

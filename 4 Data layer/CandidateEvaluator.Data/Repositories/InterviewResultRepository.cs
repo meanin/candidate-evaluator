@@ -36,7 +36,7 @@ namespace CandidateEvaluator.Data.Repositories
             return id;
         }
 
-        public async Task<List<InterviewResult>> GetAll(Guid ownerId)
+        public async Task<IEnumerable<InterviewResult>> GetAll(Guid ownerId)
         {
             var entities = await _table.GetAll(ownerId.ToString());
             return entities.Select(e => new InterviewResult
@@ -46,7 +46,7 @@ namespace CandidateEvaluator.Data.Repositories
                 CandidateName = e.CandidateName,
                 InterviewDate = e.InterviewDate,
                 Content = JsonConvert.DeserializeObject<List<CategoryResult>>(e.Content)
-            }).ToList();
+            });
         }
 
         public async Task<InterviewResult> Get(Guid ownerId, Guid id)
