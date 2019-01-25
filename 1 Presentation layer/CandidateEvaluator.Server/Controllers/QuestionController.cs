@@ -14,7 +14,7 @@ namespace CandidateEvaluator.Server.Controllers
     [Route("api/[controller]")]
     public class QuestionController : ControllerBase
     {
-        private IDispatcher _dispatcher;
+        private readonly IDispatcher _dispatcher;
 
         public QuestionController(IDispatcher dispatcher)
         {

@@ -1,8 +1,8 @@
 ﻿@page "/question/create"
+@using CandidateEvaluator.Contract.Models
 @using Microsoft.AspNetCore.Blazor.Services
 @inject Services.UserIdentityService Http
 @inject IUriHelper UriHelper
-
 @if (_categoryModels == null)
 {
     <p><em>Loading...</em></p>
@@ -33,6 +33,7 @@ else
             </div>
         </div>
     </div>
+    <QuestionTypeDropdown TypeChanged="@SetType" />
     <div class="form-group">
         <label>Name</label>
         <input class="form-control" type="text" bind=@_questionModel.Name placeholder="Enter question name..." />
@@ -45,19 +46,18 @@ else
     </div>
 
 }
-
 @functions
 {
-    private List<Contract.Models.Category> _categoryModels;
-    private Contract.Models.Category _selectedCategory;
+    private List<Category> _categoryModels;
+    private Category _selectedCategory;
     private Contract.Models.Question _questionModel = new Contract.Models.Question();
-
+    
     protected override async Task OnInitAsync()
     {
         try
         {
-            _categoryModels = await Http.AuthorizedGetJsonAsync<List<Contract.Models.Category>>("api/category");
-            _questionModel = new Contract.Models.Question {CategoryId = _categoryModels.First().Id};
+            _categoryModels = await Http.AuthorizedGetJsonAsync<List<Category>>("api/category");
+            _questionModel = new Contract.Models.Question { CategoryId = _categoryModels.First().Id };
             _selectedCategory = _categoryModels.FirstOrDefault(c => c.Id == _questionModel.CategoryId);
         }
         catch
@@ -65,7 +65,7 @@ else
             UriHelper.NavigateTo("/");
         }
     }
-
+    
     private async Task Add()
     {
         try
@@ -77,13 +77,18 @@ else
         {
             UriHelper.NavigateTo("/");
         }
-
+    
     }
-
-    private void SetSelectedCategory(Contract.Models.Category category)
+    
+    private void SetSelectedCategory(Category category)
     {
         _selectedCategory = category;
         _questionModel.CategoryId = category.Id;
-
+    }
+    
+    private void SetType(QuestionType type)
+    {
+        _questionModel.Type = type;
+        StateHasChanged();
     }
 }

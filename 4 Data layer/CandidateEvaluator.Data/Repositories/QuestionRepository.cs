@@ -28,7 +28,8 @@ namespace CandidateEvaluator.Data.Repositories
                 RowKey = id.ToString(),
                 Name = model.Name,
                 Text = model.Text,
-                CategoryId = model.CategoryId.ToString()
+                CategoryId = model.CategoryId.ToString(),
+                Type = model.Type.ToString()
             };
             await _table.Add(entity);
             return id;
@@ -65,7 +66,8 @@ namespace CandidateEvaluator.Data.Repositories
                 RowKey = model.Id.ToString(),
                 Name = model.Name,
                 Text = model.Text,
-                CategoryId = model.CategoryId.ToString()
+                CategoryId = model.CategoryId.ToString(),
+                Type = model.Type.ToString()
             });
             return model.Id;
         }
@@ -78,7 +80,10 @@ namespace CandidateEvaluator.Data.Repositories
                 Name = entity.Name,
                 Text = entity.Text,
                 OwnerId = Guid.Parse(entity.PartitionKey),
-                CategoryId = Guid.Parse(entity.CategoryId)
+                CategoryId = Guid.Parse(entity.CategoryId),
+                Type = string.IsNullOrWhiteSpace(entity.Type)
+                    ? QuestionType.Regular
+                    : Enum.Parse<QuestionType>(entity.Type)
             };
         }
     }
