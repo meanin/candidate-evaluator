@@ -1,6 +1,7 @@
 ﻿@page "/interview/{id:guid}/start"
 @using CandidateEvaluator.Contract.Commands.InterviewResult
 @using CandidateEvaluator.Contract.Dtos
+@using CandidateEvaluator.Contract.Models
 @using Microsoft.AspNetCore.Blazor.Services
 @inject Services.UserIdentityService Http
 @inject IUriHelper UriHelper
@@ -41,7 +42,14 @@ else
                                 ?.QuestionResults.Single(q => q.QuestionId == question.Id);
                             <label>@question.Name</label>
                             <br />
-                            <pre>@question.Text</pre>
+                            if (question.Type == QuestionType.Regular)
+                             {
+                                 <pre>@question.Text</pre>
+                            }
+                            else
+                            {
+                                <a class="btn btn-info" href="/interview/snippet/@question.Id" target="_blank">Open Snippet</a>
+                            }
                             <input class="form-control" type="number" min="0" max="1" step="0.25" bind=@questionResult.Score placeholder="0.0" />
                             <textarea class="form-control" rows="2" bind=@questionResult.Notes placeholder="Enter notes" />
                         }
