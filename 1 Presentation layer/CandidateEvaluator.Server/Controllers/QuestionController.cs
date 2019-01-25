@@ -55,6 +55,18 @@ namespace CandidateEvaluator.Server.Controllers
             return Ok(question);
         }
 
+        [HttpGet]
+        [Route("{id:guid}/snippet")]
+        public async Task<IActionResult> GetSnippet(Guid id)
+        {
+            var question = await _dispatcher.Query(new GetQuestion
+            {
+                OwnerId = HttpContext.GetUser().Oid,
+                Id = id
+            });
+            return Ok(question.Text);
+        }
+
 
         [HttpPost]
         [Route("{id:guid}")]

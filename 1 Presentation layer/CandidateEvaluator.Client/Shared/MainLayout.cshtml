@@ -7,10 +7,10 @@
 
 <div class="main">
     <div class="top-row px-4" style="z-index: 4">
-    @if (@Http.IsUserLogged())
-    {
-        <p>Hi @Http.Username</p>
-    }
+        @if (@Http.IsUserLogged())
+        {
+            <p>Hi @Http.AuthTokens.Username</p>
+        }
         <a href="https://github.com/meanin/candidate-evaluator/blob/master/README.md" target="_blank" class="ml-md-auto">About Candidate Evaluator</a>
     </div>
 
@@ -18,3 +18,13 @@
         @Body
     </div>
 </div>
+
+@functions
+{
+    
+    protected override async Task OnInitAsync()
+    {
+        await Http.Initialize();
+    }
+
+}
