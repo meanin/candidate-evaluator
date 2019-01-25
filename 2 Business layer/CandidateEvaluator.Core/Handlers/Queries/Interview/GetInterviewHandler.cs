@@ -39,7 +39,7 @@ namespace CandidateEvaluator.Core.Handlers.Queries.Interview
             foreach (var categoryId in model.Content.Keys)
             {
                 var category = await _categoryRepository.Get(query.OwnerId, categoryId);
-                var categoryQuestions = await _questionRepository.GetAllFromPartition(query.OwnerId, categoryId);
+                var categoryQuestions = await _questionRepository.GetAllFromCategory(query.OwnerId, categoryId);
                 dto.Content.Add(new InterviewContent
                 {
                     Category = category,

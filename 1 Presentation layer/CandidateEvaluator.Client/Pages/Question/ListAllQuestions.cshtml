@@ -1,0 +1,68 @@
+﻿@page "/question"
+@using Microsoft.AspNetCore.Blazor.Services
+@inject Services.UserIdentityService Http
+@inject IUriHelper UriHelper
+
+@if (_initialized == false)
+{
+    <div class="fa-3x">
+        <i class="fas fa-spinner fa-pulse"></i>
+    </div>
+}
+else
+{
+
+    <div>
+        <a href="/question/?categoryid=00000000-0000-0000-0000-000000000000" class="btn">Create new question</a>
+    </div>
+    <div id="content">
+
+        @foreach (var category in _categoryModels)
+        {
+            var id = _categoryModels.IndexOf(category);
+            var questions = _questionModels.Where(q => q.CategoryId == category.Id);
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0">
+                        <button class="btn btn-link@(id!=0?" collapsed":"")" data-toggle="collapse" data-target="#category-@id">
+                            @category.Name
+                        </button>
+                    </h4>
+                </div>
+            </div>
+
+            <div id="category-@id" class=" collapse@(id == 0 ? " show" : "")" data-parent="#content">
+                <div class="card-body">
+                    @foreach (var question in questions)
+                    {
+                        <label>@question.Name</label>
+                        <pre>@question.Text</pre>
+                        <br/>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+}
+
+@functions
+{
+    private List<Contract.Models.Question> _questionModels;
+    private List<Contract.Models.Category> _categoryModels;
+    private bool _initialized = false;
+    protected override async Task OnInitAsync()
+    {
+        try
+        {
+            _questionModels = await Http.AuthorizedGetJsonAsync<List<Contract.Models.Question>>("api/question/");
+            var categories = await Http.AuthorizedGetJsonAsync<List<Contract.Models.Category>>("api/category/");
+            _categoryModels = categories.Where(c => _questionModels.Any(q => q.CategoryId == c.Id)).ToList();
+            _initialized = true;
+        }
+        catch
+        {
+            UriHelper.NavigateTo("/");
+        }
+    
+    }
+}
