@@ -25,7 +25,8 @@ namespace CandidateEvaluator.Core.Handlers.Commands.Question
                 OwnerId = command.OwnerId,
                 CategoryId = command.CategoryId,
                 Name = command.Name,
-                Text = command.Text
+                Text = command.Text,
+                Type = command.Type
             };
 
             var result = await _modelRepository.Create(model);

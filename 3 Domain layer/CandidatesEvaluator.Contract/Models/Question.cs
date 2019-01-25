@@ -9,5 +9,6 @@ namespace CandidateEvaluator.Contract.Models
         public Guid OwnerId { get; set; }
         public string Name { get; set; }
         public string Text { get; set; }
+        public QuestionType Type { get; set; }
     }
 }

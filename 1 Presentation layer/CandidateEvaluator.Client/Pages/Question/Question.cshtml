@@ -1,5 +1,6 @@
 ﻿@page "/question/{id:guid}"
 
+@using CandidateEvaluator.Contract.Models
 @using Microsoft.AspNetCore.Blazor.Services
 @inject Services.UserIdentityService Http
 @inject IUriHelper UriHelper
@@ -19,6 +20,7 @@ else
     <div>
         <textarea class="form-control" rows="4" bind=@_questionModel.Text placeholder="Enter question" />
     </div>
+    <QuestionTypeDropdown TypeChanged="@SetType" />
     <div class="row">
         <button class="col-md-3 btn btn-block btn-success m-1" onclick="@Save">Save</button>
         <button class="col-md-3 btn btn-block btn-danger m-1" onclick="@Delete">Delete</button>
@@ -42,6 +44,12 @@ else
         {
             UriHelper.NavigateTo("/");
         }
+    }
+
+    private void SetType(QuestionType type)
+    {
+        _questionModel.Type = type;
+        StateHasChanged();
     }
 
     private async Task Save()

@@ -26,7 +26,8 @@ namespace CandidateEvaluator.Core.Handlers.Commands.Question
                 Name = command.Name,
                 Text = command.Text,
                 Id = command.Id,
-                OwnerId = command.OwnerId
+                OwnerId = command.OwnerId,
+                Type = command.Type
             };
             await _modelRepository.Update(model);
             await _activityRepository.Upsert(model.OwnerId, new RecentActivity
