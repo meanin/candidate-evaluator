@@ -13,7 +13,7 @@ else
 {
 
     <div>
-        <a href="/question/?categoryid=00000000-0000-0000-0000-000000000000" class="btn">Create new question</a>
+        <a href="/question/create" class="btn">Create new question</a>
     </div>
     <div id="content">
 
@@ -35,7 +35,7 @@ else
                 <div class="card-body">
                     @foreach (var question in questions)
                     {
-                        <label>@question.Name</label>
+                        <label><a href="/question/@question.Id">@question.Name</a></label>
                         <pre>@question.Text</pre>
                         <br/>
                     }
