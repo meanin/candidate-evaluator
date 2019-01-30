@@ -1,30 +1,37 @@
 ﻿@inherits BlazorLayoutComponent
 @inject Services.UserIdentityService Http
-
-<div class="sidebar">
-    <NavMenu LoggedIn="@Http.IsUserLogged()"/>
-</div>
-
-<div class="main">
-    <div class="top-row px-4" style="z-index: 4">
-        @if (@Http.IsUserLogged())
-        {
-            <p>Hi @Http.AuthTokens.Username</p>
-        }
-        <a href="https://github.com/meanin/candidate-evaluator/blob/master/README.md" target="_blank" class="ml-md-auto">About Candidate Evaluator</a>
+@if (!_initialized)
+{
+    <div class="fa-3x">
+        <i class="fas fa-spinner fa-pulse"></i>
     </div>
-
-    <div class="content px-4">
-        @Body
+}
+else
+{
+    <div class="sidebar">
+        <NavMenu LoggedIn="@_loggedIn" />
     </div>
-</div>
-
+    <div class="main">
+        <div class="top-row px-4" style="z-index: 4">
+            @if (_loggedIn)
+            {
+                <p>Hi @Http.AuthTokens.Username</p>
+            }
+            <a href="https://github.com/meanin/candidate-evaluator/blob/master/README.md" target="_blank" class="ml-md-auto">About Candidate Evaluator</a>
+        </div>
+        <div class="content px-4">
+            @Body
+        </div>
+    </div>
+}
 @functions
 {
-    
+    private bool _loggedIn;
+    private bool _initialized;
+
     protected override async Task OnInitAsync()
     {
-        await Http.Initialize();
+        _loggedIn = await Http.IsUserLogged();
+        _initialized = true;
     }
-
 }

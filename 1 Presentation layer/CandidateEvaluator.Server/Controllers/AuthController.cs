@@ -59,7 +59,8 @@ namespace CandidateEvaluator.Server.Controllers
                 RefreshToken = parsed["refresh_token"].ToString(),
                 Username = new JwtSecurityTokenHandler()
                     .ReadJwtToken(parsed["access_token"].ToString())
-                    .Payload["name"].ToString()
+                    .Payload["name"].ToString(),
+                Code = code
             };
             
             return Ok(tokens);

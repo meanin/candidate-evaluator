@@ -1,5 +1,7 @@
 ﻿@page "/"
-
+@using Microsoft.AspNetCore.Blazor.Services
+@inject Services.UserIdentityService Http
+@inject IUriHelper UriHelper
 
 <h1>Hello, world!</h1>
 
@@ -7,3 +9,11 @@ Welcome to your new app.
 
 <SurveyPrompt Title="How is Blazor working for you?" />
 
+@functions
+{
+    protected override async Task OnInitAsync()
+    {
+        if(await Http.IsUserLogged())
+            UriHelper.NavigateTo("/dashboard");
+    }
+}
