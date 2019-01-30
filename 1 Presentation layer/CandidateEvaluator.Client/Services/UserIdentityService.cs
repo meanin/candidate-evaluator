@@ -19,7 +19,6 @@ namespace CandidateEvaluator.Client.Services
         protected readonly HttpClient Http;
         protected readonly IUriHelper UriHelper;
         private readonly LocalStorage _localStorage;
-        private string _code = string.Empty;
         private bool _initialized;
 
         private const string AuthTokensKey = "AuthTokens";
@@ -36,26 +35,30 @@ namespace CandidateEvaluator.Client.Services
             _localStorage = localStorage;
         }
 
-        public async Task Initialize()
+        public async Task<bool> IsUserLogged()
         {
-            if(_initialized)
-                return;
-            
-            var authTokens = await _localStorage.GetItem<AuthTokens>(AuthTokensKey);
-            _initialized = true;
-            if (authTokens == null || string.IsNullOrWhiteSpace(authTokens.BearerToken))
-                return;
-            AuthTokens = authTokens;
+            if (!_initialized)
+            {
+                var authTokens = await _localStorage.GetItem<AuthTokens>(AuthTokensKey);
+                AuthTokens = authTokens;
+                _initialized = true;
+            }
+
+            return AuthTokens != null && 
+                   !string.IsNullOrWhiteSpace(AuthTokens.BearerToken) &&
+                   !string.IsNullOrWhiteSpace(AuthTokens.RefreshToken) &&
+                   !string.IsNullOrWhiteSpace(AuthTokens.Username) &&
+                   !string.IsNullOrWhiteSpace(AuthTokens.Code);
         }
 
         public async Task Login()
         {
-            _code = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(
+            var code = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(
                 new Uri(UriHelper.GetAbsoluteUri()).Query)
                 .TryGetValue("code", out var c) ? c.First() : "";
             var nameValueCollection = new[]
             {
-                new KeyValuePair<string, string>("code", _code),
+                new KeyValuePair<string, string>("code", code),
                 new KeyValuePair<string, string>("redirect_uri", $"{UriHelper.GetBaseUri()}code")
             };
 
@@ -67,24 +70,14 @@ namespace CandidateEvaluator.Client.Services
 
         public void Logout()
         {
-            _code = string.Empty;
             AuthTokens = null;
-        }
-
-        public bool IsUserLogged()
-        {
-            return AuthTokens != null && 
-                   !string.IsNullOrWhiteSpace(AuthTokens.BearerToken) &&
-                   !string.IsNullOrWhiteSpace(AuthTokens.RefreshToken) &&
-                   !string.IsNullOrWhiteSpace(AuthTokens.Username) &&
-                   !string.IsNullOrWhiteSpace(_code);
         }
 
         private async Task GetRefreshToken()
         {
             var nameValueCollection = new[]
             {
-                new KeyValuePair<string, string>("code", _code),
+                new KeyValuePair<string, string>("code", AuthTokens.Code),
                 new KeyValuePair<string, string>("redirect_uri", $"{UriHelper.GetBaseUri()}code"),
                 new KeyValuePair<string, string>("refresh_token", AuthTokens.RefreshToken)
             };
