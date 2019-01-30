@@ -40,6 +40,7 @@ else
                         {
                             var questionResult = _result.Content.Single(c => c.CategoryId == content.Category.Id)
                                 ?.QuestionResults.Single(q => q.QuestionId == question.Id);
+                            var questionResultId = _result.Content.Single(c => c.CategoryId == content.Category.Id).QuestionResults.IndexOf(questionResult);
                             <label>@question.Name</label>
                             <br />
                             if (question.Type == QuestionType.Regular)
@@ -48,7 +49,14 @@ else
                             }
                             else
                             {
-                                <a class="btn btn-info" href="/interview/snippet/@question.Id" target="_blank">Open Snippet</a>
+                                <div class="card" style="color:black; @(_fullScreenStyle[$"{id}/{questionResultId}"])">
+                                    <div class="card-header">
+                                        <div class="oi oi-resize-both" onclick="@(c => ToggleFullscreen(id, questionResultId))"></div>
+                                    </div>
+                                    <div class="card-body">
+                                        <pre>@question.Text</pre>
+                                    </div>
+                                </div>
                             }
                             <input class="form-control" type="number" min="0" max="1" step="0.25" bind=@questionResult.Score placeholder="0.0" />
                             <textarea class="form-control" rows="2" bind=@questionResult.Notes placeholder="Enter notes" />
@@ -68,6 +76,8 @@ else
 
     private InterviewDto _interview;
     private CreateInterviewResult _result;
+    private readonly Dictionary<string, string> _fullScreenStyle = new Dictionary<string, string>();
+    private const string CardFullscreen = "display: block; z-index: 9999; position: fixed; width: 100%; height: 100%; top: 0; right: 0; left: 0; bottom: 0; overflow: auto; background-color: white;";
 
     protected override async Task OnInitAsync()
     {
@@ -88,6 +98,17 @@ else
                     }).ToList()
                 }).ToList()
             };
+
+            foreach (var category in _interview.Content)
+            {
+                foreach (var question in category.Questions)
+                {
+                    if (question.Type == QuestionType.Snippet)
+                    {
+                        _fullScreenStyle[$"{_interview.Content.IndexOf(category)}/{category.Questions.IndexOf(question)}"] = string.Empty;
+                    }
+                }
+            }
         }
         catch
         {
@@ -106,6 +127,14 @@ else
         {
             UriHelper.NavigateTo("/");
         }
+    }
+
+    private void ToggleFullscreen(int id, int questionResultId)
+    {
+        _fullScreenStyle[$"{id}/{questionResultId}"] = 
+            string.IsNullOrWhiteSpace(_fullScreenStyle[$"{id}/{questionResultId}"])
+            ? CardFullscreen
+            : string.Empty;
     }
 
 }
