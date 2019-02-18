@@ -26,7 +26,8 @@ namespace CandidateEvaluator.Data.Repositories
             {
                 PartitionKey = model.OwnerId.ToString(),
                 RowKey = id.ToString(),
-                Name = model.Name
+                Name = model.Name,
+                PublishedCategoryId = model.PublishedCategoryId == Guid.Empty ? string.Empty : model.PublishedCategoryId.ToString()
             };
             await _table.Add(entity);
             return id;
@@ -39,7 +40,8 @@ namespace CandidateEvaluator.Data.Repositories
             {
                 Id = Guid.Parse(e.RowKey),
                 Name = e.Name,
-                OwnerId = ownerId
+                OwnerId = ownerId,
+                PublishedCategoryId = string.IsNullOrWhiteSpace(e.PublishedCategoryId) ? Guid.Empty : Guid.Parse(e.PublishedCategoryId)
             });
         }
 
@@ -50,7 +52,8 @@ namespace CandidateEvaluator.Data.Repositories
             {
                 Id = Guid.Parse((ReadOnlySpan<char>) entity.RowKey),
                 Name = entity.Name,
-                OwnerId = ownerId
+                OwnerId = ownerId,
+                PublishedCategoryId = string.IsNullOrWhiteSpace(entity.PublishedCategoryId) ? Guid.Empty : Guid.Parse(entity.PublishedCategoryId)
             };
         }
 
@@ -60,7 +63,8 @@ namespace CandidateEvaluator.Data.Repositories
             {
                 PartitionKey = model.OwnerId.ToString(),
                 RowKey = model.Id.ToString(),
-                Name = model.Name
+                Name = model.Name,
+                PublishedCategoryId = model.PublishedCategoryId == Guid.Empty ? string.Empty : model.PublishedCategoryId.ToString()
             });
             return model.Id;
         }

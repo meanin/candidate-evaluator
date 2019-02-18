@@ -2,11 +2,9 @@
 
 namespace CandidateEvaluator.Contract.Models
 {
-    public class Category
+    public class PublishedCategory
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public Guid OwnerId { get; set; }
-        public Guid PublishedCategoryId { get; set; }
     }
 }
