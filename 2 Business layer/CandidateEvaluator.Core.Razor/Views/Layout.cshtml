@@ -1,0 +1,70 @@
+﻿@model CandidateEvaluator.Contract.Models.InterviewResult
+
+<table style="width:100%">
+    <tr>
+        <th style="background-color:#303fb2;color:white" colspan="2">TECHNICAL ASSESSMENT DETAILS</th>
+    </tr>
+    <tr>
+        <td style="width:15%;background-color:#bcb4f7;">Candidate name</td>
+        <td>@Model.CandidateName</td>
+    </tr>
+    <tr>
+        <td style="width:15%;background-color:#bcb4f7;">Interview date</td>
+        <td>@Model.InterviewDate</td>
+    </tr>
+    <tr>
+        <td style="width:15%;background-color:#bcb4f7;">Reviewer name</td>
+        <td>@Model.ReviewerName</td>
+    </tr>
+    <tr>
+        <td style="width:15%;background-color:#bcb4f7;">Branch name</td>
+        <td>Candidate Evaluator branch</td>
+    </tr>
+</table>
+
+<br>
+
+<table style="width:100%">
+    <tr>
+        <th style="background-color:#303fb2;color:white" colspan="2">SUMMARY</th>
+    </tr>
+    <tr>
+        <td style="width:15%;background-color:#bcb4f7;">Position</td>
+        <td>@Model.InterviewTemplateName</td>
+    </tr>
+    <tr>
+        <td style="width:15%;background-color:#bcb4f7;">General presentation overview</td>
+        <td>General notes should be placed here</td>
+    </tr>
+</table>
+
+<br>
+
+<table style="width:100%">
+    <tr>
+        <th style="background-color:#303fb2;color:white" colspan="4">TECHNICAL RECOMMENDATION</th>
+    </tr>
+    <tr>
+        <td style="width:15%;background-color:#bcb4f7;" colspan="1">Candidate strengths</td>
+        <td colspan="3">Candidate strengths should be placed here</td>
+    </tr>
+    <tr>
+        <td style="width:15%;background-color:#bcb4f7;" colspan="1">Candidate weaknesses</td>
+        <td colspan="3">Candidate weaknesses should be placed here</td>
+    </tr>
+    <tr>
+        <td style="width:15%;background-color:#bcb4f7;" colspan="1" rowspan="@(Model.Content.Count+1)">Interviewed categories</td>
+        <td style="width:15%;background-color:#bcb4f7;" colspan="1">Category</td>
+        <td style="width:10%;background-color:#bcb4f7;" colspan="1">Score</td>
+        <td style="background-color:#bcb4f7;" colspan="1">Notes</td>
+    </tr>
+    @foreach (var categoryResult in Model.Content)
+    {
+        <tr>
+            <td colspan="1">@categoryResult.CategoryName</td>
+            <td colspan="1">@(categoryResult.QuestionResults.Average(q => q.Score) * 100)%</td>
+            <td colspan="1"><pre>@categoryResult.QuestionResults.Where(q => !string.IsNullOrWhiteSpace(q.Notes))
+                .Aggregate(string.Empty, (s, result) => s + $"{result.QuestionName}: {result.Notes}\n")</pre></td>
+        </tr>
+    }
+</table>

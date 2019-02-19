@@ -6,6 +6,8 @@ namespace CandidateEvaluator.Contract.Commands.InterviewResult
     public class CreateInterviewResult : CommandBase
     {
         public string CandidateName { get; set; }
+        public string ReviewerName { get; set; }
+        public string InterviewTemplateName { get; set; }
         public DateTime InterviewDate { get; set; }
         public List<CreateCategoryResult> Content { get; set; }
     }

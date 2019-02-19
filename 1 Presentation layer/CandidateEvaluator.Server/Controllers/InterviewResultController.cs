@@ -23,7 +23,9 @@ namespace CandidateEvaluator.Server.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateInterviewResult command)
         {
-            command.OwnerId = HttpContext.GetUser().Oid;
+            var user = HttpContext.GetUser();
+            command.OwnerId = user.Oid;
+            command.ReviewerName = user.Name;
             var resultId = await _dispatcher.Send(command);
             return CreatedAtAction(nameof(Get), resultId);
         }

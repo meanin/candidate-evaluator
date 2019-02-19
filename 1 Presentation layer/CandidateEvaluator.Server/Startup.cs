@@ -24,10 +24,12 @@ using System.Net.Mime;
 using CandidateEvaluator.Contract.Commands.Interview;
 using CandidateEvaluator.Contract.Commands.InterviewResult;
 using CandidateEvaluator.Contract.Dtos;
+using CandidateEvaluator.Contract.Factories;
 using CandidateEvaluator.Contract.Queries.Category;
 using CandidateEvaluator.Contract.Queries.Interview;
 using CandidateEvaluator.Contract.Queries.InterviewResult;
 using CandidateEvaluator.Contract.Services;
+using CandidateEvaluator.Core.Factories;
 using CandidateEvaluator.Core.Handlers.Commands.Category;
 using CandidateEvaluator.Core.Handlers.Commands.Interview;
 using CandidateEvaluator.Core.Handlers.Commands.InterviewResult;
@@ -78,7 +80,8 @@ namespace CandidateEvaluator.Server
             services.AddTransient<IInterviewRepository, InterviewRepository>();
             services.AddTransient<IInterviewResultRepository, InterviewResultRepository>();
 
-            services.AddTransient<IMailClient, SendGridMailClient>();
+            services.AddTransient<IMailContentServiceFactory, UserPreferencesMailContentServiceFactory>();
+            services.AddTransient<IMailService, SendGridMailService>();
 
             services.AddTransient<IDispatcher, Dispatcher>();
             services.AddTransient<ICommandDispatcher, CommandDispatcher>();

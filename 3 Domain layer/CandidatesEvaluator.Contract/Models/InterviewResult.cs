@@ -7,6 +7,8 @@ namespace CandidateEvaluator.Contract.Models
     {
         public Guid Id { get; set; }
         public string CandidateName { get; set; }
+        public string ReviewerName { get; set; }
+        public string InterviewTemplateName { get; set; }
         public Guid OwnerId { get; set; }
         public DateTime InterviewDate { get; set; }
         public List<CategoryResult> Content { get; set; }

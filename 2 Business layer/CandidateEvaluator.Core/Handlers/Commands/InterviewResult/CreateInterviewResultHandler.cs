@@ -12,14 +12,14 @@ namespace CandidateEvaluator.Core.Handlers.Commands.InterviewResult
     public class CreateInterviewResultHandler : ICommandHandler<CreateInterviewResult>
     {
         private readonly IInterviewResultRepository _modelRepository;
-        private readonly IMailClient _mailClient;
+        private readonly IMailService _mailService;
 
         public CreateInterviewResultHandler(
             IInterviewResultRepository modelRepository, 
-            IMailClient mailClient)
+            IMailService mailService)
         {
             _modelRepository = modelRepository;
-            _mailClient = mailClient;
+            _mailService = mailService;
         }
 
         public async Task<Guid> Handle(CreateInterviewResult command)
@@ -28,7 +28,9 @@ namespace CandidateEvaluator.Core.Handlers.Commands.InterviewResult
             {
                 OwnerId = command.OwnerId,
                 CandidateName = command.CandidateName,
+                ReviewerName = command.ReviewerName,
                 InterviewDate = command.InterviewDate,
+                InterviewTemplateName = command.InterviewTemplateName,
                 Content = command.Content.Select(c => new CategoryResult
                 {
                     CategoryId = c.CategoryId,
@@ -42,8 +44,10 @@ namespace CandidateEvaluator.Core.Handlers.Commands.InterviewResult
                     }).ToList()
                 }).ToList()
             };
+
             var result = await _modelRepository.Add(model);
-            await _mailClient.SendInterviewResultReport(model);
+
+            await _mailService.SendInterviewResultReport(model, command.OwnerId);
             return result;
         }
     }
