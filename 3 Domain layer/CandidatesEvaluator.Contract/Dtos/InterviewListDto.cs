@@ -5,8 +5,8 @@ namespace CandidateEvaluator.Contract.Dtos
 {
     public class InterviewListDto
     {
-        public List<InterviewListElement> List { get; set; }
-        public class InterviewListElement
+        public List<InterviewListElementDto> List { get; set; }
+        public class InterviewListElementDto
         {
             public Guid Id { get; set; }
             public string Name { get; set; }

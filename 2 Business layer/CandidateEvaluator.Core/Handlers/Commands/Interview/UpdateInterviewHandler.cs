@@ -9,7 +9,7 @@ using CandidateEvaluator.Contract.Repositories;
 
 namespace CandidateEvaluator.Core.Handlers.Commands.Interview
 {
-    public class UpdateInterviewHandler : ICommandHandler<UpdateInterview>
+    public class UpdateInterviewHandler : ICommandHandler<UpdateInterviewCommand>
     {
         private readonly IInterviewRepository _modelRepository;
         private readonly IUserRecentActivityRepository _activityRepository;
@@ -21,7 +21,7 @@ namespace CandidateEvaluator.Core.Handlers.Commands.Interview
             _activityRepository = activityRepository;
         }
 
-        public async Task<Guid> Handle(UpdateInterview command)
+        public async Task<Guid> Handle(UpdateInterviewCommand command)
         {
             var model = new Contract.Models.Interview
             {

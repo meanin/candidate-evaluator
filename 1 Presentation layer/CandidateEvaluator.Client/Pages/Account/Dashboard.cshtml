@@ -1,6 +1,5 @@
 ﻿@page "/dashboard"
-@using System.Collections
-@using CandidateEvaluator.Contract.Models
+@using CandidateEvaluator.Common.Dtos
 @using Microsoft.AspNetCore.Blazor.Services
 @inject Services.UserIdentityService Http
 @inject IUriHelper UriHelper
@@ -34,13 +33,13 @@ else
                     <td>@model.Type.ToString()</td>
                     @switch (model.Type)
                     {
-                        case EntityType.Category:
+                        case "Category":
                             <td><a href="/category/@model.EntityId">@model.Name</a></td>
                             break;
-                        case EntityType.Interview:
+                        case "Interview":
                             <td><a href="/interview/@model.EntityId">@model.Name</a></td>
                             break;
-                        case EntityType.Question:
+                        case "Question":
                             <td><a href="/question/@model.EntityId">@model.Name</a></td>
                             break;
                         default:
@@ -78,15 +77,15 @@ else
 
 @functions
 {
-    private List<RecentActivity> _activities;
-    private List<InterviewResult> _interviewResults;
+    private List<RecentActivityDto> _activities;
+    private List<InterviewResultDto> _interviewResults;
 
     protected override async Task OnInitAsync()
     {
         try
         {
-            _activities = await Http.AuthorizedGetJsonAsync<List<RecentActivity>>("api/dashboard");
-            _interviewResults = await Http.AuthorizedGetJsonAsync<List<InterviewResult>>("api/interviewresult");
+            _activities = await Http.AuthorizedGetJsonAsync<List<RecentActivityDto>>("api/dashboard");
+            _interviewResults = await Http.AuthorizedGetJsonAsync<List<InterviewResultDto>>("api/interviewresult");
         }
         catch
         {

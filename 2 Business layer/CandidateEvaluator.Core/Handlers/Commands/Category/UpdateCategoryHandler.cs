@@ -7,7 +7,7 @@ using CandidateEvaluator.Contract.Repositories;
 
 namespace CandidateEvaluator.Core.Handlers.Commands.Category
 {
-    public class UpdateCategoryHandler : ICommandHandler<UpdateCategory>
+    public class UpdateCategoryHandler : ICommandHandler<UpdateCategoryCommand>
     {
         private readonly ICategoryRepository _modelRepository;
         private readonly IUserRecentActivityRepository _activityRepository;
@@ -19,7 +19,7 @@ namespace CandidateEvaluator.Core.Handlers.Commands.Category
             _activityRepository = activityRepository;
         }
 
-        public async Task<Guid> Handle(UpdateCategory command)
+        public async Task<Guid> Handle(UpdateCategoryCommand command)
         {
             var model = new Contract.Models.Category
             {

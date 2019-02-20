@@ -33,14 +33,14 @@ namespace CandidateEvaluator.Core.Handlers.Queries.Interview
                 Name = model.Name,
                 Id = model.Id,
                 OwnerId = model.OwnerId,
-                Content = new List<InterviewContent>()
+                Content = new List<InterviewContentDto>()
             };
 
             foreach (var categoryId in model.Content.Keys)
             {
                 var category = await _categoryRepository.Get(query.OwnerId, categoryId);
                 var categoryQuestions = await _questionRepository.GetAllFromCategory(query.OwnerId, categoryId);
-                dto.Content.Add(new InterviewContent
+                dto.Content.Add(new InterviewContentDto
                 {
                     Category = category,
                     Questions = categoryQuestions.Shuffle().Take(model.Content[categoryId]).ToList()

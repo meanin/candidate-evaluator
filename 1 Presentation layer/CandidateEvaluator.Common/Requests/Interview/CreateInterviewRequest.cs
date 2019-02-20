@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CandidateEvaluator.Contract.Commands.Interview
+namespace CandidateEvaluator.Common.Requests.Interview
 {
-    public class CreateInterview : CommandBase
+    public class CreateInterviewRequest
     {
         public string Name { get; set; }
         public List<CreateInterviewCategory> Content { get; set; } = new List<CreateInterviewCategory>();

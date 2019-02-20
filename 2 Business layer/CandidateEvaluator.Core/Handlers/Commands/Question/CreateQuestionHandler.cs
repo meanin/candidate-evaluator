@@ -7,7 +7,7 @@ using CandidateEvaluator.Contract.Repositories;
 
 namespace CandidateEvaluator.Core.Handlers.Commands.Question
 {
-    public class CreateQuestionHandler : ICommandHandler<CreateQuestion>
+    public class CreateQuestionHandler : ICommandHandler<CreateQuestionCommand>
     {
         private readonly IQuestionRepository _modelRepository;
         private readonly IUserRecentActivityRepository _activityRepository;
@@ -18,7 +18,7 @@ namespace CandidateEvaluator.Core.Handlers.Commands.Question
             _activityRepository = recentActivityRepository;
         }
 
-        public async Task<Guid> Handle(CreateQuestion command)
+        public async Task<Guid> Handle(CreateQuestionCommand command)
         {
             var model = new Contract.Models.Question
             {

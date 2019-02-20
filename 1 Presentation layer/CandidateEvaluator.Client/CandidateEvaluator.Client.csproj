@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\3 Domain layer\CandidatesEvaluator.Contract\CandidateEvaluator.Contract.csproj" />
+    <ProjectReference Include="..\CandidateEvaluator.Common\CandidateEvaluator.Common.csproj" />
   </ItemGroup>
 
 </Project>

@@ -2,10 +2,11 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http;
 using System.Threading.Tasks;
+using CandidateEvaluator.Common.Dtos;
 using CandidateEvaluator.Contract.Configuration;
-using CandidateEvaluator.Contract.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
+using AuthDto = CandidateEvaluator.Common.Dtos.AuthDto;
 
 namespace CandidateEvaluator.Server.Controllers
 {
@@ -53,7 +54,7 @@ namespace CandidateEvaluator.Server.Controllers
             var url = $"https://login.microsoftonline.com/{_options.TenantId}/oauth2/token";
             var result = await _client.PostAsync(url, new FormUrlEncodedContent(formCollection));
             var parsed = JToken.Parse(await result.Content.ReadAsStringAsync());
-            var tokens = new AuthTokens
+            var tokens = new AuthDto
             {
                 BearerToken = parsed["access_token"].ToString(),
                 RefreshToken = parsed["refresh_token"].ToString(),
@@ -69,7 +70,11 @@ namespace CandidateEvaluator.Server.Controllers
         [HttpGet]
         public IActionResult GetOptions()
         {
-            return Ok(_options);
+            return Ok(new AadOptionsDto
+            {
+                ClientId = _options.ClientId,
+                TenantId = _options.TenantId
+            });
         }
     }
 }

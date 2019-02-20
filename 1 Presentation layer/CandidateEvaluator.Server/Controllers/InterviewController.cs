@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
+using CandidateEvaluator.Common.Requests.Interview;
 using CandidateEvaluator.Contract.Commands.Interview;
 using CandidateEvaluator.Contract.Dispatchers;
 using CandidateEvaluator.Contract.Queries.Interview;
@@ -21,10 +23,12 @@ namespace CandidateEvaluator.Server.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateInterview command)
+        public async Task<IActionResult> Create([FromBody] CreateInterviewRequest request)
         {
-            command.OwnerId = HttpContext.GetUser().Oid;
-            var resultId = await _dispatcher.Send(command);
+            var cmd = new CreateInterviewCommand(
+                HttpContext.GetUser().Oid, request.Name,
+                request.Content.Select(c => (c.CategoryId, c.QuestionCount)).ToList());
+            var resultId = await _dispatcher.Send(cmd);
             return CreatedAtAction(nameof(Get), resultId);
         }
 
@@ -45,10 +49,11 @@ namespace CandidateEvaluator.Server.Controllers
 
         [HttpPost]
         [Route("{id}")]
-        public async Task<IActionResult> Update([FromBody] UpdateInterview command)
+        public async Task<IActionResult> Update([FromBody] UpdateInterviewRequest request)
         {
-            command.OwnerId = HttpContext.GetUser().Oid;
-            var resultId = await _dispatcher.Send(command);
+            var cmd = new UpdateInterviewCommand(HttpContext.GetUser().Oid, request.Id, request.Name,
+                request.Content.Select(c => (c.CategoryId, c.QuestionCount)).ToList());
+            var resultId = await _dispatcher.Send(cmd);
             return Ok(resultId);
         }
 
@@ -56,7 +61,7 @@ namespace CandidateEvaluator.Server.Controllers
         [Route("{id}")]
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
-            await _dispatcher.Send(new DeleteInterview { OwnerId = HttpContext.GetUser().Oid, Id = id });
+            await _dispatcher.Send(new DeleteInterviewCommand(HttpContext.GetUser().Oid, id));
             return NoContent();
         }
     }

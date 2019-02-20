@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CandidateEvaluator.Contract.Commands.Interview
+namespace CandidateEvaluator.Common.Requests.Interview
 {
-    public class UpdateInterview : CommandBase
+    public class UpdateInterviewRequest
     {
         public Guid Id { get; set; }
         public string Name { get; set; }

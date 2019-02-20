@@ -1,7 +1,7 @@
 ﻿@page "/interview/{id:guid}/start"
-@using CandidateEvaluator.Contract.Commands.InterviewResult
-@using CandidateEvaluator.Contract.Dtos
-@using CandidateEvaluator.Contract.Models
+@using CandidateEvaluator.Common.Dtos
+@using CandidateEvaluator.Common.Requests.InterviewResult
+@using CandidateEvaluator.Common.Requests.Question
 @using Microsoft.AspNetCore.Blazor.Services
 @inject Services.UserIdentityService Http
 @inject IUriHelper UriHelper
@@ -16,8 +16,8 @@ else
 {
     <div>
         <label>@_interview.Name</label>
-        <text>@_result.InterviewDate</text>
-        <textarea class="form-control" rows="1" maxlength="30" bind=@_result.CandidateName placeholder="Enter candidate name" />
+        <text>@_request.InterviewDate</text>
+        <textarea class="form-control" rows="1" maxlength="30" bind=@_request.CandidateName placeholder="Enter candidate name" />
     </div>
 
     <div id="content">
@@ -38,12 +38,12 @@ else
                     <div class="card-body">
                         @foreach (var question in content.Questions)
                         {
-                            var questionResult = _result.Content.Single(c => c.CategoryId == content.Category.Id)
+                            var questionResult = _request.Content.Single(c => c.CategoryId == content.Category.Id)
                                 ?.QuestionResults.Single(q => q.QuestionId == question.Id);
-                            var questionResultId = _result.Content.Single(c => c.CategoryId == content.Category.Id).QuestionResults.IndexOf(questionResult);
+                            var questionResultId = _request.Content.Single(c => c.CategoryId == content.Category.Id).QuestionResults.IndexOf(questionResult);
                             <label>@question.Name</label>
                             <br />
-                            if (question.Type == QuestionType.Regular)
+                            if (question.Type == CreateQuestionRequest.QuestionType.Regular)
                              {
                                  <pre>@question.Text</pre>
                             }
@@ -75,7 +75,7 @@ else
     private Guid Id { get; set; }
 
     private InterviewDto _interview;
-    private CreateInterviewResult _result;
+    private CreateInterviewResultRequest _request;
     private readonly Dictionary<string, string> _fullScreenStyle = new Dictionary<string, string>();
     private const string CardFullscreen = "display: block; z-index: 9999; position: fixed; width: 100%; height: 100%; top: 0; right: 0; left: 0; bottom: 0; overflow: auto; background-color: white;";
 
@@ -84,7 +84,7 @@ else
         try
         {
             _interview = await Http.AuthorizedGetJsonAsync<InterviewDto>($"api/interview/{Id}");
-            _result = new CreateInterviewResult
+            _request = new CreateInterviewResultRequest
             {
                 InterviewDate = DateTime.Now,
                 InterviewTemplateName = _interview.Name,
@@ -104,7 +104,7 @@ else
             {
                 foreach (var question in category.Questions)
                 {
-                    if (question.Type == QuestionType.Snippet)
+                    if (question.Type == CreateQuestionRequest.QuestionType.Snippet)
                     {
                         _fullScreenStyle[$"{_interview.Content.IndexOf(category)}/{category.Questions.IndexOf(question)}"] = string.Empty;
                     }
@@ -121,7 +121,7 @@ else
     {
         try
         {
-            await Http.AuthorizedPostAsync("api/interviewresult", _result);
+            await Http.AuthorizedPostAsync("api/interviewresult", _request);
             UriHelper.NavigateTo("/dashboard");
         }
         catch

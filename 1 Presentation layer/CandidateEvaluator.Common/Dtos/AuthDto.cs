@@ -1,6 +1,6 @@
-﻿namespace CandidateEvaluator.Contract.Models
+﻿namespace CandidateEvaluator.Common.Dtos
 {
-    public class AuthTokens
+    public class AuthDto
     {
         public string Username { get; set; }
         public string BearerToken { get; set; }

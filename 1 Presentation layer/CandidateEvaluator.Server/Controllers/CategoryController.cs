@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using CandidateEvaluator.Common.Requests.Category;
 using CandidateEvaluator.Contract.Queries.Category;
 
 namespace CandidateEvaluator.Server.Controllers
@@ -21,10 +22,10 @@ namespace CandidateEvaluator.Server.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateCategory command)
+        public async Task<IActionResult> Create([FromBody] CreateCategoryRequest request)
         {
-            command.OwnerId = HttpContext.GetUser().Oid;
-            var created = await _dispatcher.Send(command);
+            var cmd = new CreateCategoryCommand(HttpContext.GetUser().Oid, request.Name);
+            var created = await _dispatcher.Send(cmd);
             return CreatedAtAction(nameof(Get), created);
         }
 
@@ -45,10 +46,10 @@ namespace CandidateEvaluator.Server.Controllers
 
         [HttpPost]
         [Route("{id}")]
-        public async Task<IActionResult> Update([FromBody] UpdateCategory command)
+        public async Task<IActionResult> Update([FromBody] UpdateCategoryRequest request)
         {
-            command.OwnerId = HttpContext.GetUser().Oid;
-            var categoryId = await _dispatcher.Send(command);
+            var cmd = new UpdateCategoryCommand(HttpContext.GetUser().Oid, request.Id, request.Name);
+            var categoryId = await _dispatcher.Send(cmd);
             return Ok(categoryId);
         }
 
@@ -56,7 +57,7 @@ namespace CandidateEvaluator.Server.Controllers
         [Route("{id}")]
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
-            await _dispatcher.Send(new DeleteCategory { OwnerId = HttpContext.GetUser().Oid, Id = id });
+            await _dispatcher.Send(new DeleteCategoryCommand(HttpContext.GetUser().Oid, id));
             return NoContent();
         }
     }

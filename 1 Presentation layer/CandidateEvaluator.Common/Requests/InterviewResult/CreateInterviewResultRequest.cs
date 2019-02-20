@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CandidateEvaluator.Contract.Commands.InterviewResult
+namespace CandidateEvaluator.Common.Requests.InterviewResult
 {
-    public class CreateInterviewResult : CommandBase
+    public class CreateInterviewResultRequest
     {
         public string CandidateName { get; set; }
-        public string ReviewerName { get; set; }
         public string InterviewTemplateName { get; set; }
         public DateTime InterviewDate { get; set; }
         public List<CreateCategoryResult> Content { get; set; }

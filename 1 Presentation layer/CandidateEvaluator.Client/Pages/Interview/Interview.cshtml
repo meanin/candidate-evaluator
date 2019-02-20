@@ -1,7 +1,6 @@
 ﻿@page "/interview/{id:guid}"
-@using CandidateEvaluator.Contract.Commands.Interview
-@using CandidateEvaluator.Contract.Dtos
-@using CandidateEvaluator.Contract.Models
+@using CandidateEvaluator.Common.Dtos
+@using CandidateEvaluator.Common.Requests.Interview
 @using Microsoft.AspNetCore.Blazor.Services
 @inject Services.UserIdentityService Http
 @inject IUriHelper UriHelper
@@ -47,21 +46,21 @@ else
     [Parameter]
     private Guid Id { get; set; }
 
-    private List<Category> _categories;
-    private UpdateInterview _updateCommand;
+    private List<CategoryDto> _categories;
+    private UpdateInterviewRequest _updateCommand;
 
     protected override async Task OnInitAsync()
     {
         try
         {
-            _categories = await Http.AuthorizedGetJsonAsync<List<Category>>("api/category");
+            _categories = await Http.AuthorizedGetJsonAsync<List<CategoryDto>>("api/category");
             var dto = await Http.AuthorizedGetJsonAsync<InterviewDto>($"api/interview/{Id}");
-            _updateCommand = new UpdateInterview
+            _updateCommand = new UpdateInterviewRequest
             {
                 Name = dto.Name,
                 Id = dto.Id,
                 Content = dto.Content
-                    .Select(c => new UpdateInterview.UpdateInterviewCategory
+                    .Select(c => new UpdateInterviewRequest.UpdateInterviewCategory
                     {
                         CategoryId = c.Category.Id,
                         QuestionCount = c.Questions.Count
@@ -79,7 +78,7 @@ else
         if (_updateCommand.Content.Any(c => c.CategoryId == categoryId))
             return;
 
-        _updateCommand.Content.Add(new UpdateInterview.UpdateInterviewCategory
+        _updateCommand.Content.Add(new UpdateInterviewRequest.UpdateInterviewCategory
         {
             CategoryId = categoryId,
             QuestionCount = 1

@@ -1,5 +1,5 @@
 ﻿@page "/login"
-@using CandidateEvaluator.Contract.Configuration
+@using CandidateEvaluator.Common.Dtos
 @inject Microsoft.AspNetCore.Blazor.Services.IUriHelper UriHelper
 @inject Services.UserIdentityService Http
 
@@ -7,7 +7,7 @@
 {
 protected override async Task OnInitAsync()
 {
-    var options = await Http.GetJsonAsync<AadOptions>("api/auth");
+    var options = await Http.GetJsonAsync<AadOptionsDto>("api/auth");
     UriHelper.NavigateTo($"https://login.microsoftonline.com/{options.TenantId}/oauth2/authorize?" +
                          $"client_id={options.ClientId}&response_type=code&state={Guid.NewGuid()}" +
                          $"&redirect_uri={UriHelper.GetBaseUri()}code");

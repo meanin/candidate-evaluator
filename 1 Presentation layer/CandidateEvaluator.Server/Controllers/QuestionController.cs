@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using CandidateEvaluator.Common.Requests.Question;
+using CandidateEvaluator.Contract.Models;
 
 namespace CandidateEvaluator.Server.Controllers
 {
@@ -23,10 +25,16 @@ namespace CandidateEvaluator.Server.Controllers
 
         [HttpPost]
         [Route("")]
-        public async Task<IActionResult> Create([FromBody] CreateQuestion command)
+        public async Task<IActionResult> Create([FromBody] CreateQuestionRequest request)
         {
-            command.OwnerId = HttpContext.GetUser().Oid;
-            var created = await _dispatcher.Send(command);
+            var cmd = new CreateQuestionCommand(
+                HttpContext.GetUser().Oid,
+                request.Name,
+                request.Text,
+                request.CategoryId,
+                Enum.Parse<QuestionType>(request.Type.ToString())
+            );
+            var created = await _dispatcher.Send(cmd);
             return CreatedAtAction(nameof(Get), created);
         }
 
@@ -55,25 +63,19 @@ namespace CandidateEvaluator.Server.Controllers
             return Ok(question);
         }
 
-        [HttpGet]
-        [Route("{id:guid}/snippet")]
-        public async Task<IActionResult> GetSnippet(Guid id)
-        {
-            var question = await _dispatcher.Query(new GetQuestion
-            {
-                OwnerId = HttpContext.GetUser().Oid,
-                Id = id
-            });
-            return Ok(question.Text);
-        }
-
-
         [HttpPost]
         [Route("{id:guid}")]
-        public async Task<IActionResult> Update([FromBody] UpdateQuestion command)
+        public async Task<IActionResult> Update([FromBody] UpdateQuestionRequest request)
         {
-            command.OwnerId = HttpContext.GetUser().Oid;
-            var categoryId = await _dispatcher.Send(command);
+            var cmd = new UpdateQuestionCommand(
+                HttpContext.GetUser().Oid,
+                request.Id,
+                request.Name,
+                request.Text,
+                request.CategoryId,
+                Enum.Parse<QuestionType>(request.Type.ToString())
+                );
+            var categoryId = await _dispatcher.Send(cmd);
             return Ok(categoryId);
         }
 
@@ -81,11 +83,7 @@ namespace CandidateEvaluator.Server.Controllers
         [Route("{id:guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            await _dispatcher.Send(new DeleteQuestion
-            {
-                OwnerId = HttpContext.GetUser().Oid,
-                Id = id
-            });
+            await _dispatcher.Send(new DeleteQuestionCommand(HttpContext.GetUser().Oid, id));
             return NoContent();
         }
 

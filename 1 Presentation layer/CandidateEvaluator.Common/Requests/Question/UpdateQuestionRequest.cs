@@ -1,14 +1,13 @@
 ﻿using System;
-using CandidateEvaluator.Contract.Models;
 
-namespace CandidateEvaluator.Contract.Commands.Question
+namespace CandidateEvaluator.Common.Requests.Question
 {
-    public class UpdateQuestion : CommandBase
+    public class UpdateQuestionRequest
     {
         public Guid CategoryId { get; set; }
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string Text { get; set; }
-        public QuestionType Type { get; set; }
+        public CreateQuestionRequest.QuestionType Type { get; set; }
     }
 }

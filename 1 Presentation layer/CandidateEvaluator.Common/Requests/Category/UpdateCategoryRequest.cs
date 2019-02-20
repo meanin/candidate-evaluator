@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace CandidateEvaluator.Contract.Commands.Category
+namespace CandidateEvaluator.Common.Requests.Category
 {
-    public class UpdateCategory : CommandBase
+    public class UpdateCategoryRequest
     {
         public Guid Id { get; set; }
         public string Name { get; set; }

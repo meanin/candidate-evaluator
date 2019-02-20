@@ -1,4 +1,3 @@
-using CandidateEvaluator.Contract.Commands.Category;
 using CandidateEvaluator.Contract.Commands.Question;
 using CandidateEvaluator.Contract.Configuration;
 using CandidateEvaluator.Contract.Dispatchers;
@@ -21,9 +20,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Mime;
+using CandidateEvaluator.Common.Dtos;
+using CandidateEvaluator.Common.Requests.Question;
+using CandidateEvaluator.Contract.Commands.Category;
 using CandidateEvaluator.Contract.Commands.Interview;
 using CandidateEvaluator.Contract.Commands.InterviewResult;
-using CandidateEvaluator.Contract.Dtos;
 using CandidateEvaluator.Contract.Factories;
 using CandidateEvaluator.Contract.Queries.Category;
 using CandidateEvaluator.Contract.Queries.Interview;
@@ -87,27 +88,27 @@ namespace CandidateEvaluator.Server
             services.AddTransient<ICommandDispatcher, CommandDispatcher>();
             services.AddTransient<IQueryDispatcher, QueryDispatcher>();
 
-            services.AddTransient<ICommandHandler<CreateCategory>, CreateCategoryHandler>();
-            services.AddTransient<ICommandHandler<DeleteCategory>, DeleteCategoryHandler>();
-            services.AddTransient<ICommandHandler<UpdateCategory>, UpdateCategoryHandler>();
+            services.AddTransient<ICommandHandler<CreateCategoryCommand>, CreateCategoryHandler>();
+            services.AddTransient<ICommandHandler<DeleteCategoryCommand>, DeleteCategoryHandler>();
+            services.AddTransient<ICommandHandler<UpdateCategoryCommand>, UpdateCategoryHandler>();
 
-            services.AddTransient<ICommandHandler<CreateQuestion>, CreateQuestionHandler>();
-            services.AddTransient<ICommandHandler<DeleteQuestion>, DeleteQuestionHandler>();
-            services.AddTransient<ICommandHandler<UpdateQuestion>, UpdateQuestionHandler>();
+            services.AddTransient<ICommandHandler<CreateQuestionCommand>, CreateQuestionHandler>();
+            services.AddTransient<ICommandHandler<DeleteQuestionCommand>, DeleteQuestionHandler>();
+            services.AddTransient<ICommandHandler<UpdateQuestionCommand>, UpdateQuestionHandler>();
 
-            services.AddTransient<ICommandHandler<CreateInterview>, CreateInterviewHandler>();
-            services.AddTransient<ICommandHandler<DeleteInterview>, DeleteInterviewHandler>();
-            services.AddTransient<ICommandHandler<UpdateInterview>, UpdateInterviewHandler>();
+            services.AddTransient<ICommandHandler<CreateInterviewCommand>, CreateInterviewHandler>();
+            services.AddTransient<ICommandHandler<DeleteInterviewCommand>, DeleteInterviewHandler>();
+            services.AddTransient<ICommandHandler<UpdateInterviewCommand>, UpdateInterviewHandler>();
 
-            services.AddTransient<ICommandHandler<CreateInterviewResult>, CreateInterviewResultHandler>();
-            services.AddTransient<ICommandHandler<DeleteInterviewResult>, DeleteInterviewResultHandler>();
+            services.AddTransient<ICommandHandler<CreateInterviewResultCommand>, CreateInterviewResultHandler>();
+            services.AddTransient<ICommandHandler<DeleteInterviewResultCommand>, DeleteInterviewResultHandler>();
 
             services.AddTransient<IQueryHandler<GetAllCategories, IEnumerable<Category>>, GetAllCategoriesHandler>();
             services.AddTransient<IQueryHandler<GetCategory, Category>, GetCategoryHandler>();
             services.AddTransient<IQueryHandler<GetQuestions, IEnumerable<Question>>, GetQuestionsHandler>();
             services.AddTransient<IQueryHandler<GetQuestion, Question>, GetQuestionHandler>();
-            services.AddTransient<IQueryHandler<GetInterview, InterviewDto>, GetInterviewHandler>();
-            services.AddTransient<IQueryHandler<GetAllInterviews, InterviewListDto>, GetAllInterviewsHandler>();
+            //services.AddTransient<IQueryHandler<GetInterview, InterviewDto>, GetInterviewHandler>();
+            //services.AddTransient<IQueryHandler<GetAllInterviews, InterviewListDto>, GetAllInterviewsHandler>();
             services.AddTransient<IQueryHandler<GetAllUserActivities, IEnumerable<RecentActivity>>, GetAllUserActivitiesHandler>();
             services.AddTransient<IQueryHandler<GetAllInterviewResults, IEnumerable<InterviewResult>>, GetAllInterviewResultsHandler>();
             services.AddTransient<IQueryHandler<GetInterviewResult, InterviewResult>, GetInterviewResultHandler>();
