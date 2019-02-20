@@ -87,6 +87,7 @@ else
             _result = new CreateInterviewResult
             {
                 InterviewDate = DateTime.Now,
+                InterviewTemplateName = _interview.Name,
                 Content = _interview.Content.Select(c => new CreateCategoryResult
                 {
                     CategoryId = c.Category.Id,

@@ -24,9 +24,12 @@ using System.Net.Mime;
 using CandidateEvaluator.Contract.Commands.Interview;
 using CandidateEvaluator.Contract.Commands.InterviewResult;
 using CandidateEvaluator.Contract.Dtos;
+using CandidateEvaluator.Contract.Factories;
 using CandidateEvaluator.Contract.Queries.Category;
 using CandidateEvaluator.Contract.Queries.Interview;
 using CandidateEvaluator.Contract.Queries.InterviewResult;
+using CandidateEvaluator.Contract.Services;
+using CandidateEvaluator.Core.Factories;
 using CandidateEvaluator.Core.Handlers.Commands.Category;
 using CandidateEvaluator.Core.Handlers.Commands.Interview;
 using CandidateEvaluator.Core.Handlers.Commands.InterviewResult;
@@ -35,6 +38,7 @@ using CandidateEvaluator.Core.Handlers.Queries.Category;
 using CandidateEvaluator.Core.Handlers.Queries.Interview;
 using CandidateEvaluator.Core.Handlers.Queries.InterviewResult;
 using CandidateEvaluator.Core.Handlers.Queries.Question;
+using CandidateEvaluator.Core.Services;
 
 namespace CandidateEvaluator.Server
 {
@@ -55,6 +59,9 @@ namespace CandidateEvaluator.Server
             var aadOptions = new AadOptions();
             Configuration.Bind("AadOptions", aadOptions);
             services.AddSingleton(aadOptions);
+            var mailOptions = new MailOptions();
+            Configuration.Bind("MailOptions", mailOptions);
+            services.AddSingleton(mailOptions);
             services
                 .AddAuthentication(sharedOptions =>
                 {
@@ -72,6 +79,9 @@ namespace CandidateEvaluator.Server
             services.AddTransient<IUserRecentActivityRepository, UserRecentActivityRepository>();
             services.AddTransient<IInterviewRepository, InterviewRepository>();
             services.AddTransient<IInterviewResultRepository, InterviewResultRepository>();
+
+            services.AddTransient<IMailContentServiceFactory, UserPreferencesMailContentServiceFactory>();
+            services.AddTransient<IMailService, SendGridMailService>();
 
             services.AddTransient<IDispatcher, Dispatcher>();
             services.AddTransient<ICommandDispatcher, CommandDispatcher>();
