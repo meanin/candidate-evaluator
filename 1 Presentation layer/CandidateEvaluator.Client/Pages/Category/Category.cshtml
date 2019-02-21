@@ -1,7 +1,7 @@
 ﻿@page "/category/{id:guid}"
 @using CandidateEvaluator.Client.Services
-@using CandidateEvaluator.Common.Dtos
 @using CandidateEvaluator.Common.Requests.Category
+@using CandidateEvaluator.Common.Responses.Category
 @inject UserIdentityService Http
 @inject Microsoft.AspNetCore.Blazor.Services.IUriHelper UriHelper
 
@@ -29,7 +29,7 @@ else
 
     protected override async Task OnInitAsync()
     {
-        var dto = await Http.AuthorizedGetJsonAsync<CategoryDto>($"api/Category/{Id}");
+        var dto = await Http.AuthorizedGetJsonAsync<CategoryResponse>($"api/Category/{Id}");
         _request = new UpdateCategoryRequest
         {
             Id = dto.Id,

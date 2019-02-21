@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using CandidateEvaluator.Common.Requests.Interview;
+using CandidateEvaluator.Common.Responses.Interview;
 using CandidateEvaluator.Contract.Commands.Interview;
 using CandidateEvaluator.Contract.Dispatchers;
 using CandidateEvaluator.Contract.Queries.Interview;
@@ -35,7 +36,7 @@ namespace CandidateEvaluator.Server.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var result = await _dispatcher.Query(new GetAllInterviews { OwnerId = HttpContext.GetUser().Oid });
+            var result = await _dispatcher.Query(new GetAllInterviewsQuery(HttpContext.GetUser().Oid));
             return Ok(result);
         }
 
@@ -43,8 +44,43 @@ namespace CandidateEvaluator.Server.Controllers
         [Route("{id}")]
         public async Task<IActionResult> Get([FromRoute] Guid id)
         {
-            var result = await _dispatcher.Query(new GetInterview { OwnerId = HttpContext.GetUser().Oid, Id = id });
-            return Ok(result);
+            var result = await _dispatcher.Query(new GetInterviewQuery(HttpContext.GetUser().Oid, id));
+            var response = new InterviewResponse
+            {
+                Id = result.Id,
+                Name = result.Name,
+                Content = result.Content.Select(c => new InterviewContentResponse
+                {
+                    CategoryId = c.Category.Id,
+                    QuestionCount = c.Questions.Count
+                }).ToList()
+            };
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("{id}/start")]
+        public async Task<IActionResult> Start([FromRoute] Guid id)
+        {
+            var result = await _dispatcher.Query(new GetInterviewQuery(HttpContext.GetUser().Oid, id));
+            var response = new StartInterviewResponse
+            {
+                Id = result.Id,
+                Name = result.Name,
+                Content = result.Content.Select(c => new StartInterviewContentResponse
+                {
+                    Id = c.Category.Id,
+                    Name = c.Category.Name,
+                    Questions = c.Questions.Select(q => new StartInterviewQuestionResponse
+                    {
+                        Id = q.Id,
+                        Name = q.Name,
+                        Type = q.Type.ToString(),
+                        Text = q.Text
+                    }).ToList()
+                }).ToList()
+            };
+            return Ok(response);
         }
 
         [HttpPost]

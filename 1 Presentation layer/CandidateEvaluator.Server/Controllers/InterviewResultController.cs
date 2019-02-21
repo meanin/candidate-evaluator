@@ -2,14 +2,13 @@
 using System.Linq;
 using System.Threading.Tasks;
 using CandidateEvaluator.Common.Requests.InterviewResult;
+using CandidateEvaluator.Common.Responses.InterviewResult;
 using CandidateEvaluator.Contract.Commands.InterviewResult;
 using CandidateEvaluator.Contract.Dispatchers;
 using CandidateEvaluator.Contract.Queries.InterviewResult;
 using CandidateEvaluator.Server.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using CreateCategoryResult = CandidateEvaluator.Contract.Commands.InterviewResult.CreateCategoryResult;
-using CreateQuestionResult = CandidateEvaluator.Contract.Commands.InterviewResult.CreateQuestionResult;
 
 namespace CandidateEvaluator.Server.Controllers
 {
@@ -53,15 +52,39 @@ namespace CandidateEvaluator.Server.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var result = await _dispatcher.Query(new GetAllInterviewResults { OwnerId = HttpContext.GetUser().Oid });
-            return Ok(result);
+            var result = await _dispatcher.Query(new GetAllInterviewResultsQuery(HttpContext.GetUser().Oid));
+            var response = result.Select(r => new MiniInterviewResultResponse
+            {
+                Id = r.Id,
+                InterviewDate = r.InterviewDate,
+                CandidateName = r.CandidateName
+            }).ToList();
+            return Ok(response);
         }
 
         [HttpGet]
         [Route("{id}")]
         public async Task<IActionResult> Get([FromRoute] Guid id)
         {
-            var result = await _dispatcher.Query(new GetInterviewResult { OwnerId = HttpContext.GetUser().Oid, Id = id });
+            var result = await _dispatcher.Query(new GetInterviewResultQuery(HttpContext.GetUser().Oid, id));
+            var response = new InterviewResultResponse
+            {
+                Id = result.Id,
+                CandidateName = result.CandidateName,
+                InterviewDate = result.InterviewDate,
+                Content = result.Content.Select(c => new CategoryResultResponse
+                {
+                    CategoryId = c.CategoryId,
+                    CategoryName = c.CategoryName,
+                    QuestionResults = c.QuestionResults.Select(q => new QuestionResultResponse
+                    {
+                        QuestionId = q.QuestionId,
+                        QuestionName = q.QuestionName,
+                        Score = q.Score,
+                        Notes = q.Notes
+                    }).ToList()
+                }).ToList()
+            };
             return Ok(result);
         }
 

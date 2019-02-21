@@ -1,27 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CandidateEvaluator.Common.Dtos
+namespace CandidateEvaluator.Common.Responses.InterviewResult
 {
-    public class InterviewResultDto
+    public class InterviewResultResponse
     {
         public Guid Id { get; set; }
         public string CandidateName { get; set; }
-        public string ReviewerName { get; set; }
-        public string InterviewTemplateName { get; set; }
-        public Guid OwnerId { get; set; }
         public DateTime InterviewDate { get; set; }
-        public List<CategoryResult> Content { get; set; }
+        public List<CategoryResultResponse> Content { get; set; }
     }
 
-    public class CategoryResult
+    public class CategoryResultResponse
     {
         public Guid CategoryId { get; set; }
         public string CategoryName { get; set; }
-        public List<QuestionResult> QuestionResults { get; set; }
+        public List<QuestionResultResponse> QuestionResults { get; set; }
     }
 
-    public class QuestionResult
+    public class QuestionResultResponse
     {
         public Guid QuestionId { get; set; }
         public string QuestionName { get; set; }

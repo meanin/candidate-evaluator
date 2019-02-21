@@ -6,7 +6,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Blazor.Extensions.Storage;
-using CandidateEvaluator.Common.Dtos;
+using CandidateEvaluator.Common.Responses.Auth;
 using Microsoft.AspNetCore.Blazor;
 using Microsoft.AspNetCore.Blazor.Services;
 using Microsoft.JSInterop;
@@ -22,7 +22,7 @@ namespace CandidateEvaluator.Client.Services
         private bool _initialized;
 
         private const string AuthTokensKey = "AuthTokens";
-        public AuthDto AuthDto { get; set; }
+        public AuthResponse AuthResponse { get; set; }
 
         public UserIdentityService(
             HttpClient http,
@@ -38,16 +38,16 @@ namespace CandidateEvaluator.Client.Services
         {
             if (!_initialized)
             {
-                var authTokens = await _localStorage.GetItem<AuthDto>(AuthTokensKey);
-                AuthDto = authTokens;
+                var authTokens = await _localStorage.GetItem<AuthResponse>(AuthTokensKey);
+                AuthResponse = authTokens;
                 _initialized = true;
             }
 
-            return AuthDto != null && 
-                   !string.IsNullOrWhiteSpace(AuthDto.BearerToken) &&
-                   !string.IsNullOrWhiteSpace(AuthDto.RefreshToken) &&
-                   !string.IsNullOrWhiteSpace(AuthDto.Username) &&
-                   !string.IsNullOrWhiteSpace(AuthDto.Code);
+            return AuthResponse != null && 
+                   !string.IsNullOrWhiteSpace(AuthResponse.BearerToken) &&
+                   !string.IsNullOrWhiteSpace(AuthResponse.RefreshToken) &&
+                   !string.IsNullOrWhiteSpace(AuthResponse.Username) &&
+                   !string.IsNullOrWhiteSpace(AuthResponse.Code);
         }
 
         public async Task Login()
@@ -62,27 +62,27 @@ namespace CandidateEvaluator.Client.Services
             };
 
             var response = await Http.PostAsync("/api/auth", new FormUrlEncodedContent(nameValueCollection));
-            var authTokens = JsonConvert.DeserializeObject<AuthDto>(await response.Content.ReadAsStringAsync());
+            var authTokens = JsonConvert.DeserializeObject<AuthResponse>(await response.Content.ReadAsStringAsync());
             await _localStorage.SetItem(AuthTokensKey, authTokens);
-            AuthDto = authTokens;
+            AuthResponse = authTokens;
         }
 
         public void Logout()
         {
-            AuthDto = null;
+            AuthResponse = null;
         }
 
         private async Task GetRefreshToken()
         {
             var nameValueCollection = new[]
             {
-                new KeyValuePair<string, string>("code", AuthDto.Code),
+                new KeyValuePair<string, string>("code", AuthResponse.Code),
                 new KeyValuePair<string, string>("redirect_uri", $"{UriHelper.GetBaseUri()}code"),
-                new KeyValuePair<string, string>("refresh_token", AuthDto.RefreshToken)
+                new KeyValuePair<string, string>("refresh_token", AuthResponse.RefreshToken)
             };
 
             var response = await Http.PostAsync("/api/auth", new FormUrlEncodedContent(nameValueCollection));
-            AuthDto = JsonConvert.DeserializeObject<AuthDto>(await response.Content.ReadAsStringAsync());
+            AuthResponse = JsonConvert.DeserializeObject<AuthResponse>(await response.Content.ReadAsStringAsync());
         }
 
         public Task<HttpResponseMessage> AuthorizedDeleteAsync(string requestUri)
@@ -124,7 +124,7 @@ namespace CandidateEvaluator.Client.Services
         {
             return new HttpRequestMessage(httpMethod, requestUri)
             {
-                Headers = { { "Authorization", $"Bearer {AuthDto.BearerToken}" } },
+                Headers = { { "Authorization", $"Bearer {AuthResponse.BearerToken}" } },
                 Content = content != null 
                     ? new StringContent(Json.Serialize(content), Encoding.UTF8, "application/json") 
                     : null
@@ -133,7 +133,7 @@ namespace CandidateEvaluator.Client.Services
 
         private async Task<HttpResponseMessage> RetryOnUnauthorized(Task<HttpResponseMessage> task, int tries = 3)
         {
-            if(string.IsNullOrEmpty(AuthDto.BearerToken))
+            if(string.IsNullOrEmpty(AuthResponse.BearerToken))
                 throw new Exception("Logout");
 
             var result = await task;
@@ -141,7 +141,7 @@ namespace CandidateEvaluator.Client.Services
             {
                 await GetRefreshToken();
                 Http.DefaultRequestHeaders.Remove("Authorization");
-                Http.DefaultRequestHeaders.Add("Authorization", $"Bearer {AuthDto.BearerToken}");
+                Http.DefaultRequestHeaders.Add("Authorization", $"Bearer {AuthResponse.BearerToken}");
                 await RetryOnUnauthorized(task, tries - 1);
             }
             else if(result.StatusCode == HttpStatusCode.Unauthorized)

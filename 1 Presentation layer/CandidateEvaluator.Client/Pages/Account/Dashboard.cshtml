@@ -1,5 +1,6 @@
 ﻿@page "/dashboard"
-@using CandidateEvaluator.Common.Dtos
+@using CandidateEvaluator.Common.Responses.Dashboard
+@using CandidateEvaluator.Common.Responses.InterviewResult
 @using Microsoft.AspNetCore.Blazor.Services
 @inject Services.UserIdentityService Http
 @inject IUriHelper UriHelper
@@ -77,15 +78,15 @@ else
 
 @functions
 {
-    private List<RecentActivityDto> _activities;
-    private List<InterviewResultDto> _interviewResults;
+    private List<RecentActivityResponse> _activities;
+    private List<MiniInterviewResultResponse> _interviewResults;
 
     protected override async Task OnInitAsync()
     {
         try
         {
-            _activities = await Http.AuthorizedGetJsonAsync<List<RecentActivityDto>>("api/dashboard");
-            _interviewResults = await Http.AuthorizedGetJsonAsync<List<InterviewResultDto>>("api/interviewresult");
+            _activities = await Http.AuthorizedGetJsonAsync<List<RecentActivityResponse>>("api/dashboard");
+            _interviewResults = await Http.AuthorizedGetJsonAsync<List<MiniInterviewResultResponse>>("api/interviewresult");
         }
         catch
         {

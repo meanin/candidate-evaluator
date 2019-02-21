@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace CandidateEvaluator.Common.Dtos
+namespace CandidateEvaluator.Common.Responses.Dashboard
 {
-    public class RecentActivityDto
+    public class RecentActivityResponse
     {
         public string Type { get; set; }
         public Guid EntityId { get; set; }

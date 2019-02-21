@@ -1,6 +1,6 @@
 ﻿@page "/interview/new"
-@using CandidateEvaluator.Common.Dtos
 @using CandidateEvaluator.Common.Requests.Interview
+@using CandidateEvaluator.Common.Responses.Category
 @using Microsoft.AspNetCore.Blazor.Services
 @inject Services.UserIdentityService Http
 @inject IUriHelper UriHelper
@@ -43,14 +43,14 @@ else
 }
 @functions
 {
-    private List<CategoryDto> _categories;
+    private List<CategoryResponse> _categories;
     private readonly CreateInterviewRequest _createRequest = new CreateInterviewRequest();
 
     protected override async Task OnInitAsync()
     {
         try
         {
-            _categories = await Http.AuthorizedGetJsonAsync<List<CategoryDto>>("api/category");
+            _categories = await Http.AuthorizedGetJsonAsync<List<CategoryResponse>>("api/category");
         }
         catch
         {

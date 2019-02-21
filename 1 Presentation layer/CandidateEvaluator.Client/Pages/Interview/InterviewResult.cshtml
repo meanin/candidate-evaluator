@@ -1,5 +1,5 @@
 ﻿@page "/interview/result/{id:guid}"
-@using CandidateEvaluator.Common.Dtos
+@using CandidateEvaluator.Common.Responses.InterviewResult
 @using Microsoft.AspNetCore.Blazor.Services
 @inject Services.UserIdentityService Http
 @inject IUriHelper UriHelper
@@ -51,13 +51,13 @@ else
 {
     [Parameter]
     private Guid Id { get; set; }
-    private InterviewResultDto _interviewResult;
+    private InterviewResultResponse _interviewResult;
 
     protected override async Task OnInitAsync()
     {
         try
         {
-            _interviewResult = await Http.AuthorizedGetJsonAsync<InterviewResultDto>($"api/interviewresult/{Id}");
+            _interviewResult = await Http.AuthorizedGetJsonAsync<InterviewResultResponse>($"api/interviewresult/{Id}");
         }
         catch
         {

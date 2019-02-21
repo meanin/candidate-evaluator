@@ -1,6 +1,7 @@
 ﻿@page "/question/create"
-@using CandidateEvaluator.Common.Dtos
 @using CandidateEvaluator.Common.Requests.Question
+@using CandidateEvaluator.Common.Responses.Category
+@using CandidateEvaluator.Common.Types
 @using Microsoft.AspNetCore.Blazor.Services
 @inject Services.UserIdentityService Http
 @inject IUriHelper UriHelper
@@ -49,15 +50,15 @@ else
 }
 @functions
 {
-    private List<CategoryDto> _categoryModels;
-    private CategoryDto _selectedCategory;
+    private List<CategoryResponse> _categoryModels;
+    private CategoryResponse _selectedCategory;
     private CreateQuestionRequest _questionModel = new CreateQuestionRequest();
     
     protected override async Task OnInitAsync()
     {
         try
         {
-            _categoryModels = await Http.AuthorizedGetJsonAsync<List<CategoryDto>>("api/category");
+            _categoryModels = await Http.AuthorizedGetJsonAsync<List<CategoryResponse>>("api/category");
             _questionModel = new CreateQuestionRequest { CategoryId = _categoryModels.First().Id };
             _selectedCategory = _categoryModels.FirstOrDefault(c => c.Id == _questionModel.CategoryId);
         }
@@ -81,13 +82,13 @@ else
     
     }
     
-    private void SetSelectedCategory(CategoryDto category)
+    private void SetSelectedCategory(CategoryResponse category)
     {
         _selectedCategory = category;
         _questionModel.CategoryId = category.Id;
     }
     
-    private void SetType(CreateQuestionRequest.QuestionType type)
+    private void SetType(QuestionType type)
     {
         _questionModel.Type = type;
         StateHasChanged();

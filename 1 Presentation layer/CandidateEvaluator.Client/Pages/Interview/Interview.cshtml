@@ -1,6 +1,7 @@
 ﻿@page "/interview/{id:guid}"
-@using CandidateEvaluator.Common.Dtos
 @using CandidateEvaluator.Common.Requests.Interview
+@using CandidateEvaluator.Common.Responses.Category
+@using CandidateEvaluator.Common.Responses.Interview
 @using Microsoft.AspNetCore.Blazor.Services
 @inject Services.UserIdentityService Http
 @inject IUriHelper UriHelper
@@ -46,15 +47,15 @@ else
     [Parameter]
     private Guid Id { get; set; }
 
-    private List<CategoryDto> _categories;
+    private List<CategoryResponse> _categories;
     private UpdateInterviewRequest _updateCommand;
 
     protected override async Task OnInitAsync()
     {
         try
         {
-            _categories = await Http.AuthorizedGetJsonAsync<List<CategoryDto>>("api/category");
-            var dto = await Http.AuthorizedGetJsonAsync<InterviewDto>($"api/interview/{Id}");
+            _categories = await Http.AuthorizedGetJsonAsync<List<CategoryResponse>>("api/category");
+            var dto = await Http.AuthorizedGetJsonAsync<InterviewResponse>($"api/interview/{Id}");
             _updateCommand = new UpdateInterviewRequest
             {
                 Name = dto.Name,
@@ -62,8 +63,8 @@ else
                 Content = dto.Content
                     .Select(c => new UpdateInterviewRequest.UpdateInterviewCategory
                     {
-                        CategoryId = c.Category.Id,
-                        QuestionCount = c.Questions.Count
+                        CategoryId = c.CategoryId,
+                        QuestionCount = c.QuestionCount
                     }).ToList()
             };
         }

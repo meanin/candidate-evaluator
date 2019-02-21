@@ -8,7 +8,7 @@ using CandidateEvaluator.Contract.Repositories;
 
 namespace CandidateEvaluator.Core.Handlers.Queries.Interview
 {
-    public class GetAllInterviewsHandler : IQueryHandler<GetAllInterviews, List<(Guid Id, string Name)>>
+    public class GetAllInterviewsHandler : IQueryHandler<GetAllInterviewsQuery, List<(Guid Id, string Name)>>
     {
         private readonly IInterviewRepository _modelRepository;
 
@@ -17,7 +17,7 @@ namespace CandidateEvaluator.Core.Handlers.Queries.Interview
             _modelRepository = modelRepository;
         }
 
-        public async Task<List<(Guid Id, string Name)>> Handle(GetAllInterviews query)
+        public async Task<List<(Guid Id, string Name)>> Handle(GetAllInterviewsQuery query)
         {
             var interviews = await _modelRepository.GetAll(query.OwnerId);
             return interviews.Select(i => (i.Id, i.Name)).ToList();

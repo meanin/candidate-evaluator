@@ -1,6 +1,6 @@
-﻿namespace CandidateEvaluator.Common.Dtos
+﻿namespace CandidateEvaluator.Common.Responses.Auth
 {
-    public class AuthDto
+    public class AuthResponse
     {
         public string Username { get; set; }
         public string BearerToken { get; set; }

@@ -1,6 +1,6 @@
-﻿namespace CandidateEvaluator.Common.Dtos
+﻿namespace CandidateEvaluator.Common.Responses.Auth
 {
-    public class AadOptionsDto
+    public class AadResponse
     {
         public string TenantId { get; set; }
         public string ClientId { get; set; }

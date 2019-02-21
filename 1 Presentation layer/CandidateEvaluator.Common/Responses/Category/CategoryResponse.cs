@@ -1,11 +1,10 @@
 ﻿using System;
 
-namespace CandidateEvaluator.Common.Dtos
+namespace CandidateEvaluator.Common.Responses.Category
 {
-    public class CategoryDto
+    public class CategoryResponse
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public Guid OwnerId { get; set; }
     }
 }

@@ -8,17 +8,17 @@ namespace CandidateEvaluator.Common.Requests.InterviewResult
         public string CandidateName { get; set; }
         public string InterviewTemplateName { get; set; }
         public DateTime InterviewDate { get; set; }
-        public List<CreateCategoryResult> Content { get; set; }
+        public List<CreateCategoryResultRequest> Content { get; set; }
     }
 
-    public class CreateCategoryResult
+    public class CreateCategoryResultRequest
     {
         public Guid CategoryId { get; set; }
         public string CategoryName { get; set; }
-        public List<CreateQuestionResult> QuestionResults { get; set; }
+        public List<CreateQuestionResultRequest> QuestionResults { get; set; }
     }
 
-    public class CreateQuestionResult
+    public class CreateQuestionResultRequest
     {
         public Guid QuestionId { get; set; }
         public string QuestionName { get; set; }

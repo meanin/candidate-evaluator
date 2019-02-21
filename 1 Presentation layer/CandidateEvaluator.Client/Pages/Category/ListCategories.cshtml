@@ -1,5 +1,5 @@
 ﻿@page "/category"
-@using CandidateEvaluator.Common.Dtos
+@using CandidateEvaluator.Common.Responses.Category
 @using Microsoft.AspNetCore.Blazor.Services
 @inject Services.UserIdentityService Http
 @inject IUriHelper UriHelper
@@ -36,13 +36,13 @@ else
 
 @functions
 {
-private List<CategoryDto> _categoryModels;
+private List<CategoryResponse> _categoryModels;
 
 protected override async Task OnInitAsync()
 {
     try
     {
-        _categoryModels = await Http.AuthorizedGetJsonAsync<List<CategoryDto>>("api/category");
+        _categoryModels = await Http.AuthorizedGetJsonAsync<List<CategoryResponse>>("api/category");
     }
     catch
     {

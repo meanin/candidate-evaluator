@@ -1,10 +1,12 @@
 ﻿@page "/question/{id:guid}"
 @using CandidateEvaluator.Common.Requests.Question
+@using CandidateEvaluator.Common.Responses.Question
+@using CandidateEvaluator.Common.Types
 @using Microsoft.AspNetCore.Blazor.Services
 @inject Services.UserIdentityService Http
 @inject IUriHelper UriHelper
 
-@if (_dto == null)
+@if (_updateRequest == null)
 {
     <p><em>Loading...</em></p>
 
@@ -14,10 +16,10 @@ else
     <a href="/question" class="btn">Go back</a>
     <div class="form-group">
         <label>Name</label>
-        <input class="form-control" type="text" bind=@_dto.Name placeholder="Enter question name..." />
+        <input class="form-control" type="text" bind=@_updateRequest.Name placeholder="Enter question name..." />
     </div>
     <div>
-        <textarea class="form-control" rows="4" bind=@_dto.Text placeholder="Enter question" />
+        <textarea class="form-control" rows="4" bind=@_updateRequest.Text placeholder="Enter question" />
     </div>
     <QuestionTypeDropdown TypeChanged="@SetType" />
     <div class="row">
@@ -31,13 +33,21 @@ else
     [Parameter]
     private Guid Id { get; set; }
 
-    private Common.Dtos.QuestionDto _dto;
+    private UpdateQuestionRequest _updateRequest;
 
     protected override async Task OnInitAsync()
     {
         try
         {
-            _dto = await Http.AuthorizedGetJsonAsync<Common.Dtos.QuestionDto>($"api/question/{Id}");
+            var response = await Http.AuthorizedGetJsonAsync<QuestionResponse>($"api/question/{Id}");
+            _updateRequest = new UpdateQuestionRequest
+            {
+                Id = response.Id,
+                CategoryId = response.CategoryId,
+                Name = response.Name,
+                Type = response.Type,
+                Text = response.Text
+            };
         }
         catch
         {
@@ -45,9 +55,9 @@ else
         }
     }
 
-    private void SetType(CreateQuestionRequest.QuestionType type)
+    private void SetType(QuestionType type)
     {
-        _dto.Type = type;
+        _updateRequest.Type = type;
         StateHasChanged();
     }
 
@@ -55,7 +65,7 @@ else
     {
         try
         {
-            await Http.AuthorizedPostJsonAsync<Guid>($"api/question/{_dto.Id}", _dto);
+            await Http.AuthorizedPostJsonAsync<Guid>($"api/question/{_updateRequest.Id}", _updateRequest);
             UriHelper.NavigateTo($"/question/{Id}");
         }
         catch
@@ -68,7 +78,7 @@ else
     {
         try
         {
-            await Http.AuthorizedDeleteAsync($"api/question/{_dto.Id}");
+            await Http.AuthorizedDeleteAsync($"api/question/{_updateRequest.Id}");
             UriHelper.NavigateTo("/question");
         }
         catch

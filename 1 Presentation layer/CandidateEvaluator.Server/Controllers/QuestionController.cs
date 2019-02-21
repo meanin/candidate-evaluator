@@ -1,13 +1,14 @@
-﻿
-using CandidateEvaluator.Contract.Commands.Question;
+﻿using CandidateEvaluator.Contract.Commands.Question;
 using CandidateEvaluator.Contract.Dispatchers;
 using CandidateEvaluator.Contract.Queries.Question;
 using CandidateEvaluator.Server.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using CandidateEvaluator.Common.Requests.Question;
+using CandidateEvaluator.Common.Responses.Question;
 using CandidateEvaluator.Contract.Models;
 
 namespace CandidateEvaluator.Server.Controllers
@@ -42,25 +43,32 @@ namespace CandidateEvaluator.Server.Controllers
         [Route("")]
         public async Task<IActionResult> GetAllFromCategory([FromQuery(Name = "categoryid")] Guid categoryId)
         {
-            var questions = await _dispatcher.Query(new GetQuestions
+            var questions = await _dispatcher.Query(new GetAllQuestionsQuery(HttpContext.GetUser().Oid, categoryId));
+            var response = questions.Select(q => new QuestionResponse
             {
-                OwnerId = HttpContext.GetUser().Oid,
-                CategoryId = categoryId
-            });
-
-            return Ok(questions);
+                Id = q.Id,
+                CategoryId = q.CategoryId,
+                Name = q.Name,
+                Type = Enum.Parse<Common.Types.QuestionType>(q.Type.ToString()),
+                Text = q.Text
+            }).ToList();
+            return Ok(response);
         }
 
         [HttpGet]
         [Route("{id:guid}")]
         public async Task<IActionResult> Get(Guid id)
         {
-            var question = await _dispatcher.Query(new GetQuestion
+            var question = await _dispatcher.Query(new GetQuestionQuery(HttpContext.GetUser().Oid, id));
+            var response = new QuestionResponse
             {
-                OwnerId = HttpContext.GetUser().Oid,
-                Id = id
-            });
-            return Ok(question);
+                Id = question.Id,
+                CategoryId = question.CategoryId,
+                Name = question.Name,
+                Type = Enum.Parse<Common.Types.QuestionType>(question.Type.ToString()),
+                Text = question.Text
+            };
+            return Ok(response);
         }
 
         [HttpPost]

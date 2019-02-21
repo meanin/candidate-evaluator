@@ -8,6 +8,6 @@ namespace CandidateEvaluator.Common.Requests.Question
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string Text { get; set; }
-        public CreateQuestionRequest.QuestionType Type { get; set; }
+        public Types.QuestionType Type { get; set; }
     }
 }

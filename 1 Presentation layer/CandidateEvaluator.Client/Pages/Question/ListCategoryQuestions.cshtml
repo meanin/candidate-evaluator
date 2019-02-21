@@ -1,4 +1,5 @@
 ﻿@page "/category/{categoryId:guid}/questions"
+@using CandidateEvaluator.Common.Responses.Question
 @using Microsoft.AspNetCore.Blazor.Services
 @inject Services.UserIdentityService Http
 @inject IUriHelper UriHelper
@@ -44,13 +45,13 @@ else
 [Parameter]
 private Guid CategoryId { get; set; }
 
-private List<Common.Dtos.QuestionDto> _questionModels;
+private List<QuestionResponse> _questionModels;
 protected override async Task OnInitAsync()
 {
     try
     {
 
-        _questionModels = await Http.AuthorizedGetJsonAsync<List<Common.Dtos.QuestionDto>>($"api/question/?categoryid={CategoryId}");
+        _questionModels = await Http.AuthorizedGetJsonAsync<List<QuestionResponse>>($"api/question/?categoryid={CategoryId}");
     }
     catch
     {

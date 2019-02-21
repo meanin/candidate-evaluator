@@ -1,4 +1,4 @@
-﻿@using CandidateEvaluator.Common.Requests.Question
+﻿@using CandidateEvaluator.Common.Types
 <div class="dropdown">
     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown">
         @Type.ToString()
@@ -14,20 +14,20 @@
 
 @functions 
 {
-    CreateQuestionRequest.QuestionType Type { get; set; }
+    QuestionType Type { get; set; }
 
     [Parameter]
-    Action<CreateQuestionRequest.QuestionType> TypeChanged { get; set; }
+    Action<QuestionType> TypeChanged { get; set; }
 
     private List<string> _questionTypeNames;
     protected override void OnInit()
     {
-        _questionTypeNames = Enum.GetNames(typeof(CreateQuestionRequest.QuestionType)).ToList();
+        _questionTypeNames = Enum.GetNames(typeof(QuestionType)).ToList();
     }
 
     private void Set(string type)
     {
-        Type = (CreateQuestionRequest.QuestionType) Enum.Parse(typeof(CreateQuestionRequest.QuestionType), type);
+        Type = (QuestionType) Enum.Parse(typeof(QuestionType), type);
         TypeChanged(Type);
     }
 }

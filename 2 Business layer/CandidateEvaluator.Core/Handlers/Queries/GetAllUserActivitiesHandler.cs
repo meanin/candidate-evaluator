@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CandidateEvaluator.Core.Handlers.Queries
 {
-    public class GetAllUserActivitiesHandler : IQueryHandler<GetAllUserActivities, IEnumerable<RecentActivity>>
+    public class GetAllUserActivitiesHandler : IQueryHandler<GetAllUserActivitiesQuery, IEnumerable<RecentActivity>>
     {
         private readonly IUserRecentActivityRepository _activityRepository;
 
@@ -16,7 +16,7 @@ namespace CandidateEvaluator.Core.Handlers.Queries
             _activityRepository = activityRepository;
         }
 
-        public Task<IEnumerable<RecentActivity>> Handle(GetAllUserActivities query)
+        public Task<IEnumerable<RecentActivity>> Handle(GetAllUserActivitiesQuery query)
         {
             return _activityRepository.GetAll(query.OwnerId);
         }

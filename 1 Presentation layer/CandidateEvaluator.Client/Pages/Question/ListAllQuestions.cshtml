@@ -1,5 +1,6 @@
 ﻿@page "/question"
-@using CandidateEvaluator.Common.Dtos
+@using CandidateEvaluator.Common.Responses.Category
+@using CandidateEvaluator.Common.Responses.Question
 @using Microsoft.AspNetCore.Blazor.Services
 @inject Services.UserIdentityService Http
 @inject IUriHelper UriHelper
@@ -12,12 +13,10 @@
 }
 else
 {
-
     <div>
         <a href="/question/create" class="btn">Create new question</a>
     </div>
     <div id="content">
-
         @foreach (var category in _categoryModels)
         {
             var id = _categoryModels.IndexOf(category);
@@ -48,15 +47,16 @@ else
 
 @functions
 {
-    private List<QuestionDto> _questionModels;
-    private List<CategoryDto> _categoryModels;
+    private List<QuestionResponse> _questionModels;
+    private List<CategoryResponse> _categoryModels;
     private bool _initialized = false;
+
     protected override async Task OnInitAsync()
     {
         try
         {
-            _questionModels = await Http.AuthorizedGetJsonAsync<List<QuestionDto>>("api/question/");
-            var categories = await Http.AuthorizedGetJsonAsync<List<CategoryDto>>("api/category/");
+            _questionModels = await Http.AuthorizedGetJsonAsync<List<QuestionResponse>>("api/question/");
+            var categories = await Http.AuthorizedGetJsonAsync<List<CategoryResponse>>("api/category/");
             _categoryModels = categories.Where(c => _questionModels.Any(q => q.CategoryId == c.Id)).ToList();
             _initialized = true;
         }
@@ -64,6 +64,5 @@ else
         {
             UriHelper.NavigateTo("/");
         }
-    
     }
 }

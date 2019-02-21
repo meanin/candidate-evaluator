@@ -6,7 +6,7 @@ using CandidateEvaluator.Contract.Repositories;
 
 namespace CandidateEvaluator.Core.Handlers.Queries.InterviewResult
 {
-    public class GetAllInterviewResultsHandler : IQueryHandler<GetAllInterviewResults, IEnumerable<Contract.Models.InterviewResult>>
+    public class GetAllInterviewResultsHandler : IQueryHandler<GetAllInterviewResultsQuery, IEnumerable<Contract.Models.InterviewResult>>
     {
         private readonly IInterviewResultRepository _modelRepository;
 
@@ -15,7 +15,7 @@ namespace CandidateEvaluator.Core.Handlers.Queries.InterviewResult
             _modelRepository = modelRepository;
         }
 
-        public Task<IEnumerable<Contract.Models.InterviewResult>> Handle(GetAllInterviewResults query)
+        public Task<IEnumerable<Contract.Models.InterviewResult>> Handle(GetAllInterviewResultsQuery query)
         {
             return _modelRepository.GetAll(query.OwnerId);
         }
