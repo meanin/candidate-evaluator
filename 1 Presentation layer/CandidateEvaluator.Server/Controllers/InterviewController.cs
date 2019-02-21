@@ -37,7 +37,12 @@ namespace CandidateEvaluator.Server.Controllers
         public async Task<IActionResult> GetAll()
         {
             var result = await _dispatcher.Query(new GetAllInterviewsQuery(HttpContext.GetUser().Oid));
-            return Ok(result);
+            var response = result.Select(r => new ListInterviewElementResponse
+            {
+                Id = r.Id,
+                Name = r.Name
+            }).ToList();
+            return Ok(response);
         }
 
         [HttpGet]

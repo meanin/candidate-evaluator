@@ -63,8 +63,8 @@
         <tr>
             <td colspan="1">@categoryResult.CategoryName</td>
             <td colspan="1">@(categoryResult.QuestionResults.Average(q => q.Score) * 100)%</td>
-            <td colspan="1"><pre>@categoryResult.QuestionResults.Where(q => !string.IsNullOrWhiteSpace(q.Notes))
-                .Aggregate(string.Empty, (s, result) => s + $"{result.QuestionName}: {result.Notes}\n")</pre></td>
+            <td colspan="1"><pre>@(categoryResult.QuestionResults.Where(q => !string.IsNullOrWhiteSpace(q.Notes))
+                .Aggregate(string.Empty, (s, result) => s + $"{result.QuestionName}: {result.Notes}\n"))</pre></td>
         </tr>
     }
 </table>

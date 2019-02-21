@@ -49,13 +49,13 @@ else
 
 @functions
 {
-    private List<InterviewResponse> _interviews;
+    private List<ListInterviewElementResponse> _interviews;
 
     protected override async Task OnInitAsync()
     {
         try
         {
-            _interviews = await Http.AuthorizedGetJsonAsync<List<InterviewResponse>>("api/interview");
+            _interviews = await Http.AuthorizedGetJsonAsync<List<ListInterviewElementResponse>>("api/interview");
         }
         catch
         {

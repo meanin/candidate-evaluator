@@ -27,8 +27,8 @@ namespace CandidateEvaluator.Server.Controllers
             {
                 EntityId = a.EntityId,
                 Name = a.Name,
-                Type = a.ToString()
-            });
+                Type = a.Type.ToString()
+            }).ToList();
             return Ok(response);
         }
     }

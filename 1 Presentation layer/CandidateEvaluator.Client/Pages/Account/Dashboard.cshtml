@@ -31,7 +31,7 @@ else
                 <tr>
                     <td>@(_activities.IndexOf(model)+1)</td>
                     <td>@model.EntityId</td>
-                    <td>@model.Type.ToString()</td>
+                    <td>@model.Type</td>
                     @switch (model.Type)
                     {
                         case "Category":
