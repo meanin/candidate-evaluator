@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\3 Domain layer\CandidatesEvaluator.Contract\CandidateEvaluator.Contract.csproj" />
+    <ProjectReference Include="..\..\3 Domain layer\CandidateEvaluator.Contract\CandidateEvaluator.Contract.csproj" />
     <ProjectReference Include="..\CandidateEvaluator.Core.Razor\CandidateEvaluator.Core.Razor.csproj" />
   </ItemGroup>
 

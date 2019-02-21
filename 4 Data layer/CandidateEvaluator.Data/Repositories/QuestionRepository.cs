@@ -7,6 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CandidateEvaluator.Contract.CoreObjects.Models;
+using CandidateEvaluator.Contract.CoreObjects.Repositories;
 
 namespace CandidateEvaluator.Data.Repositories
 {

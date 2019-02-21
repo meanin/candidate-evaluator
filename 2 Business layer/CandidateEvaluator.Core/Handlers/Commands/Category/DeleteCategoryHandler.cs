@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using CandidateEvaluator.Contract.Commands.Category;
-using CandidateEvaluator.Contract.Handlers;
+using CandidateEvaluator.Contract.CoreObjects.Commands.Category;
+using CandidateEvaluator.Contract.CoreObjects.Repositories;
+using CandidateEvaluator.Contract.CQRS.Handlers;
 using CandidateEvaluator.Contract.Models;
 using CandidateEvaluator.Contract.Repositories;
 

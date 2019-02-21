@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CandidateEvaluator.Contract.Handlers;
+using CandidateEvaluator.Contract.CQRS.Handlers;
 using CandidateEvaluator.Contract.Queries.Interview;
 using CandidateEvaluator.Contract.Repositories;
 

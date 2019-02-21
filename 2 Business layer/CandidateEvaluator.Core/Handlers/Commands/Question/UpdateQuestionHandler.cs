@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using CandidateEvaluator.Contract.Commands.Question;
-using CandidateEvaluator.Contract.Handlers;
+using CandidateEvaluator.Contract.CoreObjects.Commands.Question;
+using CandidateEvaluator.Contract.CoreObjects.Repositories;
+using CandidateEvaluator.Contract.CQRS.Handlers;
 using CandidateEvaluator.Contract.Models;
 using CandidateEvaluator.Contract.Repositories;
 
@@ -20,7 +21,7 @@ namespace CandidateEvaluator.Core.Handlers.Commands.Question
 
         public async Task<Guid> Handle(UpdateQuestionCommand command)
         {
-            var model = new Contract.Models.Question
+            var model = new Contract.CoreObjects.Models.Question
             {
                 CategoryId = command.CategoryId,
                 Name = command.Name,

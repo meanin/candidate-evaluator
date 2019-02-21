@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using CandidateEvaluator.Contract.Commands.InterviewResult;
-using CandidateEvaluator.Contract.Handlers;
+using CandidateEvaluator.Contract.CQRS.Handlers;
 using CandidateEvaluator.Contract.Models;
 using CandidateEvaluator.Contract.Repositories;
 using CandidateEvaluator.Contract.Services;

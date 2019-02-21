@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using CandidateEvaluator.Common.Requests.InterviewResult;
 using CandidateEvaluator.Common.Responses.InterviewResult;
 using CandidateEvaluator.Contract.Commands.InterviewResult;
-using CandidateEvaluator.Contract.Dispatchers;
+using CandidateEvaluator.Contract.CQRS.Dispatchers;
 using CandidateEvaluator.Contract.Queries.InterviewResult;
 using CandidateEvaluator.Server.Extensions;
 using Microsoft.AspNetCore.Authorization;

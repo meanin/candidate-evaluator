@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using CandidateEvaluator.Contract.Commands.Category;
-using CandidateEvaluator.Contract.Handlers;
+using CandidateEvaluator.Contract.CoreObjects.Commands.Category;
+using CandidateEvaluator.Contract.CoreObjects.Repositories;
+using CandidateEvaluator.Contract.CQRS.Handlers;
 using CandidateEvaluator.Contract.Models;
 using CandidateEvaluator.Contract.Repositories;
 
@@ -21,7 +22,7 @@ namespace CandidateEvaluator.Core.Handlers.Commands.Category
 
         public async Task<Guid> Handle(UpdateCategoryCommand command)
         {
-            var model = new Contract.Models.Category
+            var model = new Contract.CoreObjects.Models.Category
             {
                 Id = command.Id,
                 OwnerId = command.OwnerId,

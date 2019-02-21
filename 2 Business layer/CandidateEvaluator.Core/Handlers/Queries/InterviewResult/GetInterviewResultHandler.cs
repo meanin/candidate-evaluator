@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using CandidateEvaluator.Contract.Handlers;
+using CandidateEvaluator.Contract.CQRS.Handlers;
 using CandidateEvaluator.Contract.Queries.InterviewResult;
 using CandidateEvaluator.Contract.Repositories;
 

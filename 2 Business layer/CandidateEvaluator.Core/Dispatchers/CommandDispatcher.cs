@@ -1,8 +1,9 @@
 ﻿using CandidateEvaluator.Contract.Commands;
-using CandidateEvaluator.Contract.Dispatchers;
-using CandidateEvaluator.Contract.Handlers;
 using System;
 using System.Threading.Tasks;
+using CandidateEvaluator.Contract.CQRS.Commands;
+using CandidateEvaluator.Contract.CQRS.Dispatchers;
+using CandidateEvaluator.Contract.CQRS.Handlers;
 
 namespace CandidateEvaluator.Core.Dispatchers
 {

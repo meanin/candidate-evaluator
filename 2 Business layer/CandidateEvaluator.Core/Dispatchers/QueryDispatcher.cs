@@ -1,8 +1,9 @@
-﻿using CandidateEvaluator.Contract.Dispatchers;
-using CandidateEvaluator.Contract.Handlers;
-using CandidateEvaluator.Contract.Queries;
+﻿using CandidateEvaluator.Contract.Queries;
 using System;
 using System.Threading.Tasks;
+using CandidateEvaluator.Contract.CQRS.Dispatchers;
+using CandidateEvaluator.Contract.CQRS.Handlers;
+using CandidateEvaluator.Contract.CQRS.Queries;
 
 namespace CandidateEvaluator.Core.Dispatchers
 {

@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using CandidateEvaluator.Data.Entities;
 using CandidateEvaluator.Data.Wrappers;
 using CandidateEvaluator.Contract.Configuration;
+using CandidateEvaluator.Contract.CoreObjects.Models;
+using CandidateEvaluator.Contract.CoreObjects.Repositories;
 using CandidateEvaluator.Contract.Models;
 using CandidateEvaluator.Contract.Repositories;
 

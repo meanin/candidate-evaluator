@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>7.3</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CandidateEvaluator.Contract.CoreObjects\CandidateEvaluator.Contract.CoreObjects.csproj" />
+    <ProjectReference Include="..\CandidateEvaluator.Contract.CQRS\CandidateEvaluator.Contract.CQRS.csproj" />
+  </ItemGroup>
+
+</Project>

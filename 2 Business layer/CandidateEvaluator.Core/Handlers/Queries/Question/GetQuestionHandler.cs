@@ -1,11 +1,12 @@
 ﻿using System.Threading.Tasks;
-using CandidateEvaluator.Contract.Handlers;
-using CandidateEvaluator.Contract.Queries.Question;
+using CandidateEvaluator.Contract.CoreObjects.Queries.Question;
+using CandidateEvaluator.Contract.CoreObjects.Repositories;
+using CandidateEvaluator.Contract.CQRS.Handlers;
 using CandidateEvaluator.Contract.Repositories;
 
 namespace CandidateEvaluator.Core.Handlers.Queries.Question
 {
-    public class GetQuestionHandler : IQueryHandler<GetQuestionQuery, Contract.Models.Question>
+    public class GetQuestionHandler : IQueryHandler<GetQuestionQuery, Contract.CoreObjects.Models.Question>
     {
         private readonly IQuestionRepository _modelRepository;
 
@@ -14,7 +15,7 @@ namespace CandidateEvaluator.Core.Handlers.Queries.Question
             _modelRepository = modelRepository;
         }
 
-        public Task<Contract.Models.Question> Handle(GetQuestionQuery query)
+        public Task<Contract.CoreObjects.Models.Question> Handle(GetQuestionQuery query)
         {
             return _modelRepository.Get(query.OwnerId, query.Id);
         }
