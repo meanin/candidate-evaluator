@@ -15,7 +15,7 @@ else
         <div class="top-row px-4" style="z-index: 4">
             @if (_loggedIn)
             {
-                <p>Hi @Http.AuthTokens.Username</p>
+                <p>Hi @Http.AuthResponse.Username</p>
             }
             <a href="https://github.com/meanin/candidate-evaluator/blob/master/README.md" target="_blank" class="ml-md-auto">About Candidate Evaluator</a>
         </div>

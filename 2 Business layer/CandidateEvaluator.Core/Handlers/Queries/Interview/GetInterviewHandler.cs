@@ -9,7 +9,7 @@ using CandidateEvaluator.Core.Extensions;
 
 namespace CandidateEvaluator.Core.Handlers.Queries.Interview
 {
-    public class GetInterviewHandler : IQueryHandler<GetInterview, InterviewDto>
+    public class GetInterviewHandler : IQueryHandler<GetInterviewQuery, InterviewDto>
     {
         private readonly ICategoryRepository _categoryRepository;
         private readonly IInterviewRepository _interviewRepository;
@@ -25,7 +25,7 @@ namespace CandidateEvaluator.Core.Handlers.Queries.Interview
             _questionRepository = questionRepository;
         }
 
-        public async Task<InterviewDto> Handle(GetInterview query)
+        public async Task<InterviewDto> Handle(GetInterviewQuery query)
         {
             var model = await _interviewRepository.Get(query.OwnerId, query.Id);
             var dto = new InterviewDto
@@ -33,14 +33,14 @@ namespace CandidateEvaluator.Core.Handlers.Queries.Interview
                 Name = model.Name,
                 Id = model.Id,
                 OwnerId = model.OwnerId,
-                Content = new List<InterviewContent>()
+                Content = new List<InterviewContentDto>()
             };
 
             foreach (var categoryId in model.Content.Keys)
             {
                 var category = await _categoryRepository.Get(query.OwnerId, categoryId);
                 var categoryQuestions = await _questionRepository.GetAllFromCategory(query.OwnerId, categoryId);
-                dto.Content.Add(new InterviewContent
+                dto.Content.Add(new InterviewContentDto
                 {
                     Category = category,
                     Questions = categoryQuestions.Shuffle().Take(model.Content[categoryId]).ToList()

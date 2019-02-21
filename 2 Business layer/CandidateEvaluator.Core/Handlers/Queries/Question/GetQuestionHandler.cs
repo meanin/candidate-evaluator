@@ -5,7 +5,7 @@ using CandidateEvaluator.Contract.Repositories;
 
 namespace CandidateEvaluator.Core.Handlers.Queries.Question
 {
-    public class GetQuestionHandler : IQueryHandler<GetQuestion, Contract.Models.Question>
+    public class GetQuestionHandler : IQueryHandler<GetQuestionQuery, Contract.Models.Question>
     {
         private readonly IQuestionRepository _modelRepository;
 
@@ -14,7 +14,7 @@ namespace CandidateEvaluator.Core.Handlers.Queries.Question
             _modelRepository = modelRepository;
         }
 
-        public Task<Contract.Models.Question> Handle(GetQuestion query)
+        public Task<Contract.Models.Question> Handle(GetQuestionQuery query)
         {
             return _modelRepository.Get(query.OwnerId, query.Id);
         }

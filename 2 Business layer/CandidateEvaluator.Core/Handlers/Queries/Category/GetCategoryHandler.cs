@@ -5,7 +5,7 @@ using CandidateEvaluator.Contract.Repositories;
 
 namespace CandidateEvaluator.Core.Handlers.Queries.Category
 {
-    public class GetCategoryHandler : IQueryHandler<GetCategory, Contract.Models.Category>
+    public class GetCategoryHandler : IQueryHandler<GetCategoryQuery, Contract.Models.Category>
     {
         private readonly ICategoryRepository _modelRepository;
 
@@ -14,7 +14,7 @@ namespace CandidateEvaluator.Core.Handlers.Queries.Category
             _modelRepository = modelRepository;
         }
 
-        public async Task<Contract.Models.Category> Handle(GetCategory query)
+        public async Task<Contract.Models.Category> Handle(GetCategoryQuery query)
         {
             return await _modelRepository.Get(query.OwnerId, query.Id);
         }

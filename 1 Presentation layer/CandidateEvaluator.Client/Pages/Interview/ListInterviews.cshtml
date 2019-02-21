@@ -1,5 +1,5 @@
 ﻿@page "/interview"
-@using CandidateEvaluator.Contract.Dtos
+@using CandidateEvaluator.Common.Responses.Interview
 @using Microsoft.AspNetCore.Blazor.Services
 @inject Services.UserIdentityService Http
 @inject IUriHelper UriHelper
@@ -25,10 +25,10 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var interview in _interviews.List)
+            @foreach (var interview in _interviews)
             {
                 <tr>
-                    <td>@(_interviews.List.IndexOf(interview)+1)</td>
+                    <td>@(_interviews.IndexOf(interview)+1)</td>
                     <td>@interview.Id</td>
                     <td>@interview.Name</td>
                     <td>
@@ -49,13 +49,13 @@ else
 
 @functions
 {
-    private InterviewListDto _interviews;
+    private List<ListInterviewElementResponse> _interviews;
 
     protected override async Task OnInitAsync()
     {
         try
         {
-            _interviews = await Http.AuthorizedGetJsonAsync<InterviewListDto>("api/interview");
+            _interviews = await Http.AuthorizedGetJsonAsync<List<ListInterviewElementResponse>>("api/interview");
         }
         catch
         {

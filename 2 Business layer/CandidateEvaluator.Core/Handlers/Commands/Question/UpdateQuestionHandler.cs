@@ -7,7 +7,7 @@ using CandidateEvaluator.Contract.Repositories;
 
 namespace CandidateEvaluator.Core.Handlers.Commands.Question
 {
-    public class UpdateQuestionHandler : ICommandHandler<UpdateQuestion>
+    public class UpdateQuestionHandler : ICommandHandler<UpdateQuestionCommand>
     {
         private readonly IQuestionRepository _modelRepository;
         private readonly IUserRecentActivityRepository _activityRepository;
@@ -18,7 +18,7 @@ namespace CandidateEvaluator.Core.Handlers.Commands.Question
             _activityRepository = activityRepository;
         }
 
-        public async Task<Guid> Handle(UpdateQuestion command)
+        public async Task<Guid> Handle(UpdateQuestionCommand command)
         {
             var model = new Contract.Models.Question
             {

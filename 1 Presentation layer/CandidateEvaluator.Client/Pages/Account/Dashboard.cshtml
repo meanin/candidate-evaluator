@@ -1,6 +1,6 @@
 ﻿@page "/dashboard"
-@using System.Collections
-@using CandidateEvaluator.Contract.Models
+@using CandidateEvaluator.Common.Responses.Dashboard
+@using CandidateEvaluator.Common.Responses.InterviewResult
 @using Microsoft.AspNetCore.Blazor.Services
 @inject Services.UserIdentityService Http
 @inject IUriHelper UriHelper
@@ -31,16 +31,16 @@ else
                 <tr>
                     <td>@(_activities.IndexOf(model)+1)</td>
                     <td>@model.EntityId</td>
-                    <td>@model.Type.ToString()</td>
+                    <td>@model.Type</td>
                     @switch (model.Type)
                     {
-                        case EntityType.Category:
+                        case "Category":
                             <td><a href="/category/@model.EntityId">@model.Name</a></td>
                             break;
-                        case EntityType.Interview:
+                        case "Interview":
                             <td><a href="/interview/@model.EntityId">@model.Name</a></td>
                             break;
-                        case EntityType.Question:
+                        case "Question":
                             <td><a href="/question/@model.EntityId">@model.Name</a></td>
                             break;
                         default:
@@ -78,15 +78,15 @@ else
 
 @functions
 {
-    private List<RecentActivity> _activities;
-    private List<InterviewResult> _interviewResults;
+    private List<RecentActivityResponse> _activities;
+    private List<MiniInterviewResultResponse> _interviewResults;
 
     protected override async Task OnInitAsync()
     {
         try
         {
-            _activities = await Http.AuthorizedGetJsonAsync<List<RecentActivity>>("api/dashboard");
-            _interviewResults = await Http.AuthorizedGetJsonAsync<List<InterviewResult>>("api/interviewresult");
+            _activities = await Http.AuthorizedGetJsonAsync<List<RecentActivityResponse>>("api/dashboard");
+            _interviewResults = await Http.AuthorizedGetJsonAsync<List<MiniInterviewResultResponse>>("api/interviewresult");
         }
         catch
         {

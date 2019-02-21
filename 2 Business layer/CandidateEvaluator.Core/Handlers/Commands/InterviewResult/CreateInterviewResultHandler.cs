@@ -9,7 +9,7 @@ using CandidateEvaluator.Contract.Services;
 
 namespace CandidateEvaluator.Core.Handlers.Commands.InterviewResult
 {
-    public class CreateInterviewResultHandler : ICommandHandler<CreateInterviewResult>
+    public class CreateInterviewResultHandler : ICommandHandler<CreateInterviewResultCommand>
     {
         private readonly IInterviewResultRepository _modelRepository;
         private readonly IMailService _mailService;
@@ -22,7 +22,7 @@ namespace CandidateEvaluator.Core.Handlers.Commands.InterviewResult
             _mailService = mailService;
         }
 
-        public async Task<Guid> Handle(CreateInterviewResult command)
+        public async Task<Guid> Handle(CreateInterviewResultCommand command)
         {
             var model = new Contract.Models.InterviewResult
             {

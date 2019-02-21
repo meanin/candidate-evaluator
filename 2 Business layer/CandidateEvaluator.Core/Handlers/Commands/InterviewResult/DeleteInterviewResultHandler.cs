@@ -6,7 +6,7 @@ using CandidateEvaluator.Contract.Repositories;
 
 namespace CandidateEvaluator.Core.Handlers.Commands.InterviewResult
 {
-    public class DeleteInterviewResultHandler : ICommandHandler<DeleteInterviewResult>
+    public class DeleteInterviewResultHandler : ICommandHandler<DeleteInterviewResultCommand>
     {
         private readonly IInterviewResultRepository _modelRepository;
 
@@ -15,7 +15,7 @@ namespace CandidateEvaluator.Core.Handlers.Commands.InterviewResult
             _modelRepository = modelRepository;
         }
 
-        public async Task<Guid> Handle(DeleteInterviewResult command)
+        public async Task<Guid> Handle(DeleteInterviewResultCommand command)
         {
             await _modelRepository.Delete(command.OwnerId, command.Id);
             return Guid.Empty;

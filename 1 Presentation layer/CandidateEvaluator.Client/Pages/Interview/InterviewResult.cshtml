@@ -1,64 +1,64 @@
 ﻿@page "/interview/result/{id:guid}"
-@using System.Collections
-@using CandidateEvaluator.Contract.Models
+@using CandidateEvaluator.Common.Requests.InterviewResult
+@using CandidateEvaluator.Common.Responses.InterviewResult
 @using Microsoft.AspNetCore.Blazor.Services
 @inject Services.UserIdentityService Http
 @inject IUriHelper UriHelper
-
 @if (_interviewResult == null)
 {
-<div class="fa-3x">
-    <i class="fas fa-spinner fa-pulse"></i>
-</div>
+    <div class="fa-3x">
+        <i class="fas fa-spinner fa-pulse"></i>
+    </div>
 }
 else
 {
-<div>
-    <text>Candidate: @_interviewResult.CandidateName</text>
-    <text>Interview date: @_interviewResult.InterviewDate</text>
-</div>
-<div id="result">
-    @foreach (var category in _interviewResult.Content)
-    {
-    var id = _interviewResult.Content.IndexOf(category);
-    var average = category.QuestionResults.Sum(q => q.Score) / category.QuestionResults.Count;
-
-    <div class="card">
-        <div class="card-header">
-            <h4 class="mb-0">
-                <button class="badge badge-pill @(CalculateBadgeClass(average)) collapsed" data-toggle="collapse" data-target="#category-@id">
-                    @category.CategoryName: @(average*100)%
-                </button>
-            </h4>
-        </div>
+    <div>
+        <text>Candidate: @_interviewResult.CandidateName</text>
+        <text>Interview date: @_interviewResult.InterviewDate</text>
     </div>
+    <div id="result">
+        @foreach (var category in _interviewResult.Content)
+        {
+            var id = _interviewResult.Content.IndexOf(category);
+            var average = category.QuestionResults.Sum(q => q.Score) / category.QuestionResults.Count;
 
-    <div id="category-@id" class="collapse" data-parent="#result">
-        <div class="card-body">
-            @foreach (var question in category.QuestionResults)
-            {
-            <div>
-                <label>@question.QuestionName: @question.Score</label>
-                <pre style="white-space: pre-wrap; word-break: keep-all;">@question.Notes</pre>
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0">
+                        <button class="badge badge-pill @(CalculateBadgeClass(average)) collapsed" data-toggle="collapse" data-target="#category-@id">
+                            @category.CategoryName: @(average * 100)%
+                        </button>
+                    </h4>
+                </div>
             </div>
-            }
-        </div>
-    </div>
-    }
-</div>
-}
 
+            <div id="category-@id" class="collapse" data-parent="#result">
+                <div class="card-body">
+                    @foreach (var question in category.QuestionResults)
+                    {
+                        <div>
+                            <label>@question.QuestionName: @question.Score</label>
+                            <pre style="white-space: pre-wrap; word-break: keep-all;">@question.Notes</pre>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+    <button class="btn btn-info" onclick="@SendReport">Send Report</button>
+    <button class="btn btn-info" onclick="@Delete">Delete</button>
+}
 @functions
 {
     [Parameter]
     private Guid Id { get; set; }
-    private Contract.Models.InterviewResult _interviewResult;
+    private InterviewResultResponse _interviewResult;
 
     protected override async Task OnInitAsync()
     {
         try
         {
-            _interviewResult = await Http.AuthorizedGetJsonAsync<Contract.Models.InterviewResult>($"api/interviewresult/{Id}");
+            _interviewResult = await Http.AuthorizedGetJsonAsync<InterviewResultResponse>($"api/interviewresult/{Id}");
         }
         catch
         {
@@ -66,14 +66,28 @@ else
         }
     }
 
+    private async Task SendReport()
+    {
+        await Http.AuthorizedPostAsync($"api/interviewresult/{Id}/sendreport", new SendInterviewReportViaMailRequest
+        {
+            Id = Id
+        });
+        UriHelper.NavigateTo("/dashboard");
+    }
+
+    private async Task Delete()
+    {
+        await Http.AuthorizedDeleteAsync($"api/interviewresult/{Id}");
+        UriHelper.NavigateTo("/dashboard");
+    }
+
     private string CalculateBadgeClass(double average)
     {
-        if(average < 0 || average > 1) return "badge-light";
-        if(average < 0.25) return "badge-danger";
-        if(average < 0.5) return "badge-warning";
-        if(average < 0.75) return "badge-secondary";
+        if (average < 0 || average > 1) return "badge-light";
+        if (average < 0.25) return "badge-danger";
+        if (average < 0.5) return "badge-warning";
+        if (average < 0.75) return "badge-secondary";
 
         return "badge-success";
     }
-
 }

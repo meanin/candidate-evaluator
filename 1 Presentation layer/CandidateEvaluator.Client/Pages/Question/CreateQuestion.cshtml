@@ -1,12 +1,14 @@
 ﻿@page "/question/create"
-@using CandidateEvaluator.Contract.Models
+@using CandidateEvaluator.Common.Requests.Question
+@using CandidateEvaluator.Common.Responses.Category
+@using CandidateEvaluator.Common.Types
 @using Microsoft.AspNetCore.Blazor.Services
 @inject Services.UserIdentityService Http
 @inject IUriHelper UriHelper
+
 @if (_categoryModels == null)
 {
     <p><em>Loading...</em></p>
-
 }
 else
 {
@@ -48,16 +50,16 @@ else
 }
 @functions
 {
-    private List<Category> _categoryModels;
-    private Category _selectedCategory;
-    private Contract.Models.Question _questionModel = new Contract.Models.Question();
+    private List<CategoryResponse> _categoryModels;
+    private CategoryResponse _selectedCategory;
+    private CreateQuestionRequest _questionModel = new CreateQuestionRequest();
     
     protected override async Task OnInitAsync()
     {
         try
         {
-            _categoryModels = await Http.AuthorizedGetJsonAsync<List<Category>>("api/category");
-            _questionModel = new Contract.Models.Question { CategoryId = _categoryModels.First().Id };
+            _categoryModels = await Http.AuthorizedGetJsonAsync<List<CategoryResponse>>("api/category");
+            _questionModel = new CreateQuestionRequest { CategoryId = _categoryModels.First().Id };
             _selectedCategory = _categoryModels.FirstOrDefault(c => c.Id == _questionModel.CategoryId);
         }
         catch
@@ -80,7 +82,7 @@ else
     
     }
     
-    private void SetSelectedCategory(Category category)
+    private void SetSelectedCategory(CategoryResponse category)
     {
         _selectedCategory = category;
         _questionModel.CategoryId = category.Id;

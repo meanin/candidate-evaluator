@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using CandidateEvaluator.Common.Responses.Dashboard;
 using CandidateEvaluator.Contract.Dispatchers;
 using CandidateEvaluator.Contract.Queries.UserActivity;
 using CandidateEvaluator.Server.Extensions;
@@ -20,8 +22,14 @@ namespace CandidateEvaluator.Server.Controllers
 
         public async Task<IActionResult> Get()
         {
-            var activities = await _dispatcher.Query(new GetAllUserActivities { OwnerId = HttpContext.GetUser().Oid });
-            return Ok(activities);
+            var activities = await _dispatcher.Query(new GetAllUserActivitiesQuery(HttpContext.GetUser().Oid));
+            var response = activities.Select(a => new RecentActivityResponse
+            {
+                EntityId = a.EntityId,
+                Name = a.Name,
+                Type = a.Type.ToString()
+            }).ToList();
+            return Ok(response);
         }
     }
 }

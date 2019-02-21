@@ -1,6 +1,6 @@
 ﻿@page "/interview/new"
-@using CandidateEvaluator.Contract.Commands.Interview
-@using CandidateEvaluator.Contract.Models
+@using CandidateEvaluator.Common.Requests.Interview
+@using CandidateEvaluator.Common.Responses.Category
 @using Microsoft.AspNetCore.Blazor.Services
 @inject Services.UserIdentityService Http
 @inject IUriHelper UriHelper
@@ -15,10 +15,10 @@ else
 <div class="form-group">
     <div class="form-group">
         <label>Name</label>
-        <input class="form-control" type="text" bind=@_createCommand.Name placeholder="Enter interview name..." />
+        <input class="form-control" type="text" bind=@_createRequest.Name placeholder="Enter interview name..." />
     </div>
     <div class="form-group">
-        @foreach (var category in _createCommand.Content)
+        @foreach (var category in _createRequest.Content)
             {
         <div>
             <label>@_categories.FirstOrDefault(c => c.Id == category.CategoryId)?.Name</label>
@@ -30,7 +30,7 @@ else
                 <span>Add category</span>
             </button>
             <div class="dropdown-menu">
-                @foreach (var category in _categories.Where(c => !_createCommand.Content.Select(cmd => cmd.CategoryId).Contains(c.Id)))
+                @foreach (var category in _categories.Where(c => !_createRequest.Content.Select(cmd => cmd.CategoryId).Contains(c.Id)))
                     {
                 <button class="dropdown-item" onclick="@(c => AddCategory(category.Id))">@category.Name</button>
                     }
@@ -43,14 +43,14 @@ else
 }
 @functions
 {
-    private List<Category> _categories;
-    private readonly Contract.Commands.Interview.CreateInterview _createCommand = new Contract.Commands.Interview.CreateInterview();
+    private List<CategoryResponse> _categories;
+    private readonly CreateInterviewRequest _createRequest = new CreateInterviewRequest();
 
     protected override async Task OnInitAsync()
     {
         try
         {
-            _categories = await Http.AuthorizedGetJsonAsync<List<Category>>("api/category");
+            _categories = await Http.AuthorizedGetJsonAsync<List<CategoryResponse>>("api/category");
         }
         catch
         {
@@ -60,10 +60,10 @@ else
 
     private void AddCategory(Guid categoryId)
     {
-        if (_createCommand.Content.Any(c => c.CategoryId == categoryId))
+        if (_createRequest.Content.Any(c => c.CategoryId == categoryId))
             return;
 
-        _createCommand.Content.Add(new CreateInterviewCategory
+        _createRequest.Content.Add(new CreateInterviewCategory
         {
             CategoryId = categoryId,
             QuestionCount = 1
@@ -74,7 +74,7 @@ else
     {
         try
         {
-            await Http.AuthorizedPostJsonAsync<Guid>("api/interview", _createCommand);
+            await Http.AuthorizedPostJsonAsync<Guid>("api/interview", _createRequest);
             UriHelper.NavigateTo("/dashboard");
         }
         catch

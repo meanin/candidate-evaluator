@@ -1,16 +1,18 @@
 ﻿@page "/category/{id:guid}"
 @using CandidateEvaluator.Client.Services
+@using CandidateEvaluator.Common.Requests.Category
+@using CandidateEvaluator.Common.Responses.Category
 @inject UserIdentityService Http
 @inject Microsoft.AspNetCore.Blazor.Services.IUriHelper UriHelper
 
-@if (_categoryModel == null)
+@if (_request == null)
 {
     <p><em>Loading... @Id</em></p>
 }
 else
 {
-    <h1>Category: @_categoryModel.Id</h1>
-    <input placeholder="Loading..." bind="@_categoryModel.Name" />
+    <h1>Category: @_request.Id</h1>
+    <input placeholder="Loading..." bind="@_request.Name" />
 
     <button class="btn btn-info" onclick="@Save">Save</button>
     <button class="btn btn-info" onclick="@Delete">Delete</button>
@@ -20,25 +22,30 @@ else
 
 @functions
 {
-[Parameter]
-private Guid Id { get; set; }
+    [Parameter]
+    private Guid Id { get; set; }
 
-private Contract.Models.Category _categoryModel;
+    private UpdateCategoryRequest _request;
 
-protected override async Task OnInitAsync()
-{
-    _categoryModel = await Http.AuthorizedGetJsonAsync<Contract.Models.Category>($"api/Category/{Id}");
-}
+    protected override async Task OnInitAsync()
+    {
+        var dto = await Http.AuthorizedGetJsonAsync<CategoryResponse>($"api/Category/{Id}");
+        _request = new UpdateCategoryRequest
+        {
+            Id = dto.Id,
+            Name = dto.Name
+        };
+    }
 
-private async Task Save()
-{
-    var modelId = await Http.AuthorizedPostJsonAsync<Guid>($"api/Category/{Id}", _categoryModel);
-    UriHelper.NavigateTo($"/category/{modelId}");
-}
+    private async Task Save()
+    {
+        var modelId = await Http.AuthorizedPostJsonAsync<Guid>($"api/Category/{Id}", _request);
+        UriHelper.NavigateTo($"/category/{modelId}");
+    }
 
-private async Task Delete()
-{
-    await Http.AuthorizedDeleteAsync($"api/Category/{Id}");
-    UriHelper.NavigateTo("/category");
-}
+    private async Task Delete()
+    {
+        await Http.AuthorizedDeleteAsync($"api/Category/{Id}");
+        UriHelper.NavigateTo("/category");
+    }
 }

@@ -4,7 +4,10 @@ using CandidateEvaluator.Server.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
+using CandidateEvaluator.Common.Requests.Category;
+using CandidateEvaluator.Common.Responses.Category;
 using CandidateEvaluator.Contract.Queries.Category;
 
 namespace CandidateEvaluator.Server.Controllers
@@ -21,34 +24,43 @@ namespace CandidateEvaluator.Server.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateCategory command)
+        public async Task<IActionResult> Create([FromBody] CreateCategoryRequest request)
         {
-            command.OwnerId = HttpContext.GetUser().Oid;
-            var created = await _dispatcher.Send(command);
+            var cmd = new CreateCategoryCommand(HttpContext.GetUser().Oid, request.Name);
+            var created = await _dispatcher.Send(cmd);
             return CreatedAtAction(nameof(Get), created);
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var categories = await _dispatcher.Query(new GetAllCategories { OwnerId = HttpContext.GetUser().Oid });
-            return Ok(categories);
+            var categories = await _dispatcher.Query(new GetAllCategoriesQuery(HttpContext.GetUser().Oid));
+            var response = categories.Select(c => new CategoryResponse
+            {
+                Id = c.Id,
+                Name = c.Name
+            }).ToList();
+            return Ok(response);
         }
 
         [HttpGet]
         [Route("{id}")]
         public async Task<IActionResult> Get([FromRoute] Guid id) 
         {
-            var category = await _dispatcher.Query(new GetCategory { OwnerId = HttpContext.GetUser().Oid, Id = id });
-            return Ok(category);
+            var category = await _dispatcher.Query(new GetCategoryQuery(HttpContext.GetUser().Oid, id));
+            return Ok(new CategoryResponse
+            {
+                Id = category.Id,
+                Name = category.Name
+            });
         }
 
         [HttpPost]
         [Route("{id}")]
-        public async Task<IActionResult> Update([FromBody] UpdateCategory command)
+        public async Task<IActionResult> Update([FromBody] UpdateCategoryRequest request)
         {
-            command.OwnerId = HttpContext.GetUser().Oid;
-            var categoryId = await _dispatcher.Send(command);
+            var cmd = new UpdateCategoryCommand(HttpContext.GetUser().Oid, request.Id, request.Name);
+            var categoryId = await _dispatcher.Send(cmd);
             return Ok(categoryId);
         }
 
@@ -56,7 +68,7 @@ namespace CandidateEvaluator.Server.Controllers
         [Route("{id}")]
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
-            await _dispatcher.Send(new DeleteCategory { OwnerId = HttpContext.GetUser().Oid, Id = id });
+            await _dispatcher.Send(new DeleteCategoryCommand(HttpContext.GetUser().Oid, id));
             return NoContent();
         }
     }

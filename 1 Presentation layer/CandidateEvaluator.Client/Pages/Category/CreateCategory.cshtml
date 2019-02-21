@@ -1,11 +1,12 @@
 ﻿@page "/category/new"
 @using CandidateEvaluator.Client.Services
+@using CandidateEvaluator.Common.Requests.Category
 @inject UserIdentityService Http
 @inject Microsoft.AspNetCore.Blazor.Services.IUriHelper UriHelper
 
 <h1>Create new category</h1>
 
-<input placeholder="Fill me name..." bind="@_categoryModel.Name" />
+<input placeholder="Fill me name..." bind="@_request.Name" />
 
 <button class="btn btn-info" onclick="@Save">Save</button>
 <a href="/category" class="btn btn-info">Return</a>
@@ -13,9 +14,8 @@
 
 @functions
 {
-    private readonly Contract.Models.Category _categoryModel = new Contract.Models.Category
+    private readonly CreateCategoryRequest _request = new CreateCategoryRequest
     {
-        Id = Guid.Empty,
         Name = string.Empty
     };
 
@@ -23,7 +23,7 @@
     {
         try
         {
-            var categoryId = await Http.AuthorizedPostJsonAsync<Guid>("api/Category", _categoryModel);
+            var categoryId = await Http.AuthorizedPostJsonAsync<Guid>("api/Category", _request);
             UriHelper.NavigateTo($"/category/{categoryId}");
         }
         catch

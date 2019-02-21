@@ -7,7 +7,7 @@ using CandidateEvaluator.Contract.Repositories;
 
 namespace CandidateEvaluator.Core.Handlers.Commands.Interview
 {
-    public class DeleteInterviewHandler : ICommandHandler<DeleteInterview>
+    public class DeleteInterviewHandler : ICommandHandler<DeleteInterviewCommand>
     {
         private readonly IInterviewRepository _modelRepository;
         private readonly IUserRecentActivityRepository _activityRepository;
@@ -19,7 +19,7 @@ namespace CandidateEvaluator.Core.Handlers.Commands.Interview
             _activityRepository = activityRepository;
         }
 
-        public async Task<Guid> Handle(DeleteInterview command)
+        public async Task<Guid> Handle(DeleteInterviewCommand command)
         {
             await _modelRepository.Delete(command.OwnerId, command.Id);
             await _activityRepository.Delete(command.OwnerId, new RecentActivity
