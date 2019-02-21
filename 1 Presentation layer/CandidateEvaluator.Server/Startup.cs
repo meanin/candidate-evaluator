@@ -102,6 +102,7 @@ namespace CandidateEvaluator.Server
 
             services.AddTransient<ICommandHandler<CreateInterviewResultCommand>, CreateInterviewResultHandler>();
             services.AddTransient<ICommandHandler<DeleteInterviewResultCommand>, DeleteInterviewResultHandler>();
+            services.AddTransient<ICommandHandler<SendInterviewReportViaMailCommand>, SendInterviewReportViaMailHandler>();
 
             services.AddTransient<IQueryHandler<GetAllCategoriesQuery, IEnumerable<Category>>, GetAllCategoriesHandler>();
             services.AddTransient<IQueryHandler<GetCategoryQuery, Category>, GetCategoryHandler>();

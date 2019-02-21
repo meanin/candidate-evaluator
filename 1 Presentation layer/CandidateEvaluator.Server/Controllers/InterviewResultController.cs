@@ -85,7 +85,15 @@ namespace CandidateEvaluator.Server.Controllers
                     }).ToList()
                 }).ToList()
             };
-            return Ok(result);
+            return Ok(response);
+        }
+
+        [HttpPost]
+        [Route("{id}/sendreport")]
+        public async Task<IActionResult> SendReport([FromBody] SendInterviewReportViaMailRequest request)
+        {
+            await _dispatcher.Send(new SendInterviewReportViaMailCommand(HttpContext.GetUser().Oid, request.Id));
+            return Ok();
         }
 
         [HttpDelete]
