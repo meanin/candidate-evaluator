@@ -1,11 +1,10 @@
-﻿using CandidateEvaluator.Contract.Commands;
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using CandidateEvaluator.Contract.CQRS.Commands;
 using CandidateEvaluator.Contract.CQRS.Dispatchers;
 using CandidateEvaluator.Contract.CQRS.Handlers;
 
-namespace CandidateEvaluator.Core.Dispatchers
+namespace CandidateEvaluator.Core.CQRS.Dispatchers
 {
     public class CommandDispatcher : ICommandDispatcher
     {

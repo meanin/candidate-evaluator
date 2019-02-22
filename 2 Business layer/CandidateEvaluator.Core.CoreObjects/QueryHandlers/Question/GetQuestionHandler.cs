@@ -2,9 +2,8 @@
 using CandidateEvaluator.Contract.CoreObjects.Queries.Question;
 using CandidateEvaluator.Contract.CoreObjects.Repositories;
 using CandidateEvaluator.Contract.CQRS.Handlers;
-using CandidateEvaluator.Contract.Repositories;
 
-namespace CandidateEvaluator.Core.Handlers.Queries.Question
+namespace CandidateEvaluator.Core.CoreObjects.QueryHandlers.Question
 {
     public class GetQuestionHandler : IQueryHandler<GetQuestionQuery, Contract.CoreObjects.Models.Question>
     {

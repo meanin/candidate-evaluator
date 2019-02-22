@@ -3,7 +3,6 @@ using CandidateEvaluator.Contract.Configuration;
 using CandidateEvaluator.Contract.Models;
 using CandidateEvaluator.Contract.Queries.UserActivity;
 using CandidateEvaluator.Contract.Repositories;
-using CandidateEvaluator.Core.Dispatchers;
 using CandidateEvaluator.Core.Handlers.Queries;
 using CandidateEvaluator.Data.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -19,13 +18,6 @@ using System.Net.Http;
 using System.Net.Mime;
 using CandidateEvaluator.Contract.Commands.Interview;
 using CandidateEvaluator.Contract.Commands.InterviewResult;
-using CandidateEvaluator.Contract.CoreObjects.Commands.Category;
-using CandidateEvaluator.Contract.CoreObjects.Commands.Question;
-using CandidateEvaluator.Contract.CoreObjects.Models;
-using CandidateEvaluator.Contract.CoreObjects.Queries.Category;
-using CandidateEvaluator.Contract.CoreObjects.Queries.Question;
-using CandidateEvaluator.Contract.CoreObjects.Repositories;
-using CandidateEvaluator.Contract.CQRS.Dispatchers;
 using CandidateEvaluator.Contract.CQRS.Handlers;
 using CandidateEvaluator.Contract.Dtos;
 using CandidateEvaluator.Contract.Factories;
@@ -33,15 +25,12 @@ using CandidateEvaluator.Contract.Queries.Interview;
 using CandidateEvaluator.Contract.Queries.InterviewResult;
 using CandidateEvaluator.Contract.Services;
 using CandidateEvaluator.Core.Factories;
-using CandidateEvaluator.Core.Handlers.Commands.Category;
 using CandidateEvaluator.Core.Handlers.Commands.Interview;
 using CandidateEvaluator.Core.Handlers.Commands.InterviewResult;
-using CandidateEvaluator.Core.Handlers.Commands.Question;
-using CandidateEvaluator.Core.Handlers.Queries.Category;
 using CandidateEvaluator.Core.Handlers.Queries.Interview;
 using CandidateEvaluator.Core.Handlers.Queries.InterviewResult;
-using CandidateEvaluator.Core.Handlers.Queries.Question;
 using CandidateEvaluator.Core.Services;
+using CandidateEvaluator.Server.Extensions;
 
 namespace CandidateEvaluator.Server
 {
@@ -77,26 +66,16 @@ namespace CandidateEvaluator.Server
                 });
 
             services.AddSingleton<HttpClient>();
-            services.AddTransient<ICategoryRepository, CategoryRepository>();
-            services.AddTransient<IQuestionRepository, QuestionRepository>();
+
+            services.AddCqrs();
+            services.AddCoreObjects();
+
             services.AddTransient<IUserRecentActivityRepository, UserRecentActivityRepository>();
             services.AddTransient<IInterviewRepository, InterviewRepository>();
             services.AddTransient<IInterviewResultRepository, InterviewResultRepository>();
 
             services.AddTransient<IMailContentServiceFactory, UserPreferencesMailContentServiceFactory>();
             services.AddTransient<IMailService, SendGridMailService>();
-
-            services.AddTransient<IDispatcher, Dispatcher>();
-            services.AddTransient<ICommandDispatcher, CommandDispatcher>();
-            services.AddTransient<IQueryDispatcher, QueryDispatcher>();
-
-            services.AddTransient<ICommandHandler<CreateCategoryCommand>, CreateCategoryHandler>();
-            services.AddTransient<ICommandHandler<DeleteCategoryCommand>, DeleteCategoryHandler>();
-            services.AddTransient<ICommandHandler<UpdateCategoryCommand>, UpdateCategoryHandler>();
-
-            services.AddTransient<ICommandHandler<CreateQuestionCommand>, CreateQuestionHandler>();
-            services.AddTransient<ICommandHandler<DeleteQuestionCommand>, DeleteQuestionHandler>();
-            services.AddTransient<ICommandHandler<UpdateQuestionCommand>, UpdateQuestionHandler>();
 
             services.AddTransient<ICommandHandler<CreateInterviewCommand>, CreateInterviewHandler>();
             services.AddTransient<ICommandHandler<DeleteInterviewCommand>, DeleteInterviewHandler>();
@@ -106,10 +85,6 @@ namespace CandidateEvaluator.Server
             services.AddTransient<ICommandHandler<DeleteInterviewResultCommand>, DeleteInterviewResultHandler>();
             services.AddTransient<ICommandHandler<SendInterviewReportViaMailCommand>, SendInterviewReportViaMailHandler>();
 
-            services.AddTransient<IQueryHandler<GetAllCategoriesQuery, IEnumerable<Category>>, GetAllCategoriesHandler>();
-            services.AddTransient<IQueryHandler<GetCategoryQuery, Category>, GetCategoryHandler>();
-            services.AddTransient<IQueryHandler<GetAllQuestionsQuery, IEnumerable<Question>>, GetQuestionsHandler>();
-            services.AddTransient<IQueryHandler<GetQuestionQuery, Question>, GetQuestionHandler>();
             services.AddTransient<IQueryHandler<GetInterviewQuery, InterviewDto>, GetInterviewHandler>();
             services.AddTransient<IQueryHandler<GetAllInterviewsQuery, List<(Guid Id, string Name)>>, GetAllInterviewsHandler>();
             services.AddTransient<IQueryHandler<GetAllUserActivitiesQuery, IEnumerable<RecentActivity>>, GetAllUserActivitiesHandler>();

@@ -6,36 +6,29 @@ using CandidateEvaluator.Contract.CQRS.Handlers;
 using CandidateEvaluator.Contract.Models;
 using CandidateEvaluator.Contract.Repositories;
 
-namespace CandidateEvaluator.Core.Handlers.Commands.Category
+namespace CandidateEvaluator.Core.CoreObjects.CommandHandlers.Category
 {
-    public class CreateCategoryHandler : ICommandHandler<CreateCategoryCommand>
+    public class DeleteCategoryHandler : ICommandHandler<DeleteCategoryCommand>
     {
         private readonly ICategoryRepository _modelRepository;
         private readonly IUserRecentActivityRepository _activityRepository;
 
-        public CreateCategoryHandler(ICategoryRepository modelRepository,
+        public DeleteCategoryHandler(ICategoryRepository modelRepository,
             IUserRecentActivityRepository activityRepository)
         {
             _modelRepository = modelRepository;
             _activityRepository = activityRepository;
         }
 
-        public async Task<Guid> Handle(CreateCategoryCommand command)
+        public async Task<Guid> Handle(DeleteCategoryCommand command)
         {
-            var model = new Contract.CoreObjects.Models.Category
-            {
-                OwnerId = command.OwnerId,
-                Name = command.Name
-            };
-
-            var result = await _modelRepository.Add(model);
-            await _activityRepository.Upsert(model.OwnerId, new RecentActivity
+            await _modelRepository.Delete(command.OwnerId, command.Id);
+            await _activityRepository.Delete(command.OwnerId, new RecentActivity
             {
                 Type = EntityType.Category,
-                EntityId = result,
-                Name = command.Name
+                EntityId = command.Id
             });
-            return result;
+            return Guid.Empty;
         }
     }
 }

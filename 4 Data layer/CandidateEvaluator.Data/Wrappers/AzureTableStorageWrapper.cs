@@ -6,7 +6,7 @@ using Microsoft.WindowsAzure.Storage.Table;
 
 namespace CandidateEvaluator.Data.Wrappers
 {
-    internal class AzureTableStorageWrapper<TEntity> where TEntity : TableEntity, new()
+    public class AzureTableStorageWrapper<TEntity> where TEntity : TableEntity, new()
     {
         private readonly CloudTable _table;
 

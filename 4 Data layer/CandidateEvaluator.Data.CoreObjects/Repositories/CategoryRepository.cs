@@ -2,15 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CandidateEvaluator.Data.Entities;
+using CandidateEvaluator.Data.CoreObjects.Entities;
 using CandidateEvaluator.Data.Wrappers;
 using CandidateEvaluator.Contract.Configuration;
 using CandidateEvaluator.Contract.CoreObjects.Models;
 using CandidateEvaluator.Contract.CoreObjects.Repositories;
-using CandidateEvaluator.Contract.Models;
-using CandidateEvaluator.Contract.Repositories;
 
-namespace CandidateEvaluator.Data.Repositories
+namespace CandidateEvaluator.Data.CoreObjects.Repositories
 {
     public class CategoryRepository : ICategoryRepository
     {

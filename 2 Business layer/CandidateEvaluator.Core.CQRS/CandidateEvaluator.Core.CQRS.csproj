@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CandidateEvaluator.Contract.CQRS\CandidateEvaluator.Contract.CQRS.csproj" />
+    <ProjectReference Include="..\..\3 Domain layer\CandidateEvaluator.Contract.CQRS\CandidateEvaluator.Contract.CQRS.csproj" />
   </ItemGroup>
 
 </Project>

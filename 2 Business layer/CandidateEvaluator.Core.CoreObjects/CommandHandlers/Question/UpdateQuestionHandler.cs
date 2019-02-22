@@ -6,7 +6,7 @@ using CandidateEvaluator.Contract.CQRS.Handlers;
 using CandidateEvaluator.Contract.Models;
 using CandidateEvaluator.Contract.Repositories;
 
-namespace CandidateEvaluator.Core.Handlers.Commands.Question
+namespace CandidateEvaluator.Core.CoreObjects.CommandHandlers.Question
 {
     public class UpdateQuestionHandler : ICommandHandler<UpdateQuestionCommand>
     {

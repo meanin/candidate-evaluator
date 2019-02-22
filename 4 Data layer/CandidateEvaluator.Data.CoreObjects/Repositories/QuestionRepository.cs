@@ -1,7 +1,5 @@
 ﻿using CandidateEvaluator.Contract.Configuration;
-using CandidateEvaluator.Contract.Models;
-using CandidateEvaluator.Contract.Repositories;
-using CandidateEvaluator.Data.Entities;
+using CandidateEvaluator.Data.CoreObjects.Entities;
 using CandidateEvaluator.Data.Wrappers;
 using System;
 using System.Collections.Generic;
@@ -10,7 +8,7 @@ using System.Threading.Tasks;
 using CandidateEvaluator.Contract.CoreObjects.Models;
 using CandidateEvaluator.Contract.CoreObjects.Repositories;
 
-namespace CandidateEvaluator.Data.Repositories
+namespace CandidateEvaluator.Data.CoreObjects.Repositories
 {
     public class QuestionRepository : IQuestionRepository
     {

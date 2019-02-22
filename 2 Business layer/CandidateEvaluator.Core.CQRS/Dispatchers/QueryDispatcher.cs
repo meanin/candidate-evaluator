@@ -1,11 +1,10 @@
-﻿using CandidateEvaluator.Contract.Queries;
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using CandidateEvaluator.Contract.CQRS.Dispatchers;
 using CandidateEvaluator.Contract.CQRS.Handlers;
 using CandidateEvaluator.Contract.CQRS.Queries;
 
-namespace CandidateEvaluator.Core.Dispatchers
+namespace CandidateEvaluator.Core.CQRS.Dispatchers
 {
     public class QueryDispatcher : IQueryDispatcher
     {

@@ -6,29 +6,37 @@ using CandidateEvaluator.Contract.CQRS.Handlers;
 using CandidateEvaluator.Contract.Models;
 using CandidateEvaluator.Contract.Repositories;
 
-namespace CandidateEvaluator.Core.Handlers.Commands.Category
+namespace CandidateEvaluator.Core.CoreObjects.CommandHandlers.Category
 {
-    public class DeleteCategoryHandler : ICommandHandler<DeleteCategoryCommand>
+    public class UpdateCategoryHandler : ICommandHandler<UpdateCategoryCommand>
     {
         private readonly ICategoryRepository _modelRepository;
         private readonly IUserRecentActivityRepository _activityRepository;
 
-        public DeleteCategoryHandler(ICategoryRepository modelRepository,
+        public UpdateCategoryHandler(ICategoryRepository modelRepository,
             IUserRecentActivityRepository activityRepository)
         {
             _modelRepository = modelRepository;
             _activityRepository = activityRepository;
         }
 
-        public async Task<Guid> Handle(DeleteCategoryCommand command)
+        public async Task<Guid> Handle(UpdateCategoryCommand command)
         {
-            await _modelRepository.Delete(command.OwnerId, command.Id);
-            await _activityRepository.Delete(command.OwnerId, new RecentActivity
+            var model = new Contract.CoreObjects.Models.Category
+            {
+                Id = command.Id,
+                OwnerId = command.OwnerId,
+                Name = command.Name
+            };
+            await _modelRepository.Update(model);
+
+            await _activityRepository.Upsert(model.OwnerId, new RecentActivity
             {
                 Type = EntityType.Category,
-                EntityId = command.Id
+                EntityId = model.Id,
+                Name = command.Name
             });
-            return Guid.Empty;
+            return model.Id;
         }
     }
 }

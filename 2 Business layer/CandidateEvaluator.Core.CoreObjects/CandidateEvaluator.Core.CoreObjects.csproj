@@ -5,11 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
-    <PackageReference Include="WindowsAzure.Storage" Version="9.3.2" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\..\3 Domain layer\CandidateEvaluator.Contract.CoreObjects\CandidateEvaluator.Contract.CoreObjects.csproj" />
+    <ProjectReference Include="..\..\3 Domain layer\CandidateEvaluator.Contract.CQRS\CandidateEvaluator.Contract.CQRS.csproj" />
     <ProjectReference Include="..\..\3 Domain layer\CandidateEvaluator.Contract\CandidateEvaluator.Contract.csproj" />
   </ItemGroup>
 

@@ -6,37 +6,36 @@ using CandidateEvaluator.Contract.CQRS.Handlers;
 using CandidateEvaluator.Contract.Models;
 using CandidateEvaluator.Contract.Repositories;
 
-namespace CandidateEvaluator.Core.Handlers.Commands.Category
+namespace CandidateEvaluator.Core.CoreObjects.CommandHandlers.Category
 {
-    public class UpdateCategoryHandler : ICommandHandler<UpdateCategoryCommand>
+    public class CreateCategoryHandler : ICommandHandler<CreateCategoryCommand>
     {
         private readonly ICategoryRepository _modelRepository;
         private readonly IUserRecentActivityRepository _activityRepository;
 
-        public UpdateCategoryHandler(ICategoryRepository modelRepository,
+        public CreateCategoryHandler(ICategoryRepository modelRepository,
             IUserRecentActivityRepository activityRepository)
         {
             _modelRepository = modelRepository;
             _activityRepository = activityRepository;
         }
 
-        public async Task<Guid> Handle(UpdateCategoryCommand command)
+        public async Task<Guid> Handle(CreateCategoryCommand command)
         {
             var model = new Contract.CoreObjects.Models.Category
             {
-                Id = command.Id,
                 OwnerId = command.OwnerId,
                 Name = command.Name
             };
-            await _modelRepository.Update(model);
 
+            var result = await _modelRepository.Add(model);
             await _activityRepository.Upsert(model.OwnerId, new RecentActivity
             {
                 Type = EntityType.Category,
-                EntityId = model.Id,
+                EntityId = result,
                 Name = command.Name
             });
-            return model.Id;
+            return result;
         }
     }
 }

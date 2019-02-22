@@ -3,9 +3,8 @@ using System.Threading.Tasks;
 using CandidateEvaluator.Contract.CoreObjects.Queries.Category;
 using CandidateEvaluator.Contract.CoreObjects.Repositories;
 using CandidateEvaluator.Contract.CQRS.Handlers;
-using CandidateEvaluator.Contract.Repositories;
 
-namespace CandidateEvaluator.Core.Handlers.Queries.Category
+namespace CandidateEvaluator.Core.CoreObjects.QueryHandlers.Category
 {
     public class GetAllCategoriesHandler : IQueryHandler<GetAllCategoriesQuery, IEnumerable<Contract.CoreObjects.Models.Category>>
     {
