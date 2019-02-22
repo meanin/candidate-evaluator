@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using CandidateEvaluator.Contract.Models;
+using CandidateEvaluator.Contract.Account.Models;
 
-namespace CandidateEvaluator.Contract.Repositories
+namespace CandidateEvaluator.Contract.Account.Repositories
 {
     public interface IUserRecentActivityRepository
     {

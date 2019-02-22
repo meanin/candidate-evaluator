@@ -1,9 +1,9 @@
-﻿using CandidateEvaluator.Contract.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using CandidateEvaluator.Contract.Account.Models;
 using CandidateEvaluator.Contract.CQRS.Queries;
 
-namespace CandidateEvaluator.Contract.Queries.UserActivity
+namespace CandidateEvaluator.Contract.Account.Queries
 {
     public class GetAllUserActivitiesQuery : IQuery<IEnumerable<RecentActivity>>
     {

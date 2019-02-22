@@ -5,9 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CandidateEvaluator.Contract.CoreObjects\CandidateEvaluator.Contract.CoreObjects.csproj" />
     <ProjectReference Include="..\CandidateEvaluator.Contract.CQRS\CandidateEvaluator.Contract.CQRS.csproj" />
-    <ProjectReference Include="..\CandidateEvaluator.Contract\CandidateEvaluator.Contract.csproj" />
   </ItemGroup>
 
 </Project>

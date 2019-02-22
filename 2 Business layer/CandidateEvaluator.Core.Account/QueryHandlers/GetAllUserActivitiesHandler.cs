@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using CandidateEvaluator.Contract.Account.Models;
+using CandidateEvaluator.Contract.Account.Queries;
+using CandidateEvaluator.Contract.Account.Repositories;
 using CandidateEvaluator.Contract.CQRS.Handlers;
-using CandidateEvaluator.Contract.Models;
-using CandidateEvaluator.Contract.Queries.UserActivity;
-using CandidateEvaluator.Contract.Repositories;
 
-namespace CandidateEvaluator.Core.QueryHandlers
+namespace CandidateEvaluator.Core.Account.QueryHandlers
 {
     public class GetAllUserActivitiesHandler : IQueryHandler<GetAllUserActivitiesQuery, IEnumerable<RecentActivity>>
     {

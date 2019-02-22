@@ -1,8 +1,4 @@
 using CandidateEvaluator.Contract.Configuration;
-using CandidateEvaluator.Contract.Models;
-using CandidateEvaluator.Contract.Queries.UserActivity;
-using CandidateEvaluator.Contract.Repositories;
-using CandidateEvaluator.Data.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Blazor.Server;
 using Microsoft.AspNetCore.Builder;
@@ -10,12 +6,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Mime;
-using CandidateEvaluator.Contract.CQRS.Handlers;
-using CandidateEvaluator.Core.QueryHandlers;
 using CandidateEvaluator.Server.Extensions;
 
 namespace CandidateEvaluator.Server
@@ -56,9 +49,7 @@ namespace CandidateEvaluator.Server
             services.AddCqrs();
             services.AddCoreObjects();
             services.AddInterview();
-
-            services.AddTransient<IUserRecentActivityRepository, UserRecentActivityRepository>();
-            services.AddTransient<IQueryHandler<GetAllUserActivitiesQuery, IEnumerable<RecentActivity>>, GetAllUserActivitiesHandler>();
+            services.AddAccount();
 
             services.AddMvc();
 

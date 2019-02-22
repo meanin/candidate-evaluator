@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using CandidateEvaluator.Common.Responses.Dashboard;
+using CandidateEvaluator.Contract.Account.Queries;
 using CandidateEvaluator.Contract.CQRS.Dispatchers;
-using CandidateEvaluator.Contract.Queries.UserActivity;
 using CandidateEvaluator.Server.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CandidateEvaluator.Contract.Account.Models;
+using CandidateEvaluator.Contract.Account.Repositories;
 using CandidateEvaluator.Contract.Configuration;
-using CandidateEvaluator.Contract.Models;
-using CandidateEvaluator.Contract.Repositories;
-using CandidateEvaluator.Data.Entities;
+using CandidateEvaluator.Data.Account.Entities;
 using CandidateEvaluator.Data.Wrappers;
 
-namespace CandidateEvaluator.Data.Repositories
+namespace CandidateEvaluator.Data.Account.Repositories
 {
     public class UserRecentActivityRepository : IUserRecentActivityRepository
     {

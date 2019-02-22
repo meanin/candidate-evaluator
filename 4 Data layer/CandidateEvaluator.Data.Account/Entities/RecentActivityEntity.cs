@@ -2,7 +2,7 @@
 using Microsoft.WindowsAzure.Storage.Table;
 
 [assembly: InternalsVisibleTo("Microsoft.WindowsAzure.Storage.Table")]
-namespace CandidateEvaluator.Data.Entities
+namespace CandidateEvaluator.Data.Account.Entities
 {
     internal class RecentActivityEntity : TableEntity
     {

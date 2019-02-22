@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CandidateEvaluator.Contract.Account.Models;
+using CandidateEvaluator.Contract.Account.Repositories;
 using CandidateEvaluator.Contract.CQRS.Handlers;
 using CandidateEvaluator.Contract.Interview.Commands.Interview;
 using CandidateEvaluator.Contract.Interview.Repositories;
-using CandidateEvaluator.Contract.Models;
-using CandidateEvaluator.Contract.Repositories;
 
 namespace CandidateEvaluator.Core.Interview.CommandHandlers.Interview
 {

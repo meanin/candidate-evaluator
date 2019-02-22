@@ -10,7 +10,6 @@ using CandidateEvaluator.Contract.CoreObjects.Commands.Question;
 using CandidateEvaluator.Contract.CoreObjects.Models;
 using CandidateEvaluator.Contract.CoreObjects.Queries.Question;
 using CandidateEvaluator.Contract.CQRS.Dispatchers;
-using CandidateEvaluator.Contract.Models;
 
 namespace CandidateEvaluator.Server.Controllers
 {
