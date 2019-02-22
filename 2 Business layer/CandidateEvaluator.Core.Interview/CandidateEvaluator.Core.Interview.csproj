@@ -13,6 +13,7 @@
     <ProjectReference Include="..\..\3 Domain layer\CandidateEvaluator.Contract.CoreObjects\CandidateEvaluator.Contract.CoreObjects.csproj" />
     <ProjectReference Include="..\..\3 Domain layer\CandidateEvaluator.Contract.CQRS\CandidateEvaluator.Contract.CQRS.csproj" />
     <ProjectReference Include="..\..\3 Domain layer\CandidateEvaluator.Contract.Interview\CandidateEvaluator.Contract.Interview.csproj" />
+    <ProjectReference Include="..\..\3 Domain layer\CandidateEvaluator.Contract\CandidateEvaluator.Contract.csproj" />
     <ProjectReference Include="..\CandidateEvaluator.Core.Razor\CandidateEvaluator.Core.Razor.csproj" />
     <ProjectReference Include="..\CandidateEvaluator.Core.Utils\CandidateEvaluator.Core.Utils.csproj" />
   </ItemGroup>

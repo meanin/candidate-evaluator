@@ -38,6 +38,7 @@ namespace CandidateEvaluator.Server.Extensions
             services.AddTransient<ICommandHandler<DeleteInterviewResultCommand>, DeleteInterviewResultHandler>();
             services.AddTransient<ICommandHandler<SendInterviewReportViaMailCommand>, SendInterviewReportViaMailHandler>();
 
+            services.AddTransient<IQueryHandler<GetInterviewQuery, Interview>, GetInterviewHandler>();
             services.AddTransient<IQueryHandler<StartInterviewQuery, StartInterview>, StartInterviewHandler>();
             services.AddTransient<IQueryHandler<GetAllInterviewsQuery, List<(Guid Id, string Name)>>, GetAllInterviewsHandler>();
 

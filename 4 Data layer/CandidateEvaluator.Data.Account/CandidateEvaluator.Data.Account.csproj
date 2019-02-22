@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\3 Domain layer\CandidateEvaluator.Contract.Account\CandidateEvaluator.Contract.Account.csproj" />
+    <ProjectReference Include="..\..\3 Domain layer\CandidateEvaluator.Contract\CandidateEvaluator.Contract.csproj" />
     <ProjectReference Include="..\CandidateEvaluator.Data\CandidateEvaluator.Data.csproj" />
   </ItemGroup>
 

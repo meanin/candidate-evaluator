@@ -68,7 +68,7 @@ else
         try
         {
             await Http.AuthorizedDeleteAsync($"api/interview/{interviewId}");
-            UriHelper.NavigateTo("/interview");
+            UriHelper.NavigateTo("/dashboard");
         }
         catch
         {
