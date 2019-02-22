@@ -31,9 +31,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CandidateEvaluator.Contract
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CandidateEvaluator.Data.CoreObjects", "4 Data layer\CandidateEvaluator.Data.CoreObjects\CandidateEvaluator.Data.CoreObjects.csproj", "{15D13C4A-7CC8-45DC-B842-6C08F00B64DC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CandidateEvaluator.Core.CoreObjects", "2 Business layer\CandidateEvaluator.Core.CoreObjects\CandidateEvaluator.Core.CoreObjects.csproj", "{7489F0B9-2F87-4887-B558-A33B0CACEC8A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CandidateEvaluator.Core.CoreObjects", "2 Business layer\CandidateEvaluator.Core.CoreObjects\CandidateEvaluator.Core.CoreObjects.csproj", "{7489F0B9-2F87-4887-B558-A33B0CACEC8A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CandidateEvaluator.Core.CQRS", "2 Business layer\CandidateEvaluator.Core.CQRS\CandidateEvaluator.Core.CQRS.csproj", "{7C6961DF-E391-49D0-8731-5EF5F8E93181}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CandidateEvaluator.Core.CQRS", "2 Business layer\CandidateEvaluator.Core.CQRS\CandidateEvaluator.Core.CQRS.csproj", "{7C6961DF-E391-49D0-8731-5EF5F8E93181}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CandidateEvaluator.Data.Interview", "4 Data layer\CandidateEvaluator.Data.Interview\CandidateEvaluator.Data.Interview.csproj", "{3D6E7AE2-BC7E-4EA1-A333-5AE7D6784E3E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CandidateEvaluator.Contract.Interview", "3 Domain layer\CandidateEvaluator.Contract.Interview\CandidateEvaluator.Contract.Interview.csproj", "{FD853E2F-7899-4B8A-BD6E-74D2F684004D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CandidateEvaluator.Core.Interview", "2 Business layer\CandidateEvaluator.Core.Interview\CandidateEvaluator.Core.Interview.csproj", "{516E1B57-9DFD-49CE-97E5-273F5963EB9B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CandidateEvaluator.Core.Utils", "2 Business layer\CandidateEvaluator.Core.Utils\CandidateEvaluator.Core.Utils.csproj", "{5C90CD53-3017-4C57-9D46-5450EC7078C9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -89,6 +97,22 @@ Global
 		{7C6961DF-E391-49D0-8731-5EF5F8E93181}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7C6961DF-E391-49D0-8731-5EF5F8E93181}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7C6961DF-E391-49D0-8731-5EF5F8E93181}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D6E7AE2-BC7E-4EA1-A333-5AE7D6784E3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D6E7AE2-BC7E-4EA1-A333-5AE7D6784E3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D6E7AE2-BC7E-4EA1-A333-5AE7D6784E3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D6E7AE2-BC7E-4EA1-A333-5AE7D6784E3E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD853E2F-7899-4B8A-BD6E-74D2F684004D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD853E2F-7899-4B8A-BD6E-74D2F684004D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD853E2F-7899-4B8A-BD6E-74D2F684004D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD853E2F-7899-4B8A-BD6E-74D2F684004D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{516E1B57-9DFD-49CE-97E5-273F5963EB9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{516E1B57-9DFD-49CE-97E5-273F5963EB9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{516E1B57-9DFD-49CE-97E5-273F5963EB9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{516E1B57-9DFD-49CE-97E5-273F5963EB9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C90CD53-3017-4C57-9D46-5450EC7078C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C90CD53-3017-4C57-9D46-5450EC7078C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C90CD53-3017-4C57-9D46-5450EC7078C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C90CD53-3017-4C57-9D46-5450EC7078C9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -106,6 +130,10 @@ Global
 		{15D13C4A-7CC8-45DC-B842-6C08F00B64DC} = {F828E884-1948-4A30-B88D-BF015591A794}
 		{7489F0B9-2F87-4887-B558-A33B0CACEC8A} = {47EEFAC3-8F75-4ACD-985D-DBB36F1471CA}
 		{7C6961DF-E391-49D0-8731-5EF5F8E93181} = {47EEFAC3-8F75-4ACD-985D-DBB36F1471CA}
+		{3D6E7AE2-BC7E-4EA1-A333-5AE7D6784E3E} = {F828E884-1948-4A30-B88D-BF015591A794}
+		{FD853E2F-7899-4B8A-BD6E-74D2F684004D} = {EE32C7AD-7A64-41D5-8577-01B3C67B4E75}
+		{516E1B57-9DFD-49CE-97E5-273F5963EB9B} = {47EEFAC3-8F75-4ACD-985D-DBB36F1471CA}
+		{5C90CD53-3017-4C57-9D46-5450EC7078C9} = {47EEFAC3-8F75-4ACD-985D-DBB36F1471CA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4BC08CC5-624B-4F5C-8FD7-E327672D180C}

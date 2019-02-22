@@ -1,8 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
+using CandidateEvaluator.Contract.Interview.Models;
+using CandidateEvaluator.Contract.Interview.Services;
 using CandidateEvaluator.Contract.Models;
-using CandidateEvaluator.Contract.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;

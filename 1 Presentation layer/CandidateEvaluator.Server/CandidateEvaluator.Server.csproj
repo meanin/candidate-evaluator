@@ -15,11 +15,13 @@
   <ItemGroup>
     <ProjectReference Include="..\..\2 Business layer\CandidateEvaluator.Core.CoreObjects\CandidateEvaluator.Core.CoreObjects.csproj" />
     <ProjectReference Include="..\..\2 Business layer\CandidateEvaluator.Core.CQRS\CandidateEvaluator.Core.CQRS.csproj" />
+    <ProjectReference Include="..\..\2 Business layer\CandidateEvaluator.Core.Interview\CandidateEvaluator.Core.Interview.csproj" />
     <ProjectReference Include="..\..\2 Business layer\CandidateEvaluator.Core\CandidateEvaluator.Core.csproj" />
     <ProjectReference Include="..\..\3 Domain layer\CandidateEvaluator.Contract.CoreObjects\CandidateEvaluator.Contract.CoreObjects.csproj" />
     <ProjectReference Include="..\..\3 Domain layer\CandidateEvaluator.Contract.CQRS\CandidateEvaluator.Contract.CQRS.csproj" />
     <ProjectReference Include="..\..\3 Domain layer\CandidateEvaluator.Contract\CandidateEvaluator.Contract.csproj" />
     <ProjectReference Include="..\..\4 Data layer\CandidateEvaluator.Data.CoreObjects\CandidateEvaluator.Data.CoreObjects.csproj" />
+    <ProjectReference Include="..\..\4 Data layer\CandidateEvaluator.Data.Interview\CandidateEvaluator.Data.Interview.csproj" />
     <ProjectReference Include="..\..\4 Data layer\CandidateEvaluator.Data\CandidateEvaluator.Data.csproj" />
     <ProjectReference Include="..\CandidateEvaluator.Client\CandidateEvaluator.Client.csproj" />
   </ItemGroup>

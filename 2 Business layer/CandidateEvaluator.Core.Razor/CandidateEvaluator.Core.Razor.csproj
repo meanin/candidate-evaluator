@@ -15,6 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\3 Domain layer\CandidateEvaluator.Contract\CandidateEvaluator.Contract.csproj" />
+    <ProjectReference Include="..\..\3 Domain layer\CandidateEvaluator.Contract.Interview\CandidateEvaluator.Contract.Interview.csproj" />
   </ItemGroup>
 </Project>
