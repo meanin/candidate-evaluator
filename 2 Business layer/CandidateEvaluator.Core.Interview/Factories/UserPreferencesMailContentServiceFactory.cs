@@ -23,7 +23,6 @@ namespace CandidateEvaluator.Core.Interview.Factories
                 (IRazorViewEngine)_serviceProvider.GetService(typeof(IRazorViewEngine)),
                 (ITempDataProvider)_serviceProvider.GetService(typeof(ITempDataProvider)),
                 _serviceProvider);
-            return new YamlMailContentService();
         }
     }
 }
