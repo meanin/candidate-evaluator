@@ -3,9 +3,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using CandidateEvaluator.Common.Requests.Interview;
 using CandidateEvaluator.Common.Responses.Interview;
-using CandidateEvaluator.Contract.Commands.Interview;
-using CandidateEvaluator.Contract.Dispatchers;
-using CandidateEvaluator.Contract.Queries.Interview;
+using CandidateEvaluator.Contract.CQRS.Dispatchers;
+using CandidateEvaluator.Contract.Interview.Commands.Interview;
+using CandidateEvaluator.Contract.Interview.Queries.Interview;
 using CandidateEvaluator.Server.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -56,8 +56,8 @@ namespace CandidateEvaluator.Server.Controllers
                 Name = result.Name,
                 Content = result.Content.Select(c => new InterviewContentResponse
                 {
-                    CategoryId = c.Category.Id,
-                    QuestionCount = c.Questions.Count
+                    CategoryId = c.Key,
+                    QuestionCount = c.Value
                 }).ToList()
             };
             return Ok(response);
@@ -67,7 +67,7 @@ namespace CandidateEvaluator.Server.Controllers
         [Route("{id}/start")]
         public async Task<IActionResult> Start([FromRoute] Guid id)
         {
-            var result = await _dispatcher.Query(new GetInterviewQuery(HttpContext.GetUser().Oid, id));
+            var result = await _dispatcher.Query(new StartInterviewQuery(HttpContext.GetUser().Oid, id));
             var response = new StartInterviewResponse
             {
                 Id = result.Id,

@@ -1,6 +1,4 @@
-﻿using CandidateEvaluator.Contract.Commands.Category;
-using CandidateEvaluator.Contract.Dispatchers;
-using CandidateEvaluator.Server.Extensions;
+﻿using CandidateEvaluator.Server.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -8,7 +6,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using CandidateEvaluator.Common.Requests.Category;
 using CandidateEvaluator.Common.Responses.Category;
-using CandidateEvaluator.Contract.Queries.Category;
+using CandidateEvaluator.Contract.CoreObjects.Commands.Category;
+using CandidateEvaluator.Contract.CoreObjects.Queries.Category;
+using CandidateEvaluator.Contract.CQRS.Dispatchers;
 
 namespace CandidateEvaluator.Server.Controllers
 {

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using CandidateEvaluator.Contract.Models;
+using CandidateEvaluator.Server.Models;
 using Microsoft.AspNetCore.Http;
 
 namespace CandidateEvaluator.Server.Extensions

@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using CandidateEvaluator.Contract.Exceptions;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 
 namespace CandidateEvaluator.Data.Wrappers
 {
-    internal class AzureTableStorageWrapper<TEntity> where TEntity : TableEntity, new()
+    public class AzureTableStorageWrapper<TEntity> where TEntity : TableEntity, new()
     {
         private readonly CloudTable _table;
 
@@ -27,7 +27,7 @@ namespace CandidateEvaluator.Data.Wrappers
                 return entity;
             }
 
-            throw new NotFoundException(
+            throw new ArgumentException(
                 $"No {typeof(TEntity).Name} with partitionKey: {partitionKey} and rowKey: {rowKey} found");
         }
 
@@ -74,7 +74,7 @@ namespace CandidateEvaluator.Data.Wrappers
             }
             catch (StorageException e) when (e.Message == "Not Found")
             {
-                throw new NotFoundException($"No {typeof(TEntity).Name} with partitionKey: {entity.PartitionKey} and rowKey: {entity.RowKey} found");
+                throw new ArgumentException($"No {typeof(TEntity).Name} with partitionKey: {entity.PartitionKey} and rowKey: {entity.RowKey} found");
             }
         }
 

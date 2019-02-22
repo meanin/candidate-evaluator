@@ -1,21 +1,26 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
     <LangVersion>7.3</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor.Server" Version="0.7.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\2 Business layer\CandidateEvaluator.Core\CandidateEvaluator.Core.csproj" />
-    <ProjectReference Include="..\..\3 Domain layer\CandidatesEvaluator.Contract\CandidateEvaluator.Contract.csproj" />
-    <ProjectReference Include="..\..\4 Data layer\CandidateEvaluator.Data\CandidateEvaluator.Data.csproj" />
+    <ProjectReference Include="..\..\2 Business layer\CandidateEvaluator.Core.Account\CandidateEvaluator.Core.Account.csproj" />
+    <ProjectReference Include="..\..\2 Business layer\CandidateEvaluator.Core.CoreObjects\CandidateEvaluator.Core.CoreObjects.csproj" />
+    <ProjectReference Include="..\..\2 Business layer\CandidateEvaluator.Core.CQRS\CandidateEvaluator.Core.CQRS.csproj" />
+    <ProjectReference Include="..\..\2 Business layer\CandidateEvaluator.Core.Interview\CandidateEvaluator.Core.Interview.csproj" />
+    <ProjectReference Include="..\..\3 Domain layer\CandidateEvaluator.Contract\CandidateEvaluator.Contract.csproj" />
+    <ProjectReference Include="..\..\4 Data layer\CandidateEvaluator.Data.Account\CandidateEvaluator.Data.Account.csproj" />
+    <ProjectReference Include="..\..\4 Data layer\CandidateEvaluator.Data.CoreObjects\CandidateEvaluator.Data.CoreObjects.csproj" />
+    <ProjectReference Include="..\..\4 Data layer\CandidateEvaluator.Data.Interview\CandidateEvaluator.Data.Interview.csproj" />
     <ProjectReference Include="..\CandidateEvaluator.Client\CandidateEvaluator.Client.csproj" />
   </ItemGroup>
 
