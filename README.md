@@ -1,4 +1,5 @@
 # candidate-evaluator
+asdasdsasd
 
 ## Introduction
 Purpose of this repository is to learn how to use [Blazor](https://blazor.net/docs/index.html) framework as a frontend SPA application. Backend is built on top of .net core framework, so the whole solution is able to be hosted on any machine. User authentication is based on Azure Active Directory tenant. 
