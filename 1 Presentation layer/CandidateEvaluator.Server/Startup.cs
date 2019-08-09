@@ -10,6 +10,8 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Mime;
 using CandidateEvaluator.Server.Extensions;
+using Microsoft.AspNetCore.Components.Server;
+using Microsoft.Extensions.Hosting;
 
 namespace CandidateEvaluator.Server
 {
@@ -53,32 +55,35 @@ namespace CandidateEvaluator.Server
 
             services.AddMvc();
 
-            services.AddResponseCompression(options =>
+            services.AddResponseCompression(opts =>
             {
-                options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[]
-                {
-                    MediaTypeNames.Application.Octet,
-                    WasmMediaTypeNames.Application.Wasm,
-                });
+                opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
+                    new[] { "application/octet-stream" });
             });
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseResponseCompression();
 
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseBlazorDebugging();
             }
+
             app.UseAuthentication();
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(name: "default", template: "{controller}/{action}/{id?}");
-            });
+            app.UseStaticFiles();
+            app.UseClientSideBlazorFiles<Client.Startup>();
 
-            app.UseBlazor<Client.Startup>();
+            app.UseRouting();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapDefaultControllerRoute();
+                endpoints.MapFallbackToClientSideBlazor<Client.Startup>("index.html");
+            });
         }
     }
 }
