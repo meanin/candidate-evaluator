@@ -72,6 +72,7 @@ namespace CandidateEvaluator.Server
                 app.UseBlazorDebugging();
             }
 
+            app.UseAuthorization();
             app.UseAuthentication();
 
             app.UseStaticFiles();
