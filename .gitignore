@@ -330,3 +330,4 @@ ASALocalRun/
 .mfractor/
 
 appsettings.local.json
+/1 Presentation layer/CandidateEvaluator.Server/appsettings.Development.json
