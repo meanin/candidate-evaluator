@@ -1,7 +1,6 @@
 ﻿@page "/dashboard"
 @using CandidateEvaluator.Common.Responses.Dashboard
 @using CandidateEvaluator.Common.Responses.InterviewResult
-@using Microsoft.AspNetCore.Blazor.Services
 @inject Services.UserIdentityService Http
 @inject IUriHelper UriHelper
 
@@ -76,12 +75,12 @@ else
 }
 
 
-@functions
+@code
 {
     private List<RecentActivityResponse> _activities;
     private List<MiniInterviewResultResponse> _interviewResults;
 
-    protected override async Task OnInitAsync()
+    protected override async Task OnInitializedAsync()
     {
         try
         {

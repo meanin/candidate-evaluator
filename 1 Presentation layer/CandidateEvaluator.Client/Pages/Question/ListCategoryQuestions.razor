@@ -40,13 +40,13 @@ else
 }
 
 
-@functions
+@code
 {
 [Parameter]
-private Guid CategoryId { get; set; }
+public Guid CategoryId { get; set; }
 
 private List<QuestionResponse> _questionModels;
-protected override async Task OnInitAsync()
+protected override async Task OnInitializedAsync()
 {
     try
     {

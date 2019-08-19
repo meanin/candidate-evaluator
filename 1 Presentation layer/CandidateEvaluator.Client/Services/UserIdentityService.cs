@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using Blazor.Extensions.Storage;
 using CandidateEvaluator.Common.Responses.Auth;
 using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
 using Newtonsoft.Json;
 
 namespace CandidateEvaluator.Client.Services

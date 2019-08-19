@@ -6,28 +6,29 @@
     <div class="dropdown-menu">
         @foreach (var type in _questionTypeNames)
         {
-            <button class="dropdown-item" onclick="@(c => Set(type))">@type</button>
+            <button class="dropdown-item" @onclick="(c => Set(type))">@type</button>
         }
     </div>
 </div>
 
 
-@functions 
+@code
 {
     QuestionType Type { get; set; }
 
     [Parameter]
-    Action<QuestionType> TypeChanged { get; set; }
+    public Action<QuestionType> TypeChanged { get; set; }
 
     private List<string> _questionTypeNames;
-    protected override void OnInit()
+    protected override Task OnInitializedAsync()
     {
         _questionTypeNames = Enum.GetNames(typeof(QuestionType)).ToList();
+        return Task.CompletedTask;
     }
 
     private void Set(string type)
     {
-        Type = (QuestionType) Enum.Parse(typeof(QuestionType), type);
+        Type = (QuestionType)Enum.Parse(typeof(QuestionType), type);
         TypeChanged(Type);
     }
 }

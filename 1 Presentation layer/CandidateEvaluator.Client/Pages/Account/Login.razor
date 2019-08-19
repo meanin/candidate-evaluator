@@ -4,9 +4,9 @@
 @inject Microsoft.AspNetCore.Components.IUriHelper UriHelper
 @inject Services.UserIdentityService Http
 
-@functions
+@code
 {
-protected override async Task OnInitAsync()
+protected override async Task OnInitializedAsync()
 {
     var options = await Http.GetJsonAsync<AadResponse>("api/auth");
     UriHelper.NavigateTo($"https://login.microsoftonline.com/{options.TenantId}/oauth2/authorize?" +

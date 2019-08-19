@@ -2,9 +2,9 @@
 @inject Services.UserIdentityService Http
 @inject Microsoft.AspNetCore.Components.IUriHelper UriHelper
 
-@functions
+@code
 {
-    protected override async Task OnInitAsync()
+    protected override async Task OnInitializedAsync()
     {
         try
         {

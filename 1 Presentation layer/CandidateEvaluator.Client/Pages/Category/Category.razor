@@ -23,11 +23,11 @@ else
 @code
 {
     [Parameter]
-    private Guid Id { get; set; }
+    public Guid Id { get; set; }
 
     private UpdateCategoryRequest _request;
 
-    protected override async Task OnInitAsync()
+    protected override async Task OnInitializedAsync()
     {
         var dto = await Http.AuthorizedGetJsonAsync<CategoryResponse>($"api/Category/{Id}");
         _request = new UpdateCategoryRequest

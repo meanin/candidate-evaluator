@@ -2,7 +2,6 @@
 @using CandidateEvaluator.Common.Requests.Question
 @using CandidateEvaluator.Common.Responses.Question
 @using CandidateEvaluator.Common.Types
-@using Microsoft.AspNetCore.Blazor.Services
 @inject Services.UserIdentityService Http
 @inject IUriHelper UriHelper
 
@@ -23,19 +22,19 @@ else
     </div>
     <QuestionTypeDropdown TypeChanged="@SetType" />
     <div class="row">
-        <button class="col-md-3 btn btn-block btn-success m-1" onclick="@Save">Save</button>
-        <button class="col-md-3 btn btn-block btn-danger m-1" onclick="@Delete">Delete</button>
+        <button class="col-md-3 btn btn-block btn-success m-1" @onclick="Save">Save</button>
+        <button class="col-md-3 btn btn-block btn-danger m-1" @onclick="Delete">Delete</button>
     </div>
 }
 
-@functions
+@code
 {
     [Parameter]
-    private Guid Id { get; set; }
+    public Guid Id { get; set; }
 
     private UpdateQuestionRequest _updateRequest;
 
-    protected override async Task OnInitAsync()
+    protected override async Task OnInitializedAsync()
     {
         try
         {

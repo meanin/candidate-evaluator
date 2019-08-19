@@ -30,7 +30,7 @@ else
             <div class="dropdown-menu">
                 @foreach (var category in _categoryModels)
                 {
-                    <button class="dropdown-item" onclick="@(c => SetSelectedCategory(category))">@category.Name</button>
+                    <button class="dropdown-item" @onclick="(c => SetSelectedCategory(category))">@category.Name</button>
                 }
             </div>
         </div>
@@ -38,23 +38,23 @@ else
     <QuestionTypeDropdown TypeChanged="@SetType" />
     <div class="form-group">
         <label>Name</label>
-        <input class="form-control" type="text" bind=@_questionModel.Name placeholder="Enter question name..." />
+        <input class="form-control" type="text" @bind=_questionModel.Name placeholder="Enter question name..." />
     </div>
     <div>
-        <textarea class="form-control" rows="4" bind=@_questionModel.Text placeholder="Enter question" />
+        <textarea class="form-control" rows="4" @bind=_questionModel.Text placeholder="Enter question" />
     </div>
     <div>
-        <button class="btn btn-blue" onclick="@Add">Add</button>
+        <button class="btn btn-blue" @onclick="Add">Add</button>
     </div>
 
 }
-@functions
+@code
 {
     private List<CategoryResponse> _categoryModels;
     private CategoryResponse _selectedCategory;
     private CreateQuestionRequest _questionModel = new CreateQuestionRequest();
     
-    protected override async Task OnInitAsync()
+    protected override async Task OnInitializedAsync()
     {
         try
         {

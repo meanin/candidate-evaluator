@@ -45,16 +45,16 @@ else
             </div>
         }
     </div>
-    <button class="btn btn-info" onclick="@SendReport">Send Report</button>
-    <button class="btn btn-info" onclick="@Delete">Delete</button>
+    <button class="btn btn-info" @onclick="SendReport">Send Report</button>
+    <button class="btn btn-info" @onclick="Delete">Delete</button>
 }
-@functions
+@code
 {
     [Parameter]
-    private Guid Id { get; set; }
+    public Guid Id { get; set; }
     private InterviewResultResponse _interviewResult;
 
-    protected override async Task OnInitAsync()
+    protected override async Task OnInitializedAsync()
     {
         try
         {

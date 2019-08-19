@@ -16,14 +16,14 @@ else
     <div class="form-group">
         <div class="form-group">
             <label>Name</label>
-            <input class="form-control" type="text" bind=@_updateCommand.Name placeholder="Enter interview name..." />
+            <input class="form-control" type="text" @bind=_updateCommand.Name placeholder="Enter interview name..." />
         </div>
         <div class="form-group">
             @foreach (var category in _updateCommand.Content)
             {
                 <div>
                     <label>@_categories.FirstOrDefault(c => c.Id == category.CategoryId)?.Name</label>
-                    <input class="form-control" type="number" bind=@category.QuestionCount placeholder="1" />
+                    <input class="form-control" type="number" @bind=category.QuestionCount placeholder="1" />
                 </div>
             }
             <div class="dropdown">
@@ -33,24 +33,24 @@ else
                 <div class="dropdown-menu">
                     @foreach (var category in _categories.Where(c => !_updateCommand.Content.Select(cmd => cmd.CategoryId).Contains(c.Id)))
                     {
-                        <button class="dropdown-item" onclick="@(c => AddCategory(category.Id))">@category.Name</button>
+                        <button class="dropdown-item" @onclick="(c => AddCategory(category.Id))">@category.Name</button>
                     }
                 </div>
             </div>
-            <div class="btn btn-info" onclick="@Save">Save</div>
+            <div class="btn btn-info" @onclick="Save">Save</div>
         </div>
 
     </div>
 }
-@functions
+@code
 {
     [Parameter]
-    private Guid Id { get; set; }
+    public Guid Id { get; set; }
 
     private List<CategoryResponse> _categories;
     private UpdateInterviewRequest _updateCommand;
 
-    protected override async Task OnInitAsync()
+    protected override async Task OnInitializedAsync()
     {
         try
         {

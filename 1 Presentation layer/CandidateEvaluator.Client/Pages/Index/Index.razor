@@ -9,9 +9,9 @@ Welcome to your new app.
 
 <SurveyPrompt Title="How is Blazor working for you?" />
 
-@functions
+@code
 {
-    protected override async Task OnInitAsync()
+    protected override async Task OnInitializedAsync()
     {
         if(await Http.IsUserLogged())
             UriHelper.NavigateTo("/dashboard");
