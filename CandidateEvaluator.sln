@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.106
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29201.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 Presentation layer", "1 Presentation layer", "{4740763D-368F-4F6C-B67A-0EAEE92C5625}"
 EndProject
@@ -45,7 +45,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CandidateEvaluator.Contract
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CandidateEvaluator.Data.Account", "4 Data layer\CandidateEvaluator.Data.Account\CandidateEvaluator.Data.Account.csproj", "{9AC491C8-2301-4229-98A3-0FC119DD3E40}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CandidateEvaluator.Core.Account", "2 Business layer\CandidateEvaluator.Core.Account\CandidateEvaluator.Core.Account.csproj", "{4D0797CD-FE86-4B32-BE6D-002FA4BEB2A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CandidateEvaluator.Core.Account", "2 Business layer\CandidateEvaluator.Core.Account\CandidateEvaluator.Core.Account.csproj", "{4D0797CD-FE86-4B32-BE6D-002FA4BEB2A2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

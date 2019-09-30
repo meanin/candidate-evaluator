@@ -1,6 +1,7 @@
 using Blazor.Extensions.Storage;
 using CandidateEvaluator.Client.Services;
-using Microsoft.AspNetCore.Blazor.Builder;
+using Microsoft.AspNetCore.Blazor.Services;
+using Microsoft.AspNetCore.Components.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CandidateEvaluator.Client
@@ -13,7 +14,7 @@ namespace CandidateEvaluator.Client
             services.AddStorage();
         }
 
-        public void Configure(IBlazorApplicationBuilder app)
+        public void Configure(IComponentsApplicationBuilder app)
         {
             app.AddComponent<App>("app");
         }

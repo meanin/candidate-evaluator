@@ -7,9 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Blazor.Extensions.Storage;
 using CandidateEvaluator.Common.Responses.Auth;
-using Microsoft.AspNetCore.Blazor;
-using Microsoft.AspNetCore.Blazor.Services;
-using Microsoft.JSInterop;
+using Microsoft.AspNetCore.Components;
 using Newtonsoft.Json;
 
 namespace CandidateEvaluator.Client.Services
@@ -100,7 +98,7 @@ namespace CandidateEvaluator.Client.Services
         {
             var response = await RetryOnUnauthorized(AuthorizedGetAsync(requestUri));
             var text = await response.Content.ReadAsStringAsync();
-            return Json.Deserialize<T>(text);
+            return JsonConvert.DeserializeObject<T>(text);
         }
 
         public Task<HttpResponseMessage> AuthorizedPostAsync(string requestUri, object content)
@@ -117,7 +115,7 @@ namespace CandidateEvaluator.Client.Services
         {
             var response = await AuthorizedPostAsync(requestUri, content);
             var text = await response.Content.ReadAsStringAsync();
-            return Json.Deserialize<T>(text);
+            return JsonConvert.DeserializeObject<T>(text);
         }
 
         private HttpRequestMessage CreateRequestMessage(HttpMethod httpMethod, string requestUri, object content = null)
@@ -126,7 +124,7 @@ namespace CandidateEvaluator.Client.Services
             {
                 Headers = { { "Authorization", $"Bearer {AuthResponse.BearerToken}" } },
                 Content = content != null 
-                    ? new StringContent(Json.Serialize(content), Encoding.UTF8, "application/json") 
+                    ? new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json") 
                     : null
             };
         }

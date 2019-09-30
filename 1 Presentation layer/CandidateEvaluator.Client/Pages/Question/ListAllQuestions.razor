@@ -45,13 +45,13 @@ else
     </div>
 }
 
-@functions
+@code
 {
     private List<QuestionResponse> _questionModels;
     private List<CategoryResponse> _categoryModels;
     private bool _initialized = false;
 
-    protected override async Task OnInitAsync()
+    protected override async Task OnInitializedAsync()
     {
         try
         {

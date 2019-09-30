@@ -3,7 +3,7 @@
 @using CandidateEvaluator.Common.Requests.Category
 @using CandidateEvaluator.Common.Responses.Category
 @inject UserIdentityService Http
-@inject Microsoft.AspNetCore.Blazor.Services.IUriHelper UriHelper
+@inject Microsoft.AspNetCore.Components.IUriHelper UriHelper
 
 @if (_request == null)
 {
@@ -14,20 +14,20 @@ else
     <h1>Category: @_request.Id</h1>
     <input placeholder="Loading..." bind="@_request.Name" />
 
-    <button class="btn btn-info" onclick="@Save">Save</button>
-    <button class="btn btn-info" onclick="@Delete">Delete</button>
+    <button class="btn btn-info" @onclick="Save">Save</button>
+    <button class="btn btn-info" @onclick="Delete">Delete</button>
     <a href="/category" class="btn btn-info">Return</a>
 }
 
 
-@functions
+@code
 {
     [Parameter]
-    private Guid Id { get; set; }
+    public Guid Id { get; set; }
 
     private UpdateCategoryRequest _request;
 
-    protected override async Task OnInitAsync()
+    protected override async Task OnInitializedAsync()
     {
         var dto = await Http.AuthorizedGetJsonAsync<CategoryResponse>($"api/Category/{Id}");
         _request = new UpdateCategoryRequest

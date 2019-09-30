@@ -34,11 +34,11 @@ else
     <a href="category/new" class="btn">Create new category</a>
 }
 
-@functions
+@code
 {
 private List<CategoryResponse> _categoryModels;
 
-protected override async Task OnInitAsync()
+protected override async Task OnInitializedAsync()
 {
     try
     {

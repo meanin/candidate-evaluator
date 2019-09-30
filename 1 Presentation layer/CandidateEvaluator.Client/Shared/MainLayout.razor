@@ -1,4 +1,4 @@
-﻿@inherits BlazorLayoutComponent
+﻿@inherits LayoutComponentBase
 @inject Services.UserIdentityService Http
 @if (!_initialized)
 {
@@ -24,12 +24,12 @@ else
         </div>
     </div>
 }
-@functions
+@code
 {
     private bool _loggedIn;
     private bool _initialized;
 
-    protected override async Task OnInitAsync()
+    protected override async Task OnInitializedAsync()
     {
         _loggedIn = await Http.IsUserLogged();
         _initialized = true;
